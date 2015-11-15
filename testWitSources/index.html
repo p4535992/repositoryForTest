@@ -6,7 +6,7 @@
     <!--<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />-->
     <link rel="stylesheet" href="leaflet/leaflet.css" />
 
-    <<!--script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>-->
+    <!--script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>-->
     <script src="leaflet/leaflet-custom-src.js"></script>
     <style>
         #map {
@@ -46,17 +46,17 @@
     <link rel="stylesheet" href="Font-Awesome/css/font-awesome.min.css" />
     <script src="filelayer/leaflet.filelayer.js"></script>
     <script src="filelayer/togeojson.js"></script>
-    <script src="filelayer/togeocsv.js"></script>
+    <!--<script src="filelayer/togeocsv.js"></script>-->
     <script src="filelayer/GPX.js"></script>
     <script src="geocsv/papaparse.js"></script>
-    <script src="geocsv/leaflet.geocsv-src.js"></script>
+    <!--<script src="geocsv/leaflet.geocsv-src.js"></script>-->
 
 </head>
 <body>
 
     <p class="help">Use the <i class="fa fa-folder-open"></i> icon to browse and load local files on the map.
       <a class="sources" href="http://github.com/makinacorpus/Leaflet.FileLayer/">Sources</a>
-      <a class="logo" href="http://makina-corpus.com"><img src="http://depot.makina-corpus.org/public/logo.gif"/></a>
+      <a class="logo" href="http://makina-corpus.com"><img alt="logo" src="http://depot.makina-corpus.org/public/logo.gif"/></a>
     </p>
     <div id="map"></div>
     <script>
@@ -75,7 +75,16 @@
                 pointToLayer: function (feature, latlng) {
                     return new L.marker(latlng);
                 },
-            }
+                onEachFeature:function(feature, layer){
+                    try {
+                        var popupContent = '';
+                        if (feature.properties && feature.properties.popupContent) {
+                            popupContent += feature.properties.popupContent;
+                        }
+                        layer.bindPopup(popupContent);
+                    }catch(e){alert(e.message);}
+                }
+            },
         }).addTo(map);
     </script>
 

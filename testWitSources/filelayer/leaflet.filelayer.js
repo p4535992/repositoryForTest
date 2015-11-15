@@ -106,31 +106,11 @@ var FileLoader = L.Class.extend({
             }
             var geojson;
             /*
-             * IF YOU WANT AUTOMATIC CHECK DELIMITER
-             * for this function i used the Papap Parser of mholt
+             * for this function i used the Papa Parser of mholt
              * (https://github.com/mholt/PapaParse)
              */
             geojson = Papa.parse(content,{header: this.options.firstLineTitles}); //convert csv to json.
             geojson = this._addFeatureToJson(geojson);
-            /*
-             *  IF YOU WANT MANUALLY SET THE DELIMITERS
-             *  for this function i used the L.GeoCSv of Joker-X
-             *  (https://github.com/joker-x/Leaflet.geoCSV).
-             */
-            /*
-            geoCsv = new L.geoCsv(content, {
-            fieldSeparator: this.options.fieldSeparator,
-            lineSeparator: this.options.lineSeparator,
-            firstLineTitles: this.options.firstLineTitles,
-
-             titles: this.options.titles,
-             latitudeTitle: this.options.latitudeTitle,
-             longitudeTitle: this.options.longitudeTitle,
-             deleteDoubleQuotes: this.options.deleteDoubleQuotes,
-
-             });
-            geojson = geoCsv._csv2json(content);
-            */
             return this._loadGeoJSON(geojson);
         }catch(e){alert(e.message);}
     },
@@ -155,8 +135,8 @@ var FileLoader = L.Class.extend({
                 for (var i=0; i< title.length; i++) {
                     if (title[i] != this.options.latitudeTitle && title[i] != this.options.longitudeTitle) {
                         if(title[i]==this.options.titleForSearch){
-                            feature["properties"]["search"]=obj[title[i]];
-                            feature["properties"]["title"]=obj[title[i]];
+                            feature["properties"]["search"]=this._deleteDoubleQuotes(obj[title[i]]);
+                            feature["properties"]["title"]=this._deleteDoubleQuotes(obj[title[i]]);
                         }else{
                             feature["properties"][title[i]] = this._deleteDoubleQuotes(obj[title[i]]);
                             var href='';
@@ -171,16 +151,8 @@ var FileLoader = L.Class.extend({
                 content += "</table></div>";
                 feature["properties"]["popupContent"]=content;
                 papaJson["features"].push(feature);
-                //WORK
-                /* for (var i=0; i<title.length; i++) {
-                 if (title[i] != this.options.latitudeTitle && title[i] != this.options.longitudeTitle) {
-                 feature["properties"][title[i]] = this._deleteDoubleQuotes(obj[title[i]]);
-                 }
-                 }*/
             }
         }
-        alert(papaJson["features"].toSource());
-        alert(JSON.stringify(papaJson["features"], undefined, 4));
         return papaJson;
     },
 
@@ -188,54 +160,6 @@ var FileLoader = L.Class.extend({
         text = text.trim().replace(/^"/,"").replace(/"$/,"");
         return text;
     },
-
-    /*_prettyJson: function(jsonObject){
-        var str = JSON.stringify(jsonObject, undefined, 4);
-        //this.output(str);
-        //return this.output(this.syntaxHighlight(str));
-        //str = this.syntaxHighlight(str);
-        return str;
-    },*/
-
-    /*output: function(inp) {
-         document.body.appendChild(document.createElement('pre')).innerHTML = inp;
-    },
-*/
-  /*  syntaxHighlight: function(json){
-        json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
-            function (match) {
-            var cls = 'number';
-            if (/^"/.test(match)) {
-                if (/:$/.test(match)) {
-                    cls = 'key';
-                } else {
-                    cls = 'string';
-                }
-            } else if (/true|false/.test(match)) {
-                cls = 'boolean';
-            } else if (/null/.test(match)) {
-                cls = 'null';
-            }
-            return '<span class="' + cls + '">' + match + '</span>';
-        });
-    },*/
-
-   /* _getHeaders: function(obj) {
-        var cols = [];
-        for (var key in obj) {cols.push(key);}
-        alert("Headers:"+cols);
-        return cols;
-    },*/
-
-    /*_buildIndex: function(jsonObject){
-        // build the index
-        var index = [];
-        for (var x in jsonObject) {
-            index.push(x);
-        }
-        return index;
-    },*/
 
     _propertiesNames: []
 
