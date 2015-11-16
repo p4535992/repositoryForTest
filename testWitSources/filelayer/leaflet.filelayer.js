@@ -11,8 +11,8 @@ var FileLoader = L.Class.extend({
         layerOptions: {},
         fileSizeLimit: 1024,
         firstLineTitles: true,    //if the first line of a csv file has headers (if false launch exception)
-		latitudeTitle: 'lat',     //the default field name for the latitude coordinates...
-		longitudeTitle: 'lng',    //the default field name for the longitude coordinates...
+	latitudeTitle: 'lat',     //the default field name for the latitude coordinates...
+	longitudeTitle: 'lng',    //the default field name for the longitude coordinates...
         titleForSearch: 'title',  //for future integration with other functions...
         titlesToInspect: [],      //if you want get only some specific field from csv and rdf files.....
         rdfLink: [],              //if you want merge the json object created from a rdf file you can specify the property of a link...
@@ -165,11 +165,6 @@ var FileLoader = L.Class.extend({
     _deleteDoubleQuotes: function (text) {
         text = text.trim().replace(/^"/,"").replace(/"$/,"");
         return text;
-    },
-
-    /* work in progress */
-    _convertTurtleToJson: function(content){
-
     },
 
     _convertRDFToJson: function(contentRdf) {
@@ -329,8 +324,6 @@ var FileLoader = L.Class.extend({
                     if (json[i].hasOwnProperty(this.options.rdfLink[k])) {
                         link = json[i][this.options.rdfLink[k]];
                         mJson.push(this._searchJsonByKeyAndValue(json, this.options.rdfAboutLink, link));
-                    } else {
-                        mJson.push(null);
                     }
                 }
             }
