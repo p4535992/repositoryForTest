@@ -10,14 +10,13 @@ var FileLoader = L.Class.extend({
     options: {
         layerOptions: {},
         fileSizeLimit: 1024,
-        firstLineTitles: true,    //if the first line of a csv file has headers (if false launch exception)
-		latitudeTitle: 'lat',     //the default field name for the latitude coordinates...
-		longitudeTitle: 'lng',    //the default field name for the longitude coordinates...
-        titleForSearch: 'title',  //for future integration with other functions...
-        titlesToInspect: [],      //if you want get only some specific field from csv and rdf files.....
-        rdfLink: [],              //if you want merge the json object created from a rdf file you can specify the property of a link...
-        rdfAbout: 'rdf:about',    //the value for the property rdf:about of a rdf file...
-        rdfAboutLink: 'rdf:about', //the value for the property rdf:about for linking different classes of triple...
+        /*Added from 4535992 */
+        firstLineTitles: true,
+		latitudeTitle: 'lat',
+		longitudeTitle: 'lng',
+        titleForSearch: 'title',
+	    deleteDoubleQuotes: true
+
     },
 
     initialize: function (map, options) {
@@ -75,6 +74,7 @@ var FileLoader = L.Class.extend({
             content = JSON.parse(content);
         }
         var layer = L.parserCsv(content, this.options.layerOptions);
+
         if (layer.getLayers().length === 0) {
             throw new Error('GeoJSON has no valid layers.');
         }
@@ -94,72 +94,64 @@ var FileLoader = L.Class.extend({
         return this._loadGeoJSON(geojson);
     },
 
+    /*
+     *  Added from 4535992.
+     */
     _convertCsvToGeoJSON: function(content){
         try {
             if(!this.options.firstLineTitles){
                 throw new Error('The file CSV must have the Headers');
             }
-            //convert csv to json.
-            /*for this function i used the Papa Parser of mholt (https://github.com/mholt/PapaParse)*/
-            var geojson = Papa.parse(content,{header: this.options.firstLineTitles});
-            this._depth = geojson.data.length - 1;
-            if(this.options.titlesToInspect.length == 0)this._titles = geojson.meta.fields;
-            else this._titles = this.options.titlesToInspect;
-
+            var geojson;
+            /*
+             * for this function i used the Papa Parser of mholt
+             * (https://github.com/mholt/PapaParse)
+             */
+            geojson = Papa.parse(content,{header: this.options.firstLineTitles}); //convert csv to json.
             geojson = this._addFeatureToJson(geojson);
             return this._loadGeoJSON(geojson);
         }catch(e){alert(e.message);}
     },
 
-    _addFeatureToJson: function(json){
-        var titles = [];
-        json["type"]="FeatureCollection";
-        json["features"]=[];
-        try {
-            for (var num_linea = 0; num_linea < +this._depth; num_linea++) { //  var depth = papaJson.data.length - 1;
-                var obj = json.data[num_linea]; //single element of papa parse json object
-                if(obj !=null) {
-                    if (this._titles.length > 0)titles = this._titles;
-                    else titles = Object.keys(obj);
-                    var fields = titles.toString().trim().split(",");
-
-                    var lng = parseFloat(obj[this.options.longitudeTitle]);
-                    var lat = parseFloat(obj[this.options.latitudeTitle]);
-                    if (fields.length + "==" + titles.length && lng < 180 && lng > -180 && lat < 90 && lat > -90) {
-                        var feature = {};
-                        feature["type"] = "Feature";
-                        feature["geometry"] = {};
-                        feature["properties"] = {};
-                        feature["geometry"]["type"] = "Point";
-                        feature["geometry"]["coordinates"] = [lng, lat];
-                        var content = '<div class="popup-content"><table class="table table-striped table-bordered table-condensed">';
-                        for (var i = 0; i < titles.length; i++) {
-                            if (titles[i] != this.options.latitudeTitle && titles[i] != this.options.longitudeTitle) {
-                                if (titles[i] == this.options.titleForSearch) {
-                                    feature["properties"]["search"] = this._deleteDoubleQuotes(obj[titles[i]]);
-                                    feature["properties"]["titles"] = this._deleteDoubleQuotes(obj[titles[i]]);
-                                } else {
-                                    feature["properties"][titles[i]] = this._deleteDoubleQuotes(obj[titles[i]]);
-                                    var href = '';
-                                    if (obj[titles[i]].indexOf('http') === 0) {
-                                        href = '<a target="_blank" href="' + obj[titles[i]] + '">' + obj[titles[i]] + '</a>';
-                                    }
-                                    if (href.length > 0)content += '<tr><th>' + titles[i] + '</th><td>' + href + '</td></tr>';
-                                    else content += '<tr><th>' + titles[i] + '</th><td>' + obj[titles[i]] + '</td></tr>';
-                                }
-                            }//end of if
-                        }//end of for
-                        content += "</table></div>";
-                        feature["properties"]["popupContent"] = content;
-                        json["features"].push(feature);
-                    }
-                }//if obj != null
+    _addFeatureToJson: function(papaJson){
+        papaJson["type"]="FeatureCollection";
+        papaJson["features"]=[];
+        var title = papaJson.meta.fields;
+        for (var num_linea = 0; num_linea < papaJson.data.length - 1; num_linea++) { //  var depth = papaJson.data.length - 1;
+            var obj = papaJson.data[num_linea]; //single element of papa parse json object
+            var fields = title.toString().trim().split(",");
+            var lng = parseFloat(obj[this.options.longitudeTitle]);
+            var lat = parseFloat(obj[this.options.latitudeTitle]);
+            if (fields.length+"=="+title.length && lng<180 && lng>-180 && lat<90 && lat>-90) {
+                var feature = {};
+                feature["type"]="Feature";
+                feature["geometry"]={};
+                feature["properties"]={};
+                feature["geometry"]["type"]="Point";
+                feature["geometry"]["coordinates"]=[lng,lat];
+                var content ='<div class="popup-content"><table class="table table-striped table-bordered table-condensed">';
+                for (var i=0; i< title.length; i++) {
+                    if (title[i] != this.options.latitudeTitle && title[i] != this.options.longitudeTitle) {
+                        if(title[i]==this.options.titleForSearch){
+                            feature["properties"]["search"]=this._deleteDoubleQuotes(obj[title[i]]);
+                            feature["properties"]["title"]=this._deleteDoubleQuotes(obj[title[i]]);
+                        }else{
+                            feature["properties"][title[i]] = this._deleteDoubleQuotes(obj[title[i]]);
+                            var href='';
+                            if (obj[title[i]].indexOf('http') === 0) {
+                                href = '<a target="_blank" href="' + obj[title[i]] + '">'+ obj[title[i]] + '</a>';
+                            }
+                            if(href.length > 0)content += '<tr><th>'+title[i]+'</th><td>'+ href +'</td></tr>';
+                            else content += '<tr><th>'+title[i]+'</th><td>'+ obj[title[i]] +'</td></tr>';
+                        }
+                    }//end of if
+                }//end of for
+                content += "</table></div>";
+                feature["properties"]["popupContent"]=content;
+                papaJson["features"].push(feature);
             }
-        }catch(e){
-            alert(e.message);
         }
-        delete json.data;
-        return json;
+        return papaJson;
     },
 
     _deleteDoubleQuotes: function (text) {
@@ -175,23 +167,14 @@ var FileLoader = L.Class.extend({
     _convertRDFToJson: function(contentRdf) {
         try {
             var xml = this._convertRDFToXML(contentRdf);
+            //alert("TO XML:" + new XMLSerializer().serializeToString(xml));
             var json = this._convertXMLToJson(xml);
-            this._simplifyJson(json["rdf:RDF"]["rdf:Description"],null);
-            this._mergeRdfJson(this._root.data);
-            //Filter result, get all object with coordinates...
-            for(var i = 0; i < this._root.data.length; i++){
-                if(!(this._root.data[i].hasOwnProperty(this.options.latitudeTitle) &&
-                    this._root.data[i].hasOwnProperty(this.options.longitudeTitle))
-                ){
-                    delete this._root.data[i];
-                }
-            }
-            this._depth = this._root.data.length;
-            json = this._addFeatureToJson(this._root);
-            return this._loadGeoJSON(json);
-        }catch(e) {
-            alert(e.message);
-        }
+            delete json["rdf:RDF"]["#text"];
+            delete json["rdf:RDF"]["rdf:Description"]["#text"];
+            json["root"]=[];
+            json["root"].push(this._simplifyJson(json["rdf:RDF"]["rdf:Description"]),null);
+            alert("TO JSON5:" + JSON.stringify(json, undefined, 2));
+        }catch(e){alert(e.message);}
     },
 
     _convertRDFToXML:function(contentRdf){
@@ -262,107 +245,83 @@ var FileLoader = L.Class.extend({
         return json;
     },
 
-    _simplifyJson: function(json){
-        var root = {data: []};
-        for (var i = 0; i < Object.keys(json).length; i++) {  //406 object
-            var obj;
-            if (typeof  json[i] === 'undefined')break; //read all
-            else  obj = json[i];
-            var info = {};
-            try {
-                var elements;
-                if(Object.keys(obj).length > 1) elements = Object.keys(obj).toString().split(",");
-                else elements = Object.keys(obj).toString();
+    _simplifyJson: function(json,value){
+       /* if(value==null) {
+            json["data"] = [];
+        }*/
+        //alert("TO JSON3:" + JSON.stringify(json, undefined, 2));
+        var root = Object.keys(json);
+        //alert("404: "+root.length)
+        for(var i = 0; root.length; i++){  //406 object
+            var info ={};
+            //alert("Actual Key:"+root[i]);
+            var keys;
+            if(typeof json[i] === "undefined"){
+                keys = Object.keys(json[i]);
+                alert("TO JSON4"+JSON.stringify(json[i],undefined,2));
+            }
+            else {
+                keys =  Object.keys(json[root[i]]);
+                alert("TO JSON4"+JSON.stringify(json[root[i]],undefined,2));
+            }
 
-                for (var element in elements) { //
-                    element = elements[element]; //@attributes
-                    var key, value;
-                    if (element.toString() == "#text") {
-                        if (Object.prototype.toString.call(obj[element]) === '[object Array]') {
-                            //key = element;
-                            //value = obj[element]["#text"];
-                            continue;
-                        }else {
-                            key = element;
-                            value = obj[element]["#text"];
-                        }
+            alert("KEYS:"+ keys.toSource());//KEYS:["@attributes", "#text", "geo:long", "rdf:type", "geo:lat"]
+            for(var j=0; j < keys.length; j++){ //
+                alert("Keys 1:"+ keys[j]);//rdf:about , @attributes,
+                var value;
+                if(typeof json[i] === "undefined") value = json[root[i]][keys[j]];
+                else value = json[i][keys[j]];
+
+                var keyRoot;
+                if(Object.keys(value).length > 1)keyRoot = Object.keys(value).toString().split(",");
+                else keyRoot = Object.keys(value);
+
+                //alert("Keyroor: "+keyRoot.toString());
+                for(var k= 0; k < keyRoot.length; k++) {
+                    var key = keyRoot[k];
+                    alert("Keys 1:"+ key);//rdf:about , @attributes,
+                    //alert("Keys 1:" + key + ",value:" + JSON.stringify(value, undefined, 2));
+                    if (Object.prototype.toString.call(value) === '[object Array]') {
+                        //TODO (OPTIONAL) REMOVE ALL EMPTY VALUE ON THE ARRAY
+                       /* key = "#array";
+                         value = value["#text"];
+                         alert("Element 2(" + i + ")(" + j + "):" + key + "->" + value);
+                         info[key] = value;*/
+                        break;
                     }
-                    else if (element.toString() == "@attributes") {
-                        key = Object.keys(obj[element]);//rdf:
-                        value = obj[element][key].toString();
-                    }else {
-                        key = element;
-                        value = Object.keys(obj[element]).toString();
-                        if (value == "@attributes") {
-                            value = obj[element]["@attributes"][Object.keys(obj[element]["@attributes"])];
-                        } else if (value == "#text") {
-                            value = obj[element]["#text"];
-                        } else if (value == "@attributes,#text") {
-                            value = obj[element]["#text"];
-                            info[key] = value;
-                            key = Object.keys(obj[element]["@attributes"]);
-                            value = obj[element]["@attributes"][Object.keys(obj[element]["@attributes"])];
-                            info[key] = value;
+                    else if (key.toString() == "@attributes") {
+                        if (Object.keys(value).toString() == "@attributes") {
+                            key = Object.keys(value["@attributes"]);
+                            value = value["@attributes"][key];
                         }
                         else {
-                            //never run here.....
-                            alert("ERROR:"+ JSON.stringify(obj[element], undefined, 2));
+                            //TODO (OPTIONAL) if there are other child of the json
+                            alert("if there are ohter child of the json");
+                            //json = this._simplifyJson(json,value);
+
                         }
-                    }
-                    info[key] = value;
-                }
-                root.data.push(info);
-            }catch(e){
-                alert(e.message);
-            }
-           this._root = root;
-        }//for every object on rdf description
-    },
-
-    _mergeRdfJson: function(json){
-        try {
-            var link = '';
-            var mJson = [];
-            var xJson;
-            for (var i = 0; i < Object.keys(json).length; i++) {
-                for(var k in this.options.rdfLink) { //for each rdf link you setted
-                    if (json[i].hasOwnProperty(this.options.rdfLink[k])) {
-                        link = json[i][this.options.rdfLink[k]];
-                        mJson.push(this._searchJsonByKeyAndValue(json, this.options.rdfAboutLink, link));
+                    } else if (key.toString() == "#text") {
+                        key = keys[j];
+                        value = value["#text"];
+                    }else if (key.toString() == "data") {
+                        /*do nothing*/
+                        continue;
+                    }else if(key.toString() == "rdf:type"){
+                        alert("888");
+                        key = "rdf:type";
+                        value = value["@attributes"]["rdf:resource"];
                     } else {
-                        mJson.push(null);
+                        key = Object.keys(value);
+                        value = value[key];
                     }
-                }
+                    alert("Element 2(" + i + ")(" + j + "):" + key + "->" + value);
+                    info[key] = value;
+                }//FOR EACH KEY IN KEYROOT
             }
-
-            for (i = 0; i < Object.keys(json).length; i++) {
-                if (mJson[i] != null && json[i]!=null) {
-                     xJson = this._mergeJson(json[i], mJson[i]);
-                     //alert("111:\n"+JSON.stringify(xJson,undefined,2));
-                     json.push(xJson);
-                    delete json[json[i]];
-                    delete json[mJson[i]];
-                }
-            }
-        }catch(e){
-            alert(e.message);
-        }
-        this._root.data = json;
-    },
-
-    _searchJsonByKeyAndValue: function(json,key,value){
-        for (var i = 0; i < json.length; i++) {
-            try {
-                if (json[i].hasOwnProperty(key)) {
-                    if (json[i][key] == value) {
-                        return json[i];
-                    }
-                }
-            }catch(e){
-                alert(e.message);
-            }
-        }
-        return null;
+            this._data.push(info);
+            alert("SPECIAL\n:"+JSON.stringify(this._data,undefined,2));
+        }//for every object on rdf description
+        return json;
     },
 
     /*_convertCSVToRDF:function(contentcsv){
@@ -387,16 +346,9 @@ var FileLoader = L.Class.extend({
         return array;
     },
 
-    _mergeJson: function(a,b){
-        for(var key in b)
-            if(b.hasOwnProperty(key))
-                a[key] = b[key];
-        return a;
-    },
+    _propertiesNames: [],
+    _data:[],
 
-    _depth: 0,
-    _titles: [],
-    _root:{}
 
 });
 
@@ -513,5 +465,8 @@ L.Control.fileLayerLoad = function (options) {
     return new L.Control.FileLayerLoad(options);
 };
 
-
-
+function getHeaders(object) {
+    var cols = [];
+    for (var key in object) {cols.push(key);}
+    return cols;
+}

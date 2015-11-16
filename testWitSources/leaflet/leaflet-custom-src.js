@@ -6895,7 +6895,7 @@ L.LayerGroup.include({
 	}
 });
 
-L.geoJson = function (geojson, options) {
+L.parserCsv = function (geojson, options) {
 	return new L.GeoJSON(geojson, options);
 };
 
