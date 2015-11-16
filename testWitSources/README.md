@@ -69,9 +69,9 @@ L.Control.fileLayerLoad({
             },
         }).addTo(map);
 ```
-### WORK WITH RDF/XML FILE (Experimental)
-This is a little function, i don't know if anyone can found useful for something, usually is best use ajax request on the repository of triple.
-Anyway, You can use a RDF/XML with all the information on some locations,the only thing you need are two fields related to latitude and longitude.
+### WORK WITH RDF/XML FILE 
+This is a little function, i don't know if anyone can found useful for something, usually is best use ajax request on the repository of triple, but once the code is written let's share it.
+Anyway, You can use a RDF/XML with all the information on some locations, the only thing you need are two fields related to latitude and longitude.
 ```javascript
 L.Control.fileLayerLoad({
     latitudeTitle: 'geo:lat',  //the  field name for the latitude 
@@ -96,13 +96,38 @@ you can have multiple classes on the rdf that , so you can try to link to each o
 Example:
 ```javascript
 //set options rdfAboutLink = 'rdf:id' and rdfLink:[hasID].
-json1 = {name:New York, population:10000000, isACapital:true,hasID:233}
-json2  = {'rdf:id':233,info:'Great city'}
-//The question is "for each json object with hasPOS property exists a jsonObject with 'rdf:id' with the same value?", if true make a merge of the info, because there are all info for the same location. These two json are merged and the result is:
-json3 = {name:New York, population:10000000, isACapital:true,hasID:233,'rdf:id':233,info:'Great city'}
+L.Control.fileLayerLoad({
+    latitudeTitle: 'geo:lat',    //the  field name for the latitude 
+    longitudeTitle: 'geo:long',  //the field name for the longitude
+     rdfLink: ['geo:hasID'],     //you can specify the property of a link from you start the search
+     rdfAboutLink: 'rdf:id',  //the value for the property 'rdfLink' to search to the values of the 'rdfaboutLink'
+            layerOptions: {
+                pointToLayer: function (feature, latlng) {
+                    return new L.marker(latlng);
+                },
+                onEachFeature:function(feature, layer){
+                    try {
+                        var popupContent = '';
+                        if (feature.properties && feature.properties.popupContent) {
+                            popupContent += feature.properties.popupContent;
+                        }
+                        layer.bindPopup(popupContent);
+                    }catch(e){alert(e.message);}
+                }
+            },
+        }).addTo(map);
+
+//....................................................................
+//What happened ?
+json1 = {name:New York, population:10000000, isACapital:true,geo:hasID:233}
+json2  = {rdf:id:233,info:'Great city'}
+//The question is "for each json object with hasPOS property exists a jsonObject with 'rdf:id' with the same value?"
+//if true make a merge of the info, because there are all info for the same location. These two json are merged and //the result is:
+json3 = {name:New York, population:10000000, isACapital:true,geo:hasID:233,rdf:id:233,info:'Great city'}
 ```
+
 Here a result image of the popup content of the markers:
-![testo alt](/path/img.jpg "Titolo opzionale")
+![testo alt](https://github.com/p4535992/repositoryForTest/blob/master/testWitSources/fileForTest/Immagine%201.png "Example loading of a rdf")
 Changelog
 ---------
 
