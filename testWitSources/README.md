@@ -92,13 +92,13 @@ L.Control.fileLayerLoad({
             },
         }).addTo(map);
 ```
-u have multiple classes rdf that you can link to each other, you can do a merge of objects json generated , where the specific property link 'rdfLink' is present.
+you can have multiple classes on the rdf that , so you can try to link to each other, for that you can do a merge of the json objects generated , where the specific property link 'rdfLink' and 'rdfAboutLink' are present.
 Example:
 ```javascript
 //set options rdfAboutLink = 'rdf:id' and rdfLink:[hasID].
 json1 = {name:New York, population:10000000, isACapital:true,hasID:233}
 json2  = {'rdf:id':233,info:'Great city'}
-//The question is "for each json object with hasPOS property exists a jsonObject with 'rdf:id' with the same value?", if true make a merge of the info, because thre are all info for the same location. These two json are mrged and the result is:
+//The question is "for each json object with hasPOS property exists a jsonObject with 'rdf:id' with the same value?", if true make a merge of the info, because there are all info for the same location. These two json are merged and the result is:
 json3 = {name:New York, population:10000000, isACapital:true,hasID:233,'rdf:id':233,info:'Great city'}
 ```
 Here a result image of the popup content of the markers:
