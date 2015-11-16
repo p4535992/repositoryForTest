@@ -92,7 +92,7 @@ L.Control.fileLayerLoad({
             },
         }).addTo(map);
 ```
-you can have multiple classes on the rdf that , so you can try to link to each other, for that you can do a merge of the json objects generated , where the specific property link 'rdfLink' and 'rdfAboutLink' are present.
+you can have multiple classes on the rdf , so you can try to link to each other, for that you can do a merge of the json objects generated , where the specific property link 'rdfLink' and 'rdfAboutLink' are present.
 Example:
 ```javascript
 //set options rdfAboutLink = 'rdf:id' and rdfLink:[hasID].
