@@ -5,21 +5,23 @@
  * Requires Pavel Shramov's GPX.js
  * https://github.com/shramov/leaflet-plugins/blob/d74d67/layer/vector/GPX.js
  * Requires Pavel mholt papaparse.js
- *https://github.com/mholt/PapaParse/blob/master/papaparse.js
+ * https://github.com/mholt/PapaParse/blob/master/papaparse.js
  */
 var FileLoader = L.Class.extend({
     includes: L.Mixin.Events,
     options: {
         layerOptions: {},
         fileSizeLimit: 1024,
-        firstLineTitles: true,    //if the first line of a csv file has headers (if false launch exception)
-		latitudeTitle: 'lat',     //the default field name for the latitude coordinates...
-		longitudeTitle: 'lng',    //the default field name for the longitude coordinates...
-        titleForSearch: 'title',  //for future integration with other functions...
-        titlesToInspect: [],      //if you want get only some specific field from csv and rdf files.....
-        rdfLink: [],              //if you want merge the json object created from a rdf file you can specify the property of a link...
-        rdfAbout: 'rdf:about',    //the value for the property rdf:about of a rdf file...
+        headers: true,             //if the first line of a csv file has headers (if false launch exception)
+		latitudeColumn: 'lat',     //the default field name for the latitude coordinates...
+		longitudeColumn: 'lng',    //the default field name for the longitude coordinates...
+        titleForSearch: 'title',   //for future integration with other functions...
+        titlesToInspect: [],       //if you want get only some specific field from csv and rdf files.....
+        rdfLink: [],               //if you want merge the json object created from a rdf file you can specify the property of a link...
+        rdfAbout: 'rdf:about',     //the value for the property rdf:about of a rdf file...
         rdfAboutLink: 'rdf:about', //the value for the property rdf:about for linking different classes of triple...
+        popupTable:false           //if true all the information of the popup are pushed on a html table for a better view.
+                                   //if false is saved on a json object.
     },
 
     initialize: function (map, options) {
@@ -31,8 +33,8 @@ var FileLoader = L.Class.extend({
             'geojson': this._loadGeoJSON,
             'gpx': this._convertToGeoJSON,
             'kml': this._convertToGeoJSON,
-            'csv': this._convertCsvToGeoJSON,
-            'rdf': this._convertRDFToJson
+            'csv': this._papaJsonToGeoJSON,
+            'rdf': this._convertRDFToGeoJSON
         };
     },
 
@@ -97,21 +99,21 @@ var FileLoader = L.Class.extend({
         return this._loadGeoJSON(geojson);
     },
 
-    _convertCsvToGeoJSON: function(content){
+    _papaJsonToGeoJSON: function(content){
         try {
-            if(!this.options.firstLineTitles){
+            if (!this.options.headers) {
                 throw new Error('The file CSV must have the Headers');
             }
             //convert csv to json.
             /*for this function i used the Papa Parser of mholt (https://github.com/mholt/PapaParse)*/
-            var geojson = Papa.parse(content,{header: this.options.firstLineTitles});
+            var geojson = Papa.parse(content, {header: this.options.headers});
             this._depth = geojson.data.length - 1;
-            if(this.options.titlesToInspect.length == 0)this._titles = geojson.meta.fields;
+            if (this.options.titlesToInspect.length == 0)this._titles = geojson.meta.fields;
             else this._titles = this.options.titlesToInspect;
 
             geojson = this._addFeatureToJson(geojson);
             return this._loadGeoJSON(geojson);
-        }catch(e){alert(e.message);}
+        }catch(e){this.fire('data:error', {error: e});}
     },
 
     _addFeatureToJson: function(json){
@@ -121,45 +123,61 @@ var FileLoader = L.Class.extend({
         try {
             for (var num_linea = 0; num_linea < +this._depth; num_linea++) { //  var depth = papaJson.data.length - 1;
                 var obj = json.data[num_linea]; //single element of papa parse json object
-                if(obj !=null) {
-                    if (this._titles.length > 0)titles = this._titles;
-                    else titles = Object.keys(obj);
-                    var fields = titles.toString().trim().split(",");
+                if (obj==null || typeof obj === 'undefined') {
+                    console.warn("Ignore line", num_linea, " invalid data");
+                    continue;
+                }
 
-                    var lng = parseFloat(obj[this.options.longitudeTitle]);
-                    var lat = parseFloat(obj[this.options.latitudeTitle]);
-                    if (fields.length + "==" + titles.length && lng < 180 && lng > -180 && lat < 90 && lat > -90) {
-                        var feature = {};
-                        feature["type"] = "Feature";
-                        feature["geometry"] = {};
-                        feature["properties"] = {};
-                        feature["geometry"]["type"] = "Point";
-                        feature["geometry"]["coordinates"] = [lng, lat];
-                        var content = '<div class="popup-content"><table class="table table-striped table-bordered table-condensed">';
-                        for (var i = 0; i < titles.length; i++) {
-                            if (titles[i] != this.options.latitudeTitle && titles[i] != this.options.longitudeTitle) {
-                                if (titles[i] == this.options.titleForSearch) {
-                                    feature["properties"]["search"] = this._deleteDoubleQuotes(obj[titles[i]]);
-                                    feature["properties"]["titles"] = this._deleteDoubleQuotes(obj[titles[i]]);
-                                } else {
-                                    feature["properties"][titles[i]] = this._deleteDoubleQuotes(obj[titles[i]]);
+                if (this._titles.length > 0)titles = this._titles;
+                else titles = Object.keys(obj);
+
+                var fields = titles.toString().trim().split(",");
+
+                var lng = parseFloat(obj[this.options.longitudeColumn]);
+                var lat = parseFloat(obj[this.options.latitudeColumn]);
+                if (!(lng < 180 && lng > -180 && lat < 90 && lat > -90)) {
+                    console.warn("Something wrong with the coordinates", num_linea, " invalid data");
+                    continue;
+                }else{
+                    var feature = {};
+                    feature["type"] = "Feature";
+                    feature["geometry"] = {};
+                    feature["properties"] = {};
+                    feature["geometry"] = {"type": "Point", "coordinates": [lng, lat]};
+                    var content = {};
+                    if(this.options.popupTable){
+                        content = '<div class="popup-content"><table class="table table-striped table-bordered table-condensed">';
+                    }
+                    for (var i = 0; i < titles.length; i++) {
+                        if (!(titles[i] != this.options.latitudeColumn && titles[i] != this.options.longitudeColumn)) {
+                            console.warn("We not want print the coordinates on the popup");
+                            continue;
+                        }else{
+                            if (titles[i] == this.options.titleForSearch) {
+                                feature["properties"]["search"] = this._deleteDoubleQuotes(obj[titles[i]]);
+                                feature["properties"]["titles"] = this._deleteDoubleQuotes(obj[titles[i]]);
+                            } else {
+                                feature["properties"][titles[i]] = this._deleteDoubleQuotes(obj[titles[i]]);
+                                if(this.options.popupTable) {
                                     var href = '';
                                     if (obj[titles[i]].indexOf('http') === 0) {
                                         href = '<a target="_blank" href="' + obj[titles[i]] + '">' + obj[titles[i]] + '</a>';
                                     }
                                     if (href.length > 0)content += '<tr><th>' + titles[i] + '</th><td>' + href + '</td></tr>';
                                     else content += '<tr><th>' + titles[i] + '</th><td>' + obj[titles[i]] + '</td></tr>';
+                                }else{
+                                    content[titles[i]] = obj[titles[i]];
                                 }
-                            }//end of if
-                        }//end of for
-                        content += "</table></div>";
-                        feature["properties"]["popupContent"] = content;
-                        json["features"].push(feature);
-                    }
-                }//if obj != null
-            }
+                            }
+                        }//end of if
+                    }//end of for
+                    if(this.options.popupTable)content += "</table></div>";
+                    feature["properties"]["popupContent"] = content;
+                    json["features"].push(feature);
+                }
+            }//for
         }catch(e){
-            alert(e.message);
+            this.fire('data:error', {error: e});
         }
         delete json.data;
         return json;
@@ -170,16 +188,16 @@ var FileLoader = L.Class.extend({
         return text;
     },
 
-    _convertRDFToJson: function(contentRdf) {
+    _convertRDFToGeoJSON: function(content) {
         try {
-            var xml = this._convertRDFToXML(contentRdf);
-            var json = this._convertXMLToJson(xml);
+            var xml = this._convertRDFToXML(content);
+            var json = this._convertXMLToGeoJSON(xml);
             this._simplifyJson(json["rdf:RDF"]["rdf:Description"],null);
             this._mergeRdfJson(this._root.data);
             //Filter result, get all object with coordinates...
             for(var i = 0; i < this._root.data.length; i++){
-                if(!(this._root.data[i].hasOwnProperty(this.options.latitudeTitle) &&
-                    this._root.data[i].hasOwnProperty(this.options.longitudeTitle))
+                if(!(this._root.data[i].hasOwnProperty(this.options.latitudeColumn) &&
+                    this._root.data[i].hasOwnProperty(this.options.longitudeColumn))
                 ){
                     delete this._root.data[i];
                 }
@@ -192,7 +210,7 @@ var FileLoader = L.Class.extend({
         }
     },
 
-    _convertRDFToXML:function(contentRdf){
+    _convertRDFToXML:function(content){
         var xml;
         try {
             if (typeof parseXML == 'undefined') {
@@ -201,7 +219,7 @@ var FileLoader = L.Class.extend({
                     xml.async = false;
                     xml.validateOnParse = false;
                     xml.resolveExternals = false;
-                    xml.loadXML(contentRdf);
+                    xml.loadXML(content);
                 } catch (e) {
                     try {
                         Document.prototype.loadXML = function (s) {
@@ -214,13 +232,13 @@ var FileLoader = L.Class.extend({
                             }
                         };
                         xml = document.implementation.createDocument('', '', null);
-                        xml.loadXML(contentRdf);
+                        xml.loadXML(content);
                     } catch (e) {
                         throw new Error(e.message);
                     }
                 }
             } else {
-                xml = parseXML(contentRdf, null);
+                xml = parseXML(content, null);
             }
         }catch(e) {
             throw new Error(e.message);
@@ -228,12 +246,12 @@ var FileLoader = L.Class.extend({
         return xml;
     },
 
-    _convertXMLToJson:function (contentXml) {
+    _convertXMLToGeoJSON:function (content) {
         var attr,
             child,
-            attrs = contentXml.attributes,
-            children = contentXml.childNodes,
-            key = contentXml.nodeType,
+            attrs = content.attributes,
+            children = content.childNodes,
+            key = content.nodeType,
             json = {},
             i = -1;
         if (key == 1 && attrs.length) {
@@ -243,7 +261,7 @@ var FileLoader = L.Class.extend({
             }
             i = -1;
         } else if (key == 3) {
-            json = contentXml.nodeValue;
+            json = content.nodeValue;
         }
         while (child = children.item(++i)) {
             key = child.nodeName;
@@ -251,10 +269,10 @@ var FileLoader = L.Class.extend({
                 if (json.toString.call(json[key]) != '[object Array]') {
                     json[key] = [json[key]];
                 }
-                json[key].push(this._convertXMLToJson(child));
+                json[key].push(this._convertXMLToGeoJSON(child));
             }
             else {
-                json[key] = this._convertXMLToJson(child);
+                json[key] = this._convertXMLToGeoJSON(child);
             }
         }
         return json;
@@ -272,7 +290,7 @@ var FileLoader = L.Class.extend({
                 if(Object.keys(obj).length > 1) elements = Object.keys(obj).toString().split(",");
                 else elements = Object.keys(obj).toString();
 
-                for (var element in elements) { //
+                for (var element in elements) {
                     element = elements[element]; //@attributes
                     var key, value;
                     if (element.toString() == "#text") {
@@ -330,7 +348,6 @@ var FileLoader = L.Class.extend({
                     }
                 }
             }
-
             for (i = 0; i < Object.keys(json).length; i++) {
                 if (mJson[i] != null && json[i]!=null) {
                      xJson = this._mergeJson(json[i], mJson[i]);
@@ -361,33 +378,11 @@ var FileLoader = L.Class.extend({
         return null;
     },
 
-    /*_convertCSVToRDF:function(contentcsv){
-        var line;
-        var lines = [];
-        for(var i = 0; i < contentcsv.length; i++){
-            line = "@prefix : <http://rdfdata.org/csv#> . :csvList :item" + contentcsv[i];
-            lines.push(line);
-        }
-        return lines;
-    }*/
-
-    _cleanArray: function(array){
-        var err = ["","\n","\n ","\"\n \"","\"\n\"","\"\""]
-        for(var deleteValue in err) {
-            for (var i = 0; i < array.length; i++) {
-                if (array[i] === deleteValue) {
-                    array.splice(i, 1);
-                }
-            }
-        }
-        return array;
-    },
-
-    _mergeJson: function(a,b){
-        for(var key in b)
-            if(b.hasOwnProperty(key))
-                a[key] = b[key];
-        return a;
+    _mergeJson: function(json1,json2){
+        for(var key in json2)
+            if(json2.hasOwnProperty(key))
+                json1[key] = json2[key];
+        return json1;
     },
 
     _depth: 0,

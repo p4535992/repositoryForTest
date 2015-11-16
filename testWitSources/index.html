@@ -67,10 +67,15 @@
         var style = {color:'red', opacity: 1.0, fillOpacity: 1.0, weight: 2, clickable: false};
         L.Control.FileLayerLoad.LABEL = '<i class="fa fa-folder-open"></i>';
         L.Control.fileLayerLoad({
-            latitudeTitle: 'lat',     //the default field name for the latitude coordinates default: 'lat'
-            longitudeTitle: 'lng',    //the default field name for the longitude coordinates default: 'lng'
+            //TRY OUT CSV
+            latitudeColumn: 'lat',     //the default field name for the latitude coordinates default: 'lat'
+            longitudeColumn: 'lng',    //the default field name for the longitude coordinates default: 'lng'
+
+            //TRY OUT RDF/XML
+            //latitudeColumn: 'geo:lat',     //the default field name for the latitude coordinates default: 'lat'
+            //longitudeColumn: 'geo:lng',    //the default field name for the longitude coordinates default: 'lng'
             //rdfLink: ['gr:hasPOS'],   //if you want merge the json object created from a rdf file you can specify the property of a link...
-            //rdfAbout: 'rdf:about',    //the value for the property rdf:about of a rdf file...
+            //rdfAboutLink: 'rdf:about',    //the value for the property rdf:about of a rdf file...
             layerOptions: {
                 pointToLayer: function (feature, latlng) {
                     return new L.marker(latlng);

@@ -13,23 +13,22 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leaflet/leaflet-custom-src.map" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leaflet/leaflet-custom.js" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leaflet/leaflet.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/filelayer/leaflet.filelayer_20151115.js" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/geocsv/leaflet.geocsv-src.js" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/geocsv/leaflet.geocsv.js" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/geocsv/papaparse.js" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/turtle/rdfparser.js" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/filelayer/togeojson.js" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/turtle/turtle.js" />
-      <change type="DELETED" beforePath="C:\Users\tenti\Documents\GitHub\Leaflet.FileLayer\.gitmodules" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\tenti\Documents\GitHub\Leaflet.FileLayer\.nojekyll" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\tenti\Documents\GitHub\Leaflet.FileLayer\.travis.yml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\tenti\Documents\GitHub\Leaflet.FileLayer\LICENSE" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\tenti\Documents\GitHub\Leaflet.FileLayer\Makefile" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\tenti\Documents\GitHub\Leaflet.FileLayer\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\tenti\Documents\GitHub\Leaflet.FileLayer\package.json" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\tenti\Documents\GitHub\Leaflet.FileLayer\test\index.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\tenti\Documents\GitHub\Leaflet.FileLayer\test\test.filelayer.js" afterPath="" />
-      <change type="MOVED" beforePath="C:\Users\tenti\Documents\GitHub\Leaflet.FileLayer\leaflet.filelayer.js" afterPath="$PROJECT_DIR$/filelayer/leaflet.filelayer.js" />
+      <change type="DELETED" beforePath="C:\Users\tenti\Documents\GitHub\repositoryForTest\testWitSources\.gitmodules" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\tenti\Documents\GitHub\repositoryForTest\testWitSources\.nojekyll" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\tenti\Documents\GitHub\repositoryForTest\testWitSources\.travis.yml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\tenti\Documents\GitHub\repositoryForTest\testWitSources\LICENSE" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\tenti\Documents\GitHub\repositoryForTest\testWitSources\Makefile" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\tenti\Documents\GitHub\repositoryForTest\testWitSources\README.md" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\tenti\Documents\GitHub\repositoryForTest\testWitSources\package.json" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\tenti\Documents\GitHub\repositoryForTest\testWitSources\test\index.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\tenti\Documents\GitHub\repositoryForTest\testWitSources\test\test.filelayer.js" afterPath="" />
+      <change type="MOVED" beforePath="C:\Users\tenti\Documents\GitHub\repositoryForTest\testWitSources\leaflet.filelayer.js" afterPath="$PROJECT_DIR$/filelayer/leaflet.filelayer.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
     </list>
     <ignored path="Leaflet.FileLayer.iws" />
@@ -52,37 +51,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="leaflet.filelayer.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="leaflet.filelayer.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/filelayer/leaflet.filelayer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.38392857">
-              <caret line="330" column="88" selection-start-line="330" selection-start-column="88" selection-end-line="330" selection-end-column="88" />
-              <folding>
-                <element signature="e#1608#2850#0" expanded="false" />
-                <element signature="e#2890#3284#0" expanded="false" />
-                <element signature="e#3337#3619#0" expanded="false" />
-                <element signature="e#3665#4387#0" expanded="false" />
-                <element signature="e#4427#7374#0" expanded="false" />
-                <element signature="e#7418#7508#0" expanded="false" />
-                <element signature="e#8534#9923#0" expanded="false" />
-                <element signature="e#9970#10948#0" expanded="false" />
-                <element signature="e#10984#13578#0" expanded="false" />
-                <element signature="e#14795#15150#0" expanded="false" />
-                <element signature="e#16048#19522#0" expanded="false" />
-                <element signature="e#19571#19623#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="leaflet.filelayer_20151115.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/filelayer/leaflet.filelayer_20151115.js">
-          <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="174" column="46" selection-start-line="174" selection-start-column="46" selection-end-line="174" selection-end-column="46" />
+              <caret line="23" column="72" selection-start-line="23" selection-start-column="72" selection-end-line="23" selection-end-column="72" />
               <folding>
-                <element signature="e#6912#8301#0" expanded="false" />
-                <element signature="e#8348#9326#0" expanded="false" />
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="e#1599#1866#0" expanded="false" />
+                <element signature="e#1913#3155#0" expanded="false" />
+                <element signature="e#3195#3588#0" expanded="false" />
+                <element signature="e#3641#3923#0" expanded="false" />
+                <element signature="e#3967#4696#0" expanded="false" />
+                <element signature="e#9390#10770#0" expanded="false" />
+                <element signature="e#15561#15916#0" expanded="false" />
+                <element signature="e#15956#16098#0" expanded="false" />
+                <element signature="e#16196#19670#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -91,10 +75,23 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.115385">
-              <caret line="94" column="0" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="71" column="34" selection-start-line="70" selection-start-column="12" selection-end-line="71" selection-end-column="34" />
               <folding />
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="1.7589285">
+              <caret line="103" column="18" selection-start-line="103" selection-start-column="18" selection-end-line="103" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="MarkdownPreviewEditor">
+            <state />
           </provider>
         </entry>
       </file>
@@ -148,6 +145,7 @@
         <option value="$PROJECT_DIR$/turtle/rdfparser.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/filelayer/leaflet.filelayer.js" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -187,6 +185,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -201,7 +201,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Leaflet.FileLayer" />
+              <option name="myItemId" value="testWitSources" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -211,7 +211,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Leaflet.FileLayer" />
+              <option name="myItemId" value="testWitSources" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -219,24 +219,8 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Leaflet.FileLayer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Leaflet.FileLayer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fileForTest" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -357,7 +341,7 @@
     <option name="totallyTimeSpent" value="91000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1364" height="744" extended-state="0" />
+    <frame x="-8" y="-8" width="1364" height="744" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21870287" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -365,11 +349,9 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32935154" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24962293" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39761093" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -377,12 +359,14 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935154" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Maven-2 Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39761093" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -446,7 +430,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -478,18 +461,16 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="14" column="26" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="26" />
           <folding>
-            <element signature="e#1608#2850#0" expanded="false" />
-            <element signature="e#2890#3284#0" expanded="false" />
-            <element signature="e#3337#3619#0" expanded="false" />
-            <element signature="e#3665#4387#0" expanded="false" />
-            <element signature="e#4427#7374#0" expanded="false" />
-            <element signature="e#7418#7508#0" expanded="false" />
-            <element signature="e#8534#9923#0" expanded="false" />
-            <element signature="e#9970#10948#0" expanded="false" />
-            <element signature="e#10984#13578#0" expanded="false" />
-            <element signature="e#14795#15150#0" expanded="false" />
-            <element signature="e#16048#19522#0" expanded="false" />
-            <element signature="e#19571#19623#0" expanded="false" />
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#1599#1866#0" expanded="false" />
+            <element signature="e#1913#3155#0" expanded="false" />
+            <element signature="e#3195#3588#0" expanded="false" />
+            <element signature="e#3641#3923#0" expanded="false" />
+            <element signature="e#3967#4696#0" expanded="false" />
+            <element signature="e#9390#10770#0" expanded="false" />
+            <element signature="e#15561#15916#0" expanded="false" />
+            <element signature="e#15956#16098#0" expanded="false" />
+            <element signature="e#16196#19670#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -498,7 +479,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="4873" column="4" selection-start-line="4873" selection-start-column="4" selection-end-line="4873" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -506,7 +486,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -514,7 +493,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -538,18 +516,16 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="97" column="4" selection-start-line="97" selection-start-column="4" selection-end-line="97" selection-end-column="4" />
           <folding>
-            <element signature="e#1608#2850#0" expanded="false" />
-            <element signature="e#2890#3284#0" expanded="false" />
-            <element signature="e#3337#3619#0" expanded="false" />
-            <element signature="e#3665#4387#0" expanded="false" />
-            <element signature="e#4427#7374#0" expanded="false" />
-            <element signature="e#7418#7508#0" expanded="false" />
-            <element signature="e#8534#9923#0" expanded="false" />
-            <element signature="e#9970#10948#0" expanded="false" />
-            <element signature="e#10984#13578#0" expanded="false" />
-            <element signature="e#14795#15150#0" expanded="false" />
-            <element signature="e#16048#19522#0" expanded="false" />
-            <element signature="e#19571#19623#0" expanded="false" />
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#1599#1866#0" expanded="false" />
+            <element signature="e#1913#3155#0" expanded="false" />
+            <element signature="e#3195#3588#0" expanded="false" />
+            <element signature="e#3641#3923#0" expanded="false" />
+            <element signature="e#3967#4696#0" expanded="false" />
+            <element signature="e#9390#10770#0" expanded="false" />
+            <element signature="e#15561#15916#0" expanded="false" />
+            <element signature="e#15956#16098#0" expanded="false" />
+            <element signature="e#16196#19670#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -558,7 +534,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="4873" column="4" selection-start-line="4873" selection-start-column="4" selection-end-line="4873" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -566,7 +541,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -574,7 +548,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -604,7 +577,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
       <provider editor-type-id="sourcemapFileViewerProvider">
@@ -615,7 +587,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="4873" column="4" selection-start-line="4873" selection-start-column="4" selection-end-line="4873" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -623,7 +594,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -631,7 +601,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -661,7 +630,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
       <provider editor-type-id="sourcemapFileViewerProvider">
@@ -672,7 +640,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="4873" column="4" selection-start-line="4873" selection-start-column="4" selection-end-line="4873" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -680,7 +647,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -688,7 +654,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -746,7 +711,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
       <provider editor-type-id="sourcemapFileViewerProvider">
@@ -757,7 +721,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="4873" column="4" selection-start-line="4873" selection-start-column="4" selection-end-line="4873" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -772,7 +735,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -803,7 +765,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -811,7 +772,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="241" column="19" selection-start-line="241" selection-start-column="19" selection-end-line="241" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -819,9 +779,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="86" column="2" selection-start-line="86" selection-start-column="2" selection-end-line="86" selection-end-column="2" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -829,7 +786,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="22" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -837,7 +793,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33150685">
           <caret line="297" column="0" selection-start-line="297" selection-start-column="0" selection-end-line="297" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -869,44 +824,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/filelayer/leaflet.filelayer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="72" selection-start-line="23" selection-start-column="72" selection-end-line="23" selection-end-column="72" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#1599#1866#0" expanded="false" />
+            <element signature="e#1913#3155#0" expanded="false" />
+            <element signature="e#3195#3588#0" expanded="false" />
+            <element signature="e#3641#3923#0" expanded="false" />
+            <element signature="e#3967#4696#0" expanded="false" />
+            <element signature="e#9390#10770#0" expanded="false" />
+            <element signature="e#15561#15916#0" expanded="false" />
+            <element signature="e#15956#16098#0" expanded="false" />
+            <element signature="e#16196#19670#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.115385">
-          <caret line="94" column="0" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="71" column="34" selection-start-line="70" selection-start-column="12" selection-end-line="71" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/filelayer/leaflet.filelayer_20151115.js">
+    <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="174" column="46" selection-start-line="174" selection-start-column="46" selection-end-line="174" selection-end-column="46" />
-          <folding>
-            <element signature="e#6912#8301#0" expanded="false" />
-            <element signature="e#8348#9326#0" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="1.7589285">
+          <caret line="103" column="18" selection-start-line="103" selection-start-column="18" selection-end-line="103" selection-end-column="18" />
+          <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/filelayer/leaflet.filelayer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38392857">
-          <caret line="330" column="88" selection-start-line="330" selection-start-column="88" selection-end-line="330" selection-end-column="88" />
-          <folding>
-            <element signature="e#1608#2850#0" expanded="false" />
-            <element signature="e#2890#3284#0" expanded="false" />
-            <element signature="e#3337#3619#0" expanded="false" />
-            <element signature="e#3665#4387#0" expanded="false" />
-            <element signature="e#4427#7374#0" expanded="false" />
-            <element signature="e#7418#7508#0" expanded="false" />
-            <element signature="e#8534#9923#0" expanded="false" />
-            <element signature="e#9970#10948#0" expanded="false" />
-            <element signature="e#10984#13578#0" expanded="false" />
-            <element signature="e#14795#15150#0" expanded="false" />
-            <element signature="e#16048#19522#0" expanded="false" />
-            <element signature="e#19571#19623#0" expanded="false" />
-          </folding>
-        </state>
+      <provider editor-type-id="MarkdownPreviewEditor">
+        <state />
       </provider>
     </entry>
   </component>

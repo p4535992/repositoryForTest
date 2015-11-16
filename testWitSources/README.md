@@ -52,8 +52,8 @@ For CSV files, it currently depends on [Mholt papaparse.js](https://github.com/m
 If you really hate to use the parser csv of other people you can convert your CSV file into a file GeoJSON and use the '_loadGeoJSON' method.
 ```javascript
 L.Control.fileLayerLoad({
-    latitudeTitle: 'lat', //the field name for the latitude coordinates 
-    longitudeTitle: 'lng',//the field name for the longitude coordinates 
+    latitudeColumn: 'lat', //the field name for the latitude coordinates 
+    longitudeColumn: 'lng',//the field name for the longitude coordinates 
     titlesToInspect: ['name','lat','lng'], //if you want get only some specific field from csv
             layerOptions: {
                 pointToLayer: function (feature, latlng) {
@@ -74,8 +74,8 @@ This is a little function, i don't know if anyone can found useful for something
 Anyway, You can use a RDF/XML with all the information on some locations, the only thing you need are two fields related to latitude and longitude.
 ```javascript
 L.Control.fileLayerLoad({
-    latitudeTitle: 'geo:lat',  //the  field name for the latitude 
-    longitudeTitle: 'geo:long',  //the field name for the longitude
+    latitudeColumn: 'geo:lat',  //the  field name for the latitude 
+    longitudeColumn: 'geo:long',  //the field name for the longitude
             layerOptions: {
                 pointToLayer: function (feature, latlng) {
                     return new L.marker(latlng);
@@ -97,8 +97,8 @@ Example:
 ```javascript
 //set options rdfAboutLink = 'rdf:id' and rdfLink:[hasID].
 L.Control.fileLayerLoad({
-    latitudeTitle: 'geo:lat',    //the  field name for the latitude 
-    longitudeTitle: 'geo:long',  //the field name for the longitude
+    latitudeColumn: 'geo:lat',    //the  field name for the latitude 
+    longitudeColumn: 'geo:long',  //the field name for the longitude
      rdfLink: ['geo:hasID'],     //you can specify the property of a link from you start the search
      rdfAboutLink: 'rdf:id',  //the value for the property 'rdfLink' to search to the values of the 'rdfaboutLink'
             layerOptions: {
