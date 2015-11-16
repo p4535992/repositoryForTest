@@ -4,6 +4,8 @@
  *
  * Requires Pavel Shramov's GPX.js
  * https://github.com/shramov/leaflet-plugins/blob/d74d67/layer/vector/GPX.js
+ * Requires Pavel mholt papaparse.js
+ *https://github.com/mholt/PapaParse/blob/master/papaparse.js
  */
 var FileLoader = L.Class.extend({
     includes: L.Mixin.Events,

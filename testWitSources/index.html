@@ -6,7 +6,7 @@
     <!--<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />-->
     <link rel="stylesheet" href="leaflet/leaflet.css" />
 
-    <!--script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>-->
+   <!-- <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>-->
     <script src="leaflet/leaflet-custom-src.js"></script>
     <style>
         #map {
@@ -47,7 +47,7 @@
     <script src="filelayer/leaflet.filelayer.js"></script>
     <script src="filelayer/togeojson.js"></script>
     <script src="filelayer/GPX.js"></script>
-    <script src="geocsv/papaparse.js"></script>
+    <script src="filelayer/papaparse.js"></script>
 
 </head>
 <body>
@@ -67,11 +67,10 @@
         var style = {color:'red', opacity: 1.0, fillOpacity: 1.0, weight: 2, clickable: false};
         L.Control.FileLayerLoad.LABEL = '<i class="fa fa-folder-open"></i>';
         L.Control.fileLayerLoad({
-            latitudeTitle: 'geo:lat',     //the default field name for the latitude coordinates default: 'lat'
-            longitudeTitle: 'geo:long',    //the default field name for the longitude coordinates default: 'lng'
-            deleteDoubleQuotes: true, //if true all double quotes on the text value are removed...
-            rdfLink: ['gr:hasPOS'],   //if you want merge the json object created from a rdf file you can specify the property of a link...
-            rdfAbout: 'rdf:about',    //the value for the property rdf:about of a rdf file...
+            latitudeTitle: 'lat',     //the default field name for the latitude coordinates default: 'lat'
+            longitudeTitle: 'lng',    //the default field name for the longitude coordinates default: 'lng'
+            //rdfLink: ['gr:hasPOS'],   //if you want merge the json object created from a rdf file you can specify the property of a link...
+            //rdfAbout: 'rdf:about',    //the value for the property rdf:about of a rdf file...
             layerOptions: {
                 pointToLayer: function (feature, latlng) {
                     return new L.marker(latlng);
