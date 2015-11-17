@@ -450,7 +450,7 @@ var FileLoader = L.Class.extend({
 
 L.Control.FileLayerLoad = L.Control.extend({
     statics: {
-        TITLE: 'Load local file (GPX, KML, GeoJSON, CSV, RDF)',
+        TITLE: 'Load local file (GPX, KML, GeoJSON, CSV, RDF, XML)',
         LABEL: '&#8965;'
     },
     options: {

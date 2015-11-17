@@ -47,38 +47,38 @@ Events:
 
 * **data:error** (error)
 
-### SOME NEW OPTIONS 
+#ADDED SOME NEW OPTIONS <br />
 
-ADDED SOME NES OPTION, 
-
-1) geoJsonLayer: you can pass tot the FileLoader your personal Layer for example a L.FeatureGroup or a L.LayerGroup
-                 where are already stored some information.
-2) popupTable:   if true all the information of the popup are pushed on a html table for a immediate better view,if false is 
-                 saved on a json object and you can use your specific view with the onEachFeature function of Leaflet.
+**1) geoJsonLayer**: you can pass tot the FileLoader your personal Layer for example a L.FeatureGroup or a L.LayerGroup
+                 where are already stored some information. <br />
+**2) popupTable**:   if true all the information of the popup are pushed on a html table for a immediate better view,if false is 
+                 saved on a json object and you can use your specific view with the onEachFeature function of Leaflet. <br />
                                 
-SUPPLEMENT FOR CSV
-3) headers:     if true the first line of a csv file has headers (if false launch exception)
-4) latitudeColumn: the default column name for the latitude coordinates, you must specify what column has the vaule of the latitude
-5) longitudeColumn: the default column name for the longitude coordinates, you must specify what column has the value of the longitude
-6) titlesToInspect: can be a array or a object, here you can set only the columns you need to put in the generate geoJson
-                    i recommended to avoid if possible.
+**SUPPLEMENT FOR CSV** <br />
+**3) headers**:     if true the first line of a csv file has headers (if false launch exception) <br />
+**4) latitudeColumn**: the default column name for the latitude coordinates, you must specify what column has the vaule of the latitude <br />
+**5) longitudeColumn**: the default column name for the longitude coordinates, you must specify what column has the value of the longitude <br />
+**6) titlesToInspect**: can be a array or a object, here you can set only the columns you need to put in the generate geoJson 
+                    i recommended to avoid if possible. <br />
 
-SUPPLEMENT FOR XML
-7) xmlRooTag: set the Json path to the collection of json object to inspect, you can many subRoot 
-              e.g. '...,subRoot2:xxx,subRoot3:yyy' or if you prefer set a Array e.g. ["Root","Row"]
+**SUPPLEMENT FOR XML** <br />
+**7) xmlRooTag**: set the Json path to the collection of json object to inspect, you can many subRoot  <br /> 
+              e.g. '...,subRoot2:xxx,subRoot3:yyy' or if you prefer set a Array e.g. ["Root","Row"]<br />
               
-SUPPLEMENT FOR RDF/XML (EXPERIMENTAL)
-8)rdfRootTag: set the Json path to the collection of json object to inspect
-9)rdfLink: if you want merge the json object created from a rdf file you can specify the property of a link...
-10) rdfAbout: the value for the property rdf:about of a rdf file...
-11) rdfAboutLink: the value for the property rdf:about for linking different classes of triple...
+**SUPPLEMENT FOR RDF/XML (EXPERIMENTAL)** <br />
+**8) rdfRootTag**: set the Json path to the collection of json object to inspect <br />
+**9) rdfLink**: if you want merge the json object created from a rdf file you can specify the property of a link... <br />
+**10) rdfAbout**: the value for the property rdf:about of a rdf file... <br />
+**11) rdfAboutLink**: the value for the property rdf:about for linking different classes of triple... <br />
 
-OTHER
-12) titleForSearch:  if you want mark some information like the title/id of the json object.
+**OTHER**  <br /> 
+**12) titleForSearch**:  if you want mark some information like the title/id of the json object.  <br />
 
-### WORK WITH CSV FILE
-For CSV files, it currently depends on [Mholt papaparse.js](https://github.com/mholt), that made us the courtesy to let us use it in this project.
-If you really hate to use the parser csv of other people you can convert your CSV file into a file GeoJSON and use the '_loadGeoJSON' method.
+# WORK WITH CSV FILE
+For CSV files, it currently depends on [Mholt papaparse.js](https://github.com/mholt), that made us the courtesy to 
+let us use it in this project. <br />
+If you really hate to use the parser csv of other people you can convert your CSV file into a file GeoJSON and use the
+ '_loadGeoJSON' method. <br />
 ```javascript
 L.Control.fileLayerLoad({
     latitudeColumn: 'lat', //the field name for the latitude coordinates 
@@ -98,9 +98,9 @@ L.Control.fileLayerLoad({
             },
         }).addTo(map);
 ```
-### WORK WITH XML FILE 
+# WORK WITH XML FILE  <br />
 The most common use case is with the response XML from some API like Google Maps,with all the information on some
-locations, the only thing you need are two fields related to latitude and longitude.
+locations, the only thing you need are two fields related to latitude and longitude. <br />
 
 ```javascript
 L.Control.fileLayerLoad({
@@ -127,11 +127,12 @@ L.Control.fileLayerLoad({
 ```
 Here a result image of the popup content of the markers:
 ![testo alt](https://github.com/p4535992/repositoryForTest/blob/master/testWitSources/fileForTest/Immagine%202%20xml%20test.png "Example loading of a rdf")
-### WORK WITH RDF/XML FILE (Experimental)
+<br />
+# WORK WITH RDF/XML FILE (Experimental) <br />
 This is a little function, i don't know if anyone can found useful for something, usually is best use ajax request on
- the repository of triple, but once the code is written let's share it.
+the repository of triple, but once the code is written let's share it. <br />
 Anyway, You can use a RDF/XML with all the information on some locations, the only thing you need are two fields
- related to latitude and longitude.
+related to latitude and longitude. <br />
 ```javascript
 L.Control.fileLayerLoad({
     latitudeColumn: 'geo:lat',
@@ -156,9 +157,8 @@ L.Control.fileLayerLoad({
         }).addTo(map);
 ```
 you can have multiple classes on the rdf , so you can try to link to each other, for that you can do a merge of 
-the json objects generated , where the specific property link 'rdfLink' and 'rdfAboutLink' are present.
-Example:
-
+the json objects generated , where the specific property link 'rdfLink' and 'rdfAboutLink' are present. <br />
+Example: <br />
 ```javascript
 //set options rdfAboutLink = 'rdf:id' and rdfLink:[hasID].
 L.Control.fileLayerLoad({
@@ -194,6 +194,7 @@ json3 = {name:New York, population:10000000, isACapital:true,geo:hasID:233,rdf:i
 
 Here a result image of the popup content of the markers:
 ![testo alt](https://github.com/p4535992/repositoryForTest/blob/master/testWitSources/fileForTest/Immagine%201.png "Example loading of a rdf")
+<br />
 Changelog
 ---------
 
