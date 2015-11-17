@@ -47,32 +47,32 @@ Events:
 
 * **data:error** (error)
 
-## ADDED SOME NEW OPTIONS <br />
+#ADDED SOME NEW OPTIONS <br />
 
-1) geoJsonLayer: you can pass tot the FileLoader your personal Layer for example a L.FeatureGroup or a L.LayerGroup
+**1) geoJsonLayer**: you can pass tot the FileLoader your personal Layer for example a L.FeatureGroup or a L.LayerGroup
                  where are already stored some information. <br />
-2) popupTable:   if true all the information of the popup are pushed on a html table for a immediate better view,if false is 
+**2) popupTable**:   if true all the information of the popup are pushed on a html table for a immediate better view,if false is 
                  saved on a json object and you can use your specific view with the onEachFeature function of Leaflet. <br />
                                 
-#SUPPLEMENT FOR CSV <br />
-3) headers:     if true the first line of a csv file has headers (if false launch exception) <br />
-4) latitudeColumn: the default column name for the latitude coordinates, you must specify what column has the vaule of the latitude <br />
-5) longitudeColumn: the default column name for the longitude coordinates, you must specify what column has the value of the longitude <br />
-6) titlesToInspect: can be a array or a object, here you can set only the columns you need to put in the generate geoJson 
+**SUPPLEMENT FOR CSV** <br />
+**3) headers**:     if true the first line of a csv file has headers (if false launch exception) <br />
+**4) latitudeColumn**: the default column name for the latitude coordinates, you must specify what column has the vaule of the latitude <br />
+**5) longitudeColumn**: the default column name for the longitude coordinates, you must specify what column has the value of the longitude <br />
+**6) titlesToInspect**: can be a array or a object, here you can set only the columns you need to put in the generate geoJson 
                     i recommended to avoid if possible. <br />
 
-#SUPPLEMENT FOR XML <br />
-7) xmlRooTag: set the Json path to the collection of json object to inspect, you can many subRoot  <br /> 
+**SUPPLEMENT FOR XML** <br />
+**7) xmlRooTag**: set the Json path to the collection of json object to inspect, you can many subRoot  <br /> 
               e.g. '...,subRoot2:xxx,subRoot3:yyy' or if you prefer set a Array e.g. ["Root","Row"]<br />
               
-#SUPPLEMENT FOR RDF/XML (EXPERIMENTAL) <br />
-8)rdfRootTag: set the Json path to the collection of json object to inspect <br />
-9)rdfLink: if you want merge the json object created from a rdf file you can specify the property of a link... <br />
-10) rdfAbout: the value for the property rdf:about of a rdf file... <br />
-11) rdfAboutLink: the value for the property rdf:about for linking different classes of triple... <br />
+**SUPPLEMENT FOR RDF/XML (EXPERIMENTAL)** <br />
+**8) rdfRootTag**: set the Json path to the collection of json object to inspect <br />
+**9) rdfLink**: if you want merge the json object created from a rdf file you can specify the property of a link... <br />
+**10) rdfAbout**: the value for the property rdf:about of a rdf file... <br />
+**11) rdfAboutLink**: the value for the property rdf:about for linking different classes of triple... <br />
 
-#OTHER
-12) titleForSearch:  if you want mark some information like the title/id of the json object.
+**OTHER**
+**12) titleForSearch**:  if you want mark some information like the title/id of the json object.
 
 ## WORK WITH CSV FILE
 For CSV files, it currently depends on [Mholt papaparse.js](https://github.com/mholt), that made us the courtesy to 
