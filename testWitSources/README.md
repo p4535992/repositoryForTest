@@ -71,17 +71,10 @@ Events:
 **10) rdfAbout**: the value for the property rdf:about of a rdf file... <br />
 **11) rdfAboutLink**: the value for the property rdf:about for linking different classes of triple... <br />
 
-<<<<<<< HEAD
 **OTHER**  <br /> 
 **12) titleForSearch**:  if you want mark some information like the title/id of the json object.  <br />
 
 # WORK WITH CSV FILE
-=======
-**OTHER**
-**12) titleForSearch**:  if you want mark some information like the title/id of the json object.
-
-## WORK WITH CSV FILE
->>>>>>> origin/master
 For CSV files, it currently depends on [Mholt papaparse.js](https://github.com/mholt), that made us the courtesy to 
 let us use it in this project. <br />
 If you really hate to use the parser csv of other people you can convert your CSV file into a file GeoJSON and use the
@@ -105,11 +98,7 @@ L.Control.fileLayerLoad({
             },
         }).addTo(map);
 ```
-<<<<<<< HEAD
 # WORK WITH XML FILE  <br />
-=======
-## WORK WITH XML FILE  <br />
->>>>>>> origin/master
 The most common use case is with the response XML from some API like Google Maps,with all the information on some
 locations, the only thing you need are two fields related to latitude and longitude. <br />
 
@@ -139,11 +128,7 @@ L.Control.fileLayerLoad({
 Here a result image of the popup content of the markers:
 ![testo alt](https://github.com/p4535992/repositoryForTest/blob/master/testWitSources/fileForTest/Immagine%202%20xml%20test.png "Example loading of a rdf")
 <br />
-<<<<<<< HEAD
 # WORK WITH RDF/XML FILE (Experimental) <br />
-=======
-### WORK WITH RDF/XML FILE (Experimental) <br />
->>>>>>> origin/master
 This is a little function, i don't know if anyone can found useful for something, usually is best use ajax request on
 the repository of triple, but once the code is written let's share it. <br />
 Anyway, You can use a RDF/XML with all the information on some locations, the only thing you need are two fields
