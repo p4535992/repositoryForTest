@@ -58,6 +58,15 @@
     </p>
     <div id="map"></div>
     <script>
+
+        //TRY OUT RDF
+        //test file: http://adf.ly/1RnWFd
+        //TRY OUT CSV
+        //test file: http://adf.ly/1RnWZd
+        //TRY OUT XML
+        //test file: http://adf.ly/1Rqxub
+
+
         var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'Map data &copy; 2013 OpenStreetMap contributors',
         });
@@ -72,16 +81,16 @@
             longitudeColumn: 'lng',*/
 
             //TRY OUT XML
-            /*latitudeColumn: 'Latitude',
+           /* latitudeColumn: 'Latitude',
             longitudeColumn: 'Longitude',
             xmlRooTag: ["Root","Row"],*/
 
             //TRY OUT RDF/XML
-            latitudeColumn: 'geo:lat',
+            /*latitudeColumn: 'geo:lat',
             longitudeColumn: 'geo:long',
             rdfLink: ['gr:hasPOS'],
             rdfAboutLink: 'rdf:about',
-            rdfRootTag: {root:"rdf:RDF",subRoot:"rdf:Description"},
+            rdfRootTag: {root:"rdf:RDF",subRoot:"rdf:Description"},*/
 
             popupTable:true,
             layerOptions: {

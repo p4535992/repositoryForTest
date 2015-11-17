@@ -84,6 +84,7 @@ L.Control.fileLayerLoad({
     latitudeColumn: 'lat', //the field name for the latitude coordinates 
     longitudeColumn: 'lng',//the field name for the longitude coordinates 
     titlesToInspect: ['name','lat','lng'], //if you want get only some specific field from csv
+    popupTable:true,
             layerOptions: {
                 pointToLayer: function (feature, latlng) {
                     return new L.marker(latlng);
@@ -111,6 +112,7 @@ L.Control.fileLayerLoad({
     //in this case the xml file you loaded probably has more information than you need
     //so you can filter with some path e.g. xml = xml[Root][Row];
     xmlRooTag: ["Root","Row"], //is okay use your personal object e.g. {root:"Root", anyName: "Row"}
+    popupTable:true,
             layerOptions: {
                 pointToLayer: function (feature, latlng) {
                     return new L.marker(latlng);
@@ -140,6 +142,7 @@ L.Control.fileLayerLoad({
     rdfLink: ['gr:hasPOS'],
     rdfAboutLink: 'rdf:about',
     rdfRootTag: {root:"rdf:RDF",subRoot:"rdf:Description"},
+    popupTable:true,
             layerOptions: {
                 pointToLayer: function (feature, latlng) {
                     return new L.marker(latlng);
