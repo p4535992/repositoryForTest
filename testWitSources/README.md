@@ -47,6 +47,35 @@ Events:
 
 * **data:error** (error)
 
+### SOME NEW OPTIONS 
+
+ADDED SOME NES OPTION, 
+
+1) geoJsonLayer: you can pass tot the FileLoader your personal Layer for example a L.FeatureGroup or a L.LayerGroup
+                 where are already stored some information.
+2) popupTable:   if true all the information of the popup are pushed on a html table for a immediate better view,if false is 
+                 saved on a json object and you can use your specific view with the onEachFeature function of Leaflet.
+                                
+SUPPLEMENT FOR CSV
+3) headers:     if true the first line of a csv file has headers (if false launch exception)
+4) latitudeColumn: the default column name for the latitude coordinates, you must specify what column has the vaule of the latitude
+5) longitudeColumn: the default column name for the longitude coordinates, you must specify what column has the value of the longitude
+6) titlesToInspect: can be a array or a object, here you can set only the columns you need to put in the generate geoJson
+                    i recommended to avoid if possible.
+
+SUPPLEMENT FOR XML
+7) xmlRooTag: set the Json path to the collection of json object to inspect, you can many subRoot 
+              e.g. '...,subRoot2:xxx,subRoot3:yyy' or if you prefer set a Array e.g. ["Root","Row"]
+              
+SUPPLEMENT FOR RDF/XML (EXPERIMENTAL)
+8)rdfRootTag: set the Json path to the collection of json object to inspect
+9)rdfLink: if you want merge the json object created from a rdf file you can specify the property of a link...
+10) rdfAbout: the value for the property rdf:about of a rdf file...
+11) rdfAboutLink: the value for the property rdf:about for linking different classes of triple...
+
+OTHER
+12) titleForSearch:  if you want mark some information like the title/id of the json object.
+
 ### WORK WITH CSV FILE
 For CSV files, it currently depends on [Mholt papaparse.js](https://github.com/mholt), that made us the courtesy to let us use it in this project.
 If you really hate to use the parser csv of other people you can convert your CSV file into a file GeoJSON and use the '_loadGeoJSON' method.
@@ -69,13 +98,47 @@ L.Control.fileLayerLoad({
             },
         }).addTo(map);
 ```
-### WORK WITH RDF/XML FILE 
-This is a little function, i don't know if anyone can found useful for something, usually is best use ajax request on the repository of triple, but once the code is written let's share it.
-Anyway, You can use a RDF/XML with all the information on some locations, the only thing you need are two fields related to latitude and longitude.
+### WORK WITH XML FILE 
+The most common use case is with the response XML from some API like Google Maps,with all the information on some
+locations, the only thing you need are two fields related to latitude and longitude.
+
 ```javascript
 L.Control.fileLayerLoad({
-    latitudeColumn: 'geo:lat',  //the  field name for the latitude 
-    longitudeColumn: 'geo:long',  //the field name for the longitude
+    latitudeColumn: 'Latitude',   //the  field name for the latitude 
+    longitudeColumn: 'Longitude', //the field name for the longitude
+    titlesToInspect: ['Name','Latitude','Longitude'], //if you want get only some specific field from xml
+    //be sure to point to the path of the element contains the info you need
+    //in this case the xml file you loaded probably has more information than you need
+    //so you can filter with some path e.g. xml = xml[Root][Row];
+    xmlRooTag: ["Root","Row"], //is okay use your personal object e.g. {root:"Root", anyName: "Row"}
+            layerOptions: {
+                pointToLayer: function (feature, latlng) {
+                    return new L.marker(latlng);
+                },
+                onEachFeature:function(feature, layer){
+                        var popupContent = '';
+                        if (feature.properties && feature.properties.popupContent) {
+                            popupContent += feature.properties.popupContent;
+                        }
+                        layer.bindPopup(popupContent);
+                }
+            },
+        }).addTo(map);
+```
+Here a result image of the popup content of the markers:
+![testo alt](https://github.com/p4535992/repositoryForTest/blob/master/testWitSources/fileForTest/Immagine%202%20xml%20test.png "Example loading of a rdf")
+### WORK WITH RDF/XML FILE (Experimental)
+This is a little function, i don't know if anyone can found useful for something, usually is best use ajax request on
+ the repository of triple, but once the code is written let's share it.
+Anyway, You can use a RDF/XML with all the information on some locations, the only thing you need are two fields
+ related to latitude and longitude.
+```javascript
+L.Control.fileLayerLoad({
+    latitudeColumn: 'geo:lat',
+    longitudeColumn: 'geo:long',
+    rdfLink: ['gr:hasPOS'],
+    rdfAboutLink: 'rdf:about',
+    rdfRootTag: {root:"rdf:RDF",subRoot:"rdf:Description"},
             layerOptions: {
                 pointToLayer: function (feature, latlng) {
                     return new L.marker(latlng);
@@ -92,15 +155,17 @@ L.Control.fileLayerLoad({
             },
         }).addTo(map);
 ```
-you can have multiple classes on the rdf , so you can try to link to each other, for that you can do a merge of the json objects generated , where the specific property link 'rdfLink' and 'rdfAboutLink' are present.
+you can have multiple classes on the rdf , so you can try to link to each other, for that you can do a merge of 
+the json objects generated , where the specific property link 'rdfLink' and 'rdfAboutLink' are present.
 Example:
+
 ```javascript
 //set options rdfAboutLink = 'rdf:id' and rdfLink:[hasID].
 L.Control.fileLayerLoad({
     latitudeColumn: 'geo:lat',    //the  field name for the latitude 
     longitudeColumn: 'geo:long',  //the field name for the longitude
-    rdfLink: ['geo:hasID'],     //you can specify the property of a link from you start the search
-    rdfAboutLink: 'rdf:id',  //the value for the property 'rdfLink' to search to the values of the 'rdfaboutLink'
+    rdfLink: ['geo:hasID'],       //you can specify the property of a link and from that you can start the search of relations
+    rdfAboutLink: 'rdf:id',       //the value for the property 'rdfLink' to search to the values of the 'rdfaboutLink'
             layerOptions: {
                 pointToLayer: function (feature, latlng) {
                     return new L.marker(latlng);
@@ -116,7 +181,8 @@ L.Control.fileLayerLoad({
                 }
             },
         }).addTo(map);
-
+```
+```javascript
 //....................................................................
 //What happened ?
 json1 = {name:New York, population:10000000, isACapital:true,geo:hasID:233}
