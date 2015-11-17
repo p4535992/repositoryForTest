@@ -34,7 +34,7 @@ var FileLoader = L.Class.extend({
             'gpx': this._convertToGeoJSON,
             'kml': this._convertToGeoJSON,
             'csv': this._papaJsonToGeoJSON,
-            'rdf': this._RDFToGeoJSON
+            'rdf': this._convertRDFToGeoJSON
         };
     },
 
@@ -188,10 +188,10 @@ var FileLoader = L.Class.extend({
         return text;
     },
 
-    _RDFToGeoJSON: function(content) {
+    _convertRDFToGeoJSON: function(content) {
         try {
-            var xml = this._RDFToXML(content);
-            var json = this._XMLToGeoJSON(xml);
+            var xml = this._convertRDFToXML(content);
+            var json = this._convertXMLToGeoJSON(xml);
             this._simplifyJson(json["rdf:RDF"]["rdf:Description"],null);
             this._mergeRdfJson(this._root.data);
             //Filter result, get all object with coordinates...
@@ -210,7 +210,7 @@ var FileLoader = L.Class.extend({
         }
     },
 
-    _RDFToXML:function(content){
+    _convertRDFToXML:function(content){
         var xml;
         try {
             if (typeof parseXML == 'undefined') {
@@ -246,7 +246,7 @@ var FileLoader = L.Class.extend({
         return xml;
     },
 
-    _XMLToGeoJSON:function (content) {
+    _convertXMLToGeoJSON:function (content) {
         var attr,
             child,
             attrs = content.attributes,
@@ -269,10 +269,10 @@ var FileLoader = L.Class.extend({
                 if (json.toString.call(json[key]) != '[object Array]') {
                     json[key] = [json[key]];
                 }
-                json[key].push(this._XMLToGeoJSON(child));
+                json[key].push(this._convertXMLToGeoJSON(child));
             }
             else {
-                json[key] = this._XMLToGeoJSON(child);
+                json[key] = this._convertXMLToGeoJSON(child);
             }
         }
         return json;

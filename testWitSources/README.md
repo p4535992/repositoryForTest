@@ -99,8 +99,8 @@ Example:
 L.Control.fileLayerLoad({
     latitudeColumn: 'geo:lat',    //the  field name for the latitude 
     longitudeColumn: 'geo:long',  //the field name for the longitude
-     rdfLink: ['geo:hasID'],     //you can specify the property of a link from you start the search
-     rdfAboutLink: 'rdf:id',  //the value for the property 'rdfLink' to search to the values of the 'rdfaboutLink'
+    rdfLink: ['geo:hasID'],     //you can specify the property of a link from you start the search
+    rdfAboutLink: 'rdf:id',  //the value for the property 'rdfLink' to search to the values of the 'rdfaboutLink'
             layerOptions: {
                 pointToLayer: function (feature, latlng) {
                     return new L.marker(latlng);
