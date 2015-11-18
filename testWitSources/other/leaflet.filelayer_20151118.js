@@ -6,8 +6,6 @@
  * https://github.com/shramov/leaflet-plugins/blob/d74d67/layer/vector/GPX.js
  * Requires Pavel mholt papaparse.js
  * https://github.com/mholt/PapaParse/blob/master/papaparse.js
- * Requires gildas-lormeau zip.js only if you want to try to load zip archive of GTFS .
- * https://gildas-lormeau.github.io/zip.js/
  */
 var FileLoader = L.Class.extend({
     includes: L.Mixin.Events,
@@ -45,12 +43,12 @@ var FileLoader = L.Class.extend({
             'csv': this._papaJsonToGeoJSON,
             'xml': this._XMLToGeoJSON,
             'rdf': this._RDFToGeoJSON,
-            'input': this._gtfsToGeoJSON //basic est for the single file gtfs 'shapes.input'
+            'zip': this._gtfsToGeoJSON,
+            'input': this._gtfsToGeoJSON
         };
     },
 
     load: function (file /* File */) {
-
         // Check file size
         var fileSize = (file.size / 1024).toFixed(4);
         if (fileSize > this.options.fileSizeLimit) {
@@ -61,10 +59,17 @@ var FileLoader = L.Class.extend({
         }
 
         // Check file extension
-        var ext = file.name.split('.').pop();
-
-        //Check if file is a document or a archive
-        if(ext  == "zip"){  //if is a archive
+        var ext = file.name.split('.').pop(),
+            parser = this._parsers[ext];
+        if (!parser) {
+            this.fire('data:error', {
+                error: new Error('Unsupported file type ' + file.type + '(' + ext + ')')
+            });
+            return;
+        }
+        // Read selected file using HTML5 File API
+        var reader = new FileReader();
+        reader.onload = L.Util.bind(function (e) {
             try {
                 this.fire('data:loading', {filename: file.name, format: ext});
                 var layer = parser.call(this, e.target.result, ext);
@@ -73,31 +78,10 @@ var FileLoader = L.Class.extend({
             catch (err) {
                 this.fire('data:error', {error: err});
             }
-            return this._gtfsZipToGEOJSON(file);
-        }else{
-            var parser = this._parsers[ext];
-            if (!parser) {  //if is a document
-                this.fire('data:error', {
-                    error: new Error('Unsupported file type ' + file.type + '(' + ext + ')')
-                });
-                return;
-            }
-            // Read selected file using HTML5 File API
-            var reader = new FileReader();
-            reader.onload = L.Util.bind(function (e) {
-                try {
-                    this.fire('data:loading', {filename: file.name, format: ext});
-                    var layer = parser.call(this, e.target.result, ext);
-                    this.fire('data:loaded', {layer: layer, filename: file.name, format: ext});
-                }
-                catch (err) {
-                    this.fire('data:error', {error: err});
-                }
 
-            }, this);
-            reader.readAsText(file);
-            return reader; //return the document
-        }
+        }, this);
+        reader.readAsText(file);
+        return reader;
     },
 
     _loadGeoJSON: function (content) {
@@ -142,7 +126,7 @@ var FileLoader = L.Class.extend({
             //convert csv to json.
             /*for this function i used the Papa Parser of mholt (https://github.com/mholt/PapaParse)*/
             var json = Papa.parse(content, {header: this.options.headers});
-            this._depth = json.data.length - 1;
+            this._depth = geojson.data.length - 1;
             if (this.options.titlesToInspect.length == 0)this._titles = json.meta.fields;
             else this._titles = this.options.titlesToInspect;
 
@@ -460,80 +444,43 @@ var FileLoader = L.Class.extend({
     },
 
     _gtfsToGeoJSON: function(content){
-        var shapes = Papa.parse(content, {header: this.options.headers});
-        shapes = shapes.data;
-        var lookup = {};
-        var dintintShape = [];
-        for (var item, i = 0; item = shapes[i++];) {
-            var name = item.shape_id;
-            if (!(name in lookup)) {
-                lookup[name] = 1;
-                if(name.length >0)dintintShape.push(name);
-            }
-        }
-        var json = {};
-        for(var shape, i = 0; shape = dintintShape[i++];){
-            if(shape.length >0 && shape !='') { //avoid null object
-                json[shape] = [];
-                for (var k = 0; k < Object.keys(shapes).length; k++) {
-                    if(shapes[k].shape_id == shape)json[shape].push(shapes[k]);
-                }
-            }
-        }
-        json = {
-            type: 'FeatureCollection',
-            features: Object.keys(json).map(function (id) {
-                return {
-                    type: 'Feature',
-                    id: id,
-                    properties: {
-                        shape_id: id
-                    },
-                    geometry: {
-                        type: "GeometryCollection",
-                        geometries: [
-                            {
-                                type: "MultiPoint",
-                                coordinates: (function() {
-                                    var coords =[];
-                                    for(var s =0; s < Object.keys(json[id]).length; s++){
-                                        coords.push([
-                                            parseFloat(json[id][s].shape_pt_lon),
-                                            parseFloat(json[id][s].shape_pt_lat)
-                                        ]);
-                                    }
-                                    return coords;
-                                })()
-                            },
-                            {
-                                type: "LineString",
-                                coordinates: json[id].sort(function (a, b) {
-                                    return +a.shape_pt_sequence - b.shape_pt_sequence;
-                                }).map(function (coord) {
-                                    return [
-                                        parseFloat(coord.shape_pt_lon),
-                                        parseFloat(coord.shape_pt_lat)
-                                    ];
-                                })
-                            }
-                        ]
-                    }
-                };
-            })
-        };
+       /* var shapes = parseCSV(content).reduce(function(memo, row) {
+            memo[row.shape_id] = (memo[row.shape_id] || []).concat(row);
+            return memo;
+        }, {});*/
+        try {
+            var shapes = Papa.parse(content, {header: this.options.headers});
+            alert(JSON.stringify(shapes, undefined, 2));
+            var json = {
+                type: 'FeatureCollection',
+                features: Object.keys(shapes).map(function (id) {
+                    return {
+                        type: 'Feature',
+                        id: id,
+                        properties: {
+                            shape_id: id
+                        },
+                        geometry: {
+                            type: 'LineString',
+                            coordinates: shapes[id].sort(function (a, b) {
+                                return +a.shape_pt_sequence - b.shape_pt_sequence;
+                            }).map(function (coord) {
+                                return [
+                                    parseFloat(coord.shape_pt_lon),
+                                    parseFloat(coord.shape_pt_lat)
+                                ];
+                            })
+                        }
+                    };
+                })
+            };
+        }catch(e){alert(e.message);}
+        alert(JSON.stringify(json,undefined,2));
         return this._loadGeoJSON(json);
     },
 
-    /* ty to kaezarrex ()*/
-    _gtfsZipToGEOJSON: function(file){
-        alert("ssss");
-        parseGtfs(file, {
-            'shapes.txt': load_shapes,
-            //'stops.txt': load_stops
-        });
-        /*var json = map.getLayer(osm);
-        alert("Finally:"+json.toSource());*/
-    },
+
+
 
     _depth: 0,
     _titles: [],
@@ -614,41 +561,39 @@ L.Control.FileLayerLoad = L.Control.extend({
     },
 
     _initContainer: function () {
-        try {
-            // Create a button, and bind click on hidden file input
-            var zoomName = 'leaflet-control-filelayer leaflet-control-zoom',
-                barName = 'leaflet-bar',
-                partName = barName + '-part',
-                container = L.DomUtil.create('div', zoomName + ' ' + barName);
-            var link = L.DomUtil.create('a', zoomName + '-in ' + partName, container);
-            link.innerHTML = L.Control.FileLayerLoad.LABEL;
-            link.href = '#';
-            link.title = L.Control.FileLayerLoad.TITLE;
+        // Create a button, and bind click on hidden file input
+        var zoomName = 'leaflet-control-filelayer leaflet-control-zoom',
+            barName = 'leaflet-bar',
+            partName = barName + '-part',
+            container = L.DomUtil.create('div', zoomName + ' ' + barName);
+        var link = L.DomUtil.create('a', zoomName + '-in ' + partName, container);
+        link.innerHTML = L.Control.FileLayerLoad.LABEL;
+        link.href = '#';
+        link.title = L.Control.FileLayerLoad.TITLE;
 
-            // Create an invisible file input
-            var fileInput = L.DomUtil.create('input', 'hidden', container);
-            fileInput.type = 'file';
-            if (!this.options.formats) {
-                fileInput.accept = '.gpx,.kml,.json,.geojson,.csv,.rdf,.xml,.input,.zip';
-            } else {
-                fileInput.accept = this.options.formats.join(',');
-            }
-            fileInput.style.display = 'none';
-            // Load on file change
-            var fileLoader = this.loader;
-            fileInput.addEventListener("change", function (e) {
-                fileLoader.load(this.files[0]);
-                // reset so that the user can upload the same file again if they want to
-                this.value = '';
-            }, false);
+        // Create an invisible file input
+        var fileInput = L.DomUtil.create('input', 'hidden', container);
+        fileInput.type = 'file';
+        if (!this.options.formats) {
+            fileInput.accept = '.gpx,.kml,.json,,.geojson,.csv,.rdf,.xml,.input,.zip';
+        } else {
+            fileInput.accept = this.options.formats.join(',');
+        }
+        fileInput.style.display = 'none';
+        // Load on file change
+        var fileLoader = this.loader;
+        fileInput.addEventListener("change", function (e) {
+            fileLoader.load(this.files[0]);
+            // reset so that the user can upload the same file again if they want to
+            this.value = '';
+        }, false);
 
-            L.DomEvent.disableClickPropagation(link);
-            L.DomEvent.on(link, 'click', function (e) {
-                fileInput.click();
-                e.preventDefault();
-            });
-            return container;
-        }catch(e){alert(e.message);}
+        L.DomEvent.disableClickPropagation(link);
+        L.DomEvent.on(link, 'click', function (e) {
+            fileInput.click();
+            e.preventDefault();
+        });
+        return container;
     }
 });
 
