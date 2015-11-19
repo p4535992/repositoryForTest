@@ -38,20 +38,24 @@
             height: 30px;
         }
     </style>
+
+
+    <link rel="stylesheet" href="leaflet/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
+  <!--  <script src="leaflet/leaflet-custom-src.js"></script>-->
+  <!--  <script src="leaflet/leaflet.js"></script>-->
+    <!-- OPTIONAL LIBRARY -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
-    <!--<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />
-    <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>-->
-   <!-- <script src="leaflet/leaflet-custom-src.js"></script>-->
-    <script src="gtfsViewer/leaflet.js"></script>
-    <link rel="stylesheet" href="leaflet/leaflet.css">
+    <!-- SUPPORT LIBRARY-->
+    <script src="filelayer/GPX.js"></script>
 
-    <script src="https://cdn.rawgit.com/shramov/leaflet-plugins/d74d67/layer/vector/GPX.js"></script>
     <script src="https://cdn.rawgit.com/mholt/PapaParse/master/papaparse.js"></script>
-    <script src="gtfsViewer/d3.v3.min.js"></script>
-   <!-- <script src="https://cdn.rawgit.com/mbostock/d3/master/d3.js"></script>-->
-    <!--<script src="gtfsViewer/zip.js"></script>-->
+    <!--<script src="https://cdn.rawgit.com/mbostock/d3/master/d3.js"></script>-->
+
     <script src="zip/zip.js"></script>
+
+    <!-- PROJECT LIBRARY -->
     <script src="filelayer/leaflet.filelayer.js"></script>
     <script src="filelayer/togeojson.js"></script>
 </head>
@@ -72,9 +76,9 @@
     var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; 2013 OpenStreetMap contributors'
     });
-    //var map = L.map('map').fitWorld().addLayer(osm);
-    var map = new L.Map("map", {center: [35.78, -78.68], zoom: 13});
-    map.addLayer(osm);
+    var map = L.map('map').fitWorld().addLayer(osm);
+   /* var map = new L.Map("map", {center: [35.78, -78.68], zoom: 13});
+    map.addLayer(osm);*/
     L.Control.FileLayerLoad.LABEL = '<i class="fa fa-folder-open"></i>';
     L.Control.fileLayerLoad({
         fileSizeLimit: 6144,
@@ -83,38 +87,42 @@
         longitudeColumn: 'lng',*/
 
         //TRY OUT XML
-         latitudeColumn: 'Latitude',
-            longitudeColumn: 'Longitude',
-            xmlRooTag: ["Root","Row"],
+        latitudeColumn: 'Latitude',
+        longitudeColumn: 'Longitude',
+        rootTag: ["Root","Row"],
 
-            //TRY OUT RDF/XML
+        //TRY OUT RDF/XML
        /* latitudeColumn: 'geo:lat',
         longitudeColumn: 'geo:long',
         rdfLink: ['gr:hasPOS'],
         rdfAboutLink: 'rdf:about',
-        rdfRootTag: {root:"rdf:RDF",subRoot:"rdf:Description"},*/
+        rootTag: {root:"rdf:RDF",subRoot:"rdf:Description"},*/
+
         popupTable:true,
             layerOptions: {
                 pointToLayer: function (feature, latlng) {
-                    return new L.marker(latlng
-                    );
-                }, onEachFeature:function(feature, layer){
+                    return new L.marker(latlng);
+                },
+                onEachFeature:function(feature, layer){
                     try {
                         var popupContent = '';
                         if (feature.properties && feature.properties.popupContent) {
-                            popupContent += feature.properties.popupContent;
+                            popupContent = feature.properties.popupContent;
                         }
                         layer.bindPopup(popupContent);
-                    }catch(e
-                            ){alert(e.message)
-                    ;}
+                    }catch(e){
+                        alert(e.message);
+                    }
                 }
             }
         }).addTo(map);
+
+
     </script>
 
-   <script src='gtfsViewer/gtfsParser.js'></script>
-   <script src='gtfsViewer/main.js'></script>
+ <!--  <script src='gtfsViewer/gtfsParser.js'></script>
+   <script src='gtfsViewer/main.js'></script>-->
+
 
 </body>
 </html>

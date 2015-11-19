@@ -1,10 +1,10 @@
 (function() {
 
-    zip.workerScriptsPath = './'
+    //zip.workerScriptsPath = './'
 
     var readEntry = function(entry, onend, onprogress) {
         entry.getData(new zip.TextWriter(), onend, onprogress);
-    }
+    };
 
     var getEntries = function(file, callback) {
         zip.createReader(new zip.BlobReader(file), function(zipReader) {
@@ -27,7 +27,6 @@
     };
 
     window.parseGtfs = function(file, actions) {
-        alert(file+","+actions.toSource());
         getEntries(file, function(entries) {
             mapEntries(entries, actions);
         });

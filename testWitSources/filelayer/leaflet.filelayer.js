@@ -6,8 +6,12 @@
  * https://github.com/shramov/leaflet-plugins/blob/d74d67/layer/vector/GPX.js
  * Requires Pavel mholt papaparse.js
  * https://github.com/mholt/PapaParse/blob/master/papaparse.js
- * Requires gildas-lormeau zip.js only if you want to try to load zip archive of GTFS .
- * https://gildas-lormeau.github.io/zip.js/
+ * Requires gildas-lormeau zip.js and mbostock d3.js only if you want to try to load zip archive of GTFS .
+ * https://gildas-lormeau.github.io/zip.js/ , https://github.com/mbostock/d3
+ *
+ *
+ * //TODO try to avoid the use of papaparse in favor of d3
+ * //TODO upgrade the gtfs zip draw on the map
  */
 var FileLoader = L.Class.extend({
     includes: L.Mixin.Events,
@@ -20,15 +24,16 @@ var FileLoader = L.Class.extend({
         titleForSearch: 'title',   //for future integration with other functions...
         titlesToInspect: [],       //if you want get only some specific field from csv and rdf files...
 
-        xmlRooTag: {root: "Root", subRoot:"Row"},  //set the Json path to the collection of json object to inspect...
+        rootTag: {root: "Root", subRoot:"Row"},  //set the Json path to the collection of json object to inspect...
                                                    //you can many subRoot e.g. '...,subRoot2:xxx,subRoot3:yyy'
                                                    //or if you prefer set a Array e.g. ["Root","Row"]
-        rdfRootTag: {root:"rdf:RDF",subRoot:"rdf:Description"}, //set the Json path to the collection of json object to inspect...
+
         rdfLink: [],               //if you want merge the json object created from a rdf file you can specify the property of a link...
         rdfAbout: 'rdf:about',     //the value for the property rdf:about of a rdf file...
         rdfAboutLink: 'rdf:about', //the value for the property rdf:about for linking different classes of triple...
 
         geoJsonLayer: new L.geoJson(),  //make the variable of the jsonlayer reachable from external function...
+
         popupTable:false           //if true all the information of the popup are pushed on a html table for a better view.
                                    //if false is saved on a json object.
     },
@@ -45,7 +50,7 @@ var FileLoader = L.Class.extend({
             'csv': this._papaJsonToGeoJSON,
             'xml': this._XMLToGeoJSON,
             'rdf': this._RDFToGeoJSON,
-            'input': this._gtfsToGeoJSON //basic est for the single file gtfs 'shapes.input'
+            'input': this._gtfsToGeoJSON //basic test for the single file gtfs 'shapes.input'
         };
     },
 
@@ -62,7 +67,7 @@ var FileLoader = L.Class.extend({
 
         // Check file extension
         var ext = file.name.split('.').pop();
-
+        var parser = this._parsers[ext];
         //Check if file is a document or a archive
         if(ext  == "zip"){  //if is a archive
             try {
@@ -75,7 +80,6 @@ var FileLoader = L.Class.extend({
             }
             return this._gtfsZipToGEOJSON(file);
         }else{
-            var parser = this._parsers[ext];
             if (!parser) {  //if is a document
                 this.fire('data:error', {
                     error: new Error('Unsupported file type ' + file.type + '(' + ext + ')')
@@ -105,24 +109,35 @@ var FileLoader = L.Class.extend({
             content = JSON.parse(content);
         }
 
-        if(this.options.geoJsonLayer.getLayers().length > 0){
-            //there are other information to merge to the result....
-            this.options.geoJsonLayer.addLayer(new L.geoJson(content, this.options.layerOptions));
-        }else{
-            this.options.geoJsonLayer = L.geoJson(content, this.options.layerOptions);
+        alert(32);
+        try {
+            var layer = this.options.geoJsonLayer;
+            if (layer.getLayers().length > 0) {
+                alert(33);
+                //there are other information to merge to the result....
+                layer.addLayer(new L.geoJson(content, this.options.layerOptions));
+            } else {
+                alert(34);
+                console.error("load json:"+JSON.stringify(content,undefined,2));
+                layer = L.geoJson(content, this.options.layerOptions);
+            }
+            alert(35);
+            if (layer.getLayers().length === 0) {
+                this.fire('data:error', {
+                    error: new Error('GeoJSON has no valid layers.\n' +
+                        'if you try to load a CSV/RDF/XML file make sure to have setted the corrected name of the columns')
+                });
+            }
+            alert(36);
+            if (this.options.addToMap) {
+                layer.addTo(this._map);
+                //map.addLayer(layer);
+            }
+            alert(37);
+        }catch(e){
+            alert("Error:"+ e.message);
         }
-
-
-        if ( this.options.geoJsonLayer.getLayers().length === 0) {
-            this.fire('data:error', {error: new Error('GeoJSON has no valid layers.\n' +
-                'if you try to load a CSV/RDF/XML file make sure to have setted the corrected name of the columns')});
-        }
-
-        if (this.options.addToMap) {
-            this.options.geoJsonLayer.addTo(this._map);
-            //map.addLayer(layer);
-        }
-        return  this.options.geoJsonLayer;
+        return  layer;
     },
 
     _convertToGeoJSON: function (content, format) {
@@ -139,79 +154,123 @@ var FileLoader = L.Class.extend({
             if (!this.options.headers) {
                 this.fire('data:error', {error: new Error('The file CSV must have the Headers')});
             }
-            //convert csv to json.
-            /*for this function i used the Papa Parser of mholt (https://github.com/mholt/PapaParse)*/
             var json = Papa.parse(content, {header: this.options.headers});
             this._depth = json.data.length - 1;
             if (this.options.titlesToInspect.length == 0)this._titles = json.meta.fields;
             else this._titles = this.options.titlesToInspect;
-
-            json = this._addFeatureToJson(json);
+            delete json.errors;
+            delete json.meta;
+            json = this._addFeatureToJson(json.data);
             return this._loadGeoJSON(json);
         }catch(e){this.fire('data:error', {error: e});}
     },
 
     _addFeatureToJson: function(json){
-        var titles = [];
-        json["type"]="FeatureCollection";
-        json["features"]=[];
-        try {
-            for (var num_linea = 0; num_linea < +this._depth; num_linea++) { //  var depth = papaJson.data.length - 1;
-                var obj = json.data[num_linea]; //single element of papa parse json object
-                if (obj==null || typeof obj === 'undefined') {
-                    console.warn("Ignore line", num_linea, " invalid data");
-                    continue;
-                }
-
-                if (this._titles.length > 0)titles = this._titles;
-                else titles = Object.keys(obj);
-
-                //var fields = titles.toString().trim().split(",");
-
-                var lng = parseFloat(obj[this.options.longitudeColumn]);
-                var lat = parseFloat(obj[this.options.latitudeColumn]);
-                if (!(lng < 180 && lng > -180 && lat < 90 && lat > -90)) {
-                    console.warn("Something wrong with the coordinates, ignore line", num_linea, " invalid data");
-                }else{
-                    var feature = {};
-                    feature["type"] = "Feature";
-                    feature["geometry"] = {};
-                    feature["properties"] = {};
-                    feature["geometry"] = {"type": "Point", "coordinates": [lng, lat]};
-                    var content = {};
-                    if(this.options.popupTable){
-                        content = '<div class="popup-content"><table class="table table-striped table-bordered table-condensed">';
-                    }
-                    for (var i = 0; i < titles.length; i++) {
-                        if (titles[i] != this.options.latitudeColumn && titles[i] != this.options.longitudeColumn) {
-                            if (titles[i] == this.options.titleForSearch) {
-                                feature["properties"]["search"] = this._deleteDoubleQuotes(obj[titles[i]]);
-                                feature["properties"]["titles"] = this._deleteDoubleQuotes(obj[titles[i]]);
-                            } else {
-                                feature["properties"][titles[i]] = this._deleteDoubleQuotes(obj[titles[i]]);
-                                if(this.options.popupTable) {
-                                    var href = '';
-                                    if (obj[titles[i]].indexOf('http') === 0) {
-                                        href = '<a target="_blank" href="' + obj[titles[i]] + '">' + obj[titles[i]] + '</a>';
-                                    }
-                                    if (href.length > 0)content += '<tr><th>' + titles[i] + '</th><td>' + href + '</td></tr>';
-                                    else content += '<tr><th>' + titles[i] + '</th><td>' + obj[titles[i]] + '</td></tr>';
-                                }else{
-                                    content[titles[i]] = obj[titles[i]];
-                                }
-                            }
-                        }//end of if
-                    }//end of for
-                    if(this.options.popupTable)content += "</table></div>";
-                    feature["properties"]["popupContent"] = content;
-                    json["features"].push(feature);
-                }
-            }//for
-        }catch(e){
-            this.fire('data:error', {error: e});
+        //be sure we have a json array of object of objects
+        if(json === null || typeof json === 'undefined' || Object.keys(json).length==0){
+            console.error("Be sure to add the feature geojson to a Array or a Object of objects.");
+            return;
         }
-        delete json.data;
+
+        var titles = this._titles;
+        var columnLat =this.options.latitudeColumn;
+        var columnLng = this.options.longitudeColumn;
+        var popupTable = this.options.popupTable;
+try {
+
+    json = {
+        type: "FeatureCollection",
+        features: Object.keys(json).map(function (id) {
+            //id 0,1,2,3,4,5,.....
+            var obj = json[id];
+            if (obj === null || typeof obj === 'undefined' || id >= Object.keys(json).length - 1) {
+                console.warn("Ignore line ", id, " invalid data");
+                return;
+            } else {
+                //check now only the feature with correct coordinate
+                var lng = obj[columnLng].toString();
+                var lat = obj[columnLat].toString();
+                try {
+                    if (/[a-z]/.test(lng.toLowerCase()) || /[a-z]/.test(lat.toLowerCase()) ||
+                        isNaN(lng) || isNaN(lat) || !isFinite(lng) || !isFinite(lat)) {
+                        console.error("Coords lnglat:[" + lng + "," + lat + "] ,id:" + id);
+                        return;
+                    }
+
+                    lng = parseFloat(obj[columnLng]);
+                    lat = parseFloat(obj[columnLat]);
+                    //if(id==66)alert("Special id -> lat:"+lat+",lng:"+lng);
+                    if (!(lng < 180 && lng > -180 && lat < 90 && lat > -90)) {
+                        console.warn("Something wrong with the coordinates, ignore line", id, " invalid data");
+                    }
+                } catch (e) {
+                    //try with the string
+                    try {
+                        if (!(isFinite(lng) && isFinite(lat))) {
+                            console.warn("Coords:" + lng + "," + lat + ",id:" + id);
+                            return;
+                        }
+                    } catch (e) {
+                        console.error("Not valid coordinates avoid this line ->" + "Coords:" + lng + "," + lat + ",id:" + id);
+                        return;
+                    }
+                }
+
+                //if you not have setted a specific set of columns just get everything
+                if (!titles.length > 0)titles = Object.keys(obj);
+                return {
+                    type: 'Feature',
+                    properties: {
+                        id: id,
+                        //integration for search
+                        title: (function () {
+                            for (var search, i = 0; search = titles[i++];) {
+                                if (titles[i] == search)  return obj[search];
+                            }
+                            return id;
+                        })(),
+                        popupContent: (function () {
+                            var content = '';
+                            if (popupTable) {
+                                content = '<div class="popup-content"><table class="table table-striped table-bordered table-condensed">';
+                            }
+                            for (var title, i = 0; title = titles[i++];) {
+                                try {
+                                    if (popupTable) {
+                                        var href = '';
+                                        if (obj[title].indexOf('http') === 0) {
+                                            href = '<a target="_blank" href="' + obj[title] + '">' + obj[title] + '</a>';
+                                        }
+                                        if (href.length > 0)content += '<tr><th>' + title + '</th><td>' + href + '</td></tr>';
+                                        else content += '<tr><th>' + title + '</th><td>' + obj[title] + '</td></tr>';
+                                    } else {
+                                        content[title] = obj[title];
+                                    }
+                                } catch (e) {
+                                    return content = '';
+                                }
+                            }//for
+                            if (popupTable)content += "</table></div>";
+                            return content;
+                        })()
+                    },
+                    geometry: {
+                        type: "Point",
+                        coordinates: (function () {
+                            //alert("Special id -> lat:"+lat+",lng:"+lng);
+                            return [lng, lat];
+                        })()
+                    }
+                };
+            }
+        })
+    };
+}catch(e){alert(e.message);}
+        alert("1111111:"+JSON.stringify(json,undefined,2));
+        this._removeNullJson(json);
+        alert("SSSS:\n"+JSON.stringify(json,undefined,2));
         return json;
+
     },
 
     _deleteDoubleQuotes: function (text) {
@@ -220,26 +279,28 @@ var FileLoader = L.Class.extend({
     },
 
     _RDFToGeoJSON: function(content) {
-        var xml = this._toXML(content);
-        var json = this._XMLToJSON(xml);
+        try {
+            var xml = this._toXML(content);
+            var json = this._XMLToJSON(xml);
 
-        for(var i = 0; i < Object.keys(this.options.rdfRootTag).length; i++){
-            json = json[this.options.rdfRootTag[Object.keys(this.options.rdfRootTag)[i]]];
-        }
-
-        this._simplifyJson(json);
-        this._mergeRdfJson(this._root.data);
-        //Filter result, get all object with at least coordinates...
-        for(i = 0; i < this._root.data.length; i++){
-            if(!(this._root.data[i].hasOwnProperty(this.options.latitudeColumn) &&
-                this._root.data[i].hasOwnProperty(this.options.longitudeColumn))
-            ){
-                delete this._root.data[i];
+            for (var i = 0; i < Object.keys(this.options.rootTag).length; i++) {
+                json = json[this.options.rootTag[Object.keys(this.options.rootTag)[i]]];
             }
-        }
-        this._depth = this._root.data.length;
-        json = this._addFeatureToJson(this._root);
-        return this._loadGeoJSON(json);
+
+            this._simplifyJson(json);
+            this._mergeRdfJson(this._root.data);
+            //Filter result, get all object with at least coordinates...
+            for (i = 0; i < this._root.data.length; i++) {
+                if (!(this._root.data[i].hasOwnProperty(this.options.latitudeColumn) &&
+                    this._root.data[i].hasOwnProperty(this.options.longitudeColumn))
+                ) {
+                    delete this._root.data[i];
+                }
+            }
+            this._depth = this._root.data.length;
+            json = this._addFeatureToJson(this._root.data);
+            return this._loadGeoJSON(json);
+        }catch(e){alert(e.message);}
     },
 
     _toXML:function(content){
@@ -315,12 +376,12 @@ var FileLoader = L.Class.extend({
         var xml = this._toXML(content);
         var json = this._XMLToJSON(xml);
 
-        for(var i = 0; i < Object.keys(this.options.xmlRooTag).length; i++){
-            json = json[this.options.xmlRooTag[Object.keys(this.options.xmlRooTag)[i]]];
+        for(var i = 0; i < Object.keys(this.options.rootTag).length; i++){
+            json = json[this.options.rootTag[Object.keys(this.options.rootTag)[i]]];
         }
 
         this._simplifyJson(json);
-
+        alert(3);
         //Filter result, get all object with at least coordinates...
         for(i = 0; i < this._root.data.length; i++){
             if(!(this._root.data[i].hasOwnProperty(this.options.latitudeColumn) &&
@@ -329,9 +390,10 @@ var FileLoader = L.Class.extend({
                 delete this._root.data[i];
             }
         }
-
         this._depth = this._root.data.length;
-        json = this._addFeatureToJson(this._root);
+
+        json = this._addFeatureToJson(this._root.data);
+        alert("aaaa:"+JSON.stringify(json,undefined,2));
         return this._loadGeoJSON(json);
     },
 
@@ -342,7 +404,6 @@ var FileLoader = L.Class.extend({
                     'e.g. xmlRootTag:["sopme","pathTo","Array"], we need a json array')
             });
             return;
-
         }
         var root = {data: []};
         for (var i = 0; i < Object.keys(json).length; i++) {  //406 object
@@ -459,6 +520,15 @@ var FileLoader = L.Class.extend({
         return json1;
     },
 
+    _removeNullJson: function(json){
+        // Compact arrays with null entries; delete keys from objects with null value
+        var isArray = json instanceof Array;
+        for (var k in json){
+            if (json[k]===null || typeof json[k] === 'undefined') isArray ? json.splice(k,1) : delete json[k];
+            else if (typeof json[k]=="object") this._removeNullJson(json[k]);
+        }
+    },
+
     _gtfsToGeoJSON: function(content){
         var shapes = Papa.parse(content, {header: this.options.headers});
         shapes = shapes.data;
@@ -526,13 +596,10 @@ var FileLoader = L.Class.extend({
 
     /* ty to kaezarrex ()*/
     _gtfsZipToGEOJSON: function(file){
-        alert("ssss");
         parseGtfs(file, {
             'shapes.txt': load_shapes,
             //'stops.txt': load_stops
         });
-        /*var json = map.getLayer(osm);
-        alert("Finally:"+json.toSource());*/
     },
 
     _depth: 0,
@@ -567,7 +634,11 @@ L.Control.FileLayerLoad = L.Control.extend({
             // Fit bounds after loading
             if (this.options.fitBounds) {
                 window.setTimeout(function () {
-                    map.fitBounds(e.layer.getBounds());
+                   /* if(e.layer.getBounds().toString() =={}) {
+                     console.error("Are you sure to set the correct latitudeColumn and longitudeColumn name???");
+                     map.fitBounds(new L.Bounds(new L.point(10, 10),new L.point(40, 60)))
+                     }*/
+                     map.fitBounds(e.layer.getBounds());
                 }, 500);
             }
         }, this);

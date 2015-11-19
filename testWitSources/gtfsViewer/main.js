@@ -9,19 +9,6 @@ var maxLng;
 
 var strokeWidth = 3;
 
-
-/*var map = new L.Map("map", {center: [35.78, -78.68], zoom: 13});
-var layer = L.tileLayer('http://c.tiles.mapbox.com/v3/examples.map-szwdot65/{z}/{x}/{y}.png', { // NON MALE
-    attribution: 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2012 CloudMade',
-    key: 'BC9A493B41014CAABB98F0471D759707',
-    subdomains: ['otile1', 'otile2', 'otile3', 'otile4'],
-    //minZoom: 8,
-    maxZoom: 18
-});
-var layer2 = new L.StamenTileLayer("toner-lite");
-map.addLayer(layer);*/
-
-
 var svg = d3.select(map.getPanes().overlayPane).append("svg"),
     stopHuskGroup = svg.append("g").attr("class", "stop-husk-group leaflet-zoom-hide"),
     shapeHuskGroup = svg.append("g").attr("class", "shape-husk-group leaflet-zoom-hide"),
@@ -35,13 +22,13 @@ var projectPoint = function(point) {
         pointCache[key] = map.latLngToLayerPoint(new L.LatLng(point[0], point[1]));
     }
     return pointCache[key];
-}
+};
 
 var color = d3.scale.category20();
 
 var line = d3.svg.line()
     .x(function(d) { return projectPoint([d.lat, d.lon]).x; })
-    .y(function(d) { return projectPoint([d.lat, d.lon]).y; })
+    .y(function(d) { return projectPoint([d.lat, d.lon]).y; });
 
 var drawShapes = function(shapeRows) {
   pointCache = {};
@@ -76,7 +63,7 @@ var drawShapes = function(shapeRows) {
   shapeGroup.attr("transform", "translate(" + -topLeft.x + "," + -topLeft.y + ")");
 
   shapeHusk = shapeHuskGroup.selectAll('.husk')
-  .data(d3.entries(shapes), function(d) { return d.key; })
+  .data(d3.entries(shapes), function(d) { return d.key; });
 
   shapeHusk.enter().append('path')
   .attr('class', 'husk')
@@ -91,7 +78,7 @@ var drawShapes = function(shapeRows) {
   shapeHusk.exit().remove();
 
   feature = shapeGroup.selectAll('.feature')
-  .data(d3.entries(shapes), function(d) { return d.key; })
+  .data(d3.entries(shapes), function(d) { return d.key; });
 
   feature.enter().append('path')
   .attr('class', 'feature')
@@ -134,7 +121,7 @@ var resetShapes = function() {
 
   feature.attr("d", function(d) { return line(d.value); })
   .style({'stroke-width': strokeWidth});
-}
+};
 
 var drawStops = function(data) {
   pointCache = {};
@@ -154,7 +141,7 @@ var drawStops = function(data) {
   stopGroup.attr("transform", "translate(" + -topLeft.x + "," + -topLeft.y + ")");
 
   stopHusk = stopHuskGroup.selectAll('.stop-husk')
-  .data(data, function(d) { return d.id; })
+  .data(data, function(d) { return d.id; });
 
   stopHusk.enter().append('circle')
   .attr('class', 'stop-husk')
@@ -166,7 +153,7 @@ var drawStops = function(data) {
   stopHusk.exit().remove();
 
   stopMarker = stopGroup.selectAll('.stop')
-  .data(data, function(d) { return d.id; })
+  .data(data, function(d) { return d.id; });
 
   stopMarker.enter().append('circle')
   .attr('class', 'stop')
@@ -196,7 +183,7 @@ var resetStops = function() {
 
   stopHusk.attr('r', strokeWidth * 2)
   .attr('cx', function(d) { return projectPoint([d.lat, d.lon]).x; })
-  .attr('cy', function(d) { return projectPoint([d.lat, d.lon]).y; })
+  .attr('cy', function(d) { return projectPoint([d.lat, d.lon]).y; });
 
   stopMarker.attr('r', strokeWidth)
   .attr('cx', function(d) { return projectPoint([d.lat, d.lon]).x; })
@@ -246,21 +233,6 @@ var load_stops = function(csv) {
     var data = d3.csv.parse(csv, cleanStopRow);
     drawStops(data);
 };
-
-var upload_button = function(el) {
-    var uploader = document.getElementById(el);
-
-    var handleFiles = function() {
-        parseGtfs(this.files[0], {
-            'shapes.txt': load_shapes,
-            //'stops.txt': load_stops
-        });
-    };
-
-    uploader.addEventListener("change", handleFiles, false);
-};
-
-upload_button("uploader");
 
 map.on('viewreset', function() {
     resetShapes();
