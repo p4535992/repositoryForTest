@@ -108,32 +108,28 @@ var FileLoader = L.Class.extend({
         if (typeof content == 'string') {
             content = JSON.parse(content);
         }
-
-        alert(32);
+        console.info(JSON.stringify(content,undefined,2));
         try {
             var layer = this.options.geoJsonLayer;
             if (layer.getLayers().length > 0) {
-                alert(33);
                 //there are other information to merge to the result....
                 layer.addLayer(new L.geoJson(content, this.options.layerOptions));
             } else {
-                alert(34);
-                console.error("load json:"+JSON.stringify(content,undefined,2));
-                layer = L.geoJson(content, this.options.layerOptions);
+                //console.error("load json:"+JSON.stringify(content,undefined,2));
+                try {
+                    layer = L.geoJson(content, this.options.layerOptions);
+                }catch(e){ console.error(e.message);}
             }
-            alert(35);
             if (layer.getLayers().length === 0) {
                 this.fire('data:error', {
                     error: new Error('GeoJSON has no valid layers.\n' +
                         'if you try to load a CSV/RDF/XML file make sure to have setted the corrected name of the columns')
                 });
             }
-            alert(36);
             if (this.options.addToMap) {
                 layer.addTo(this._map);
                 //map.addLayer(layer);
             }
-            alert(37);
         }catch(e){
             alert("Error:"+ e.message);
         }
@@ -176,106 +172,93 @@ var FileLoader = L.Class.extend({
         var columnLat =this.options.latitudeColumn;
         var columnLng = this.options.longitudeColumn;
         var popupTable = this.options.popupTable;
-try {
 
-    json = {
-        type: "FeatureCollection",
-        features: Object.keys(json).map(function (id) {
-            //id 0,1,2,3,4,5,.....
-            var obj = json[id];
-            if (obj === null || typeof obj === 'undefined' || id >= Object.keys(json).length - 1) {
-                console.warn("Ignore line ", id, " invalid data");
-                return;
-            } else {
-                //check now only the feature with correct coordinate
-                var lng = obj[columnLng].toString();
-                var lat = obj[columnLat].toString();
-                try {
-                    if (/[a-z]/.test(lng.toLowerCase()) || /[a-z]/.test(lat.toLowerCase()) ||
-                        isNaN(lng) || isNaN(lat) || !isFinite(lng) || !isFinite(lat)) {
-                        console.error("Coords lnglat:[" + lng + "," + lat + "] ,id:" + id);
-                        return;
-                    }
+        json = {
+            type: "FeatureCollection",
+            features: Object.keys(json).map(function (id) {
+                //id 0,1,2,3,4,5,.....
+                var obj = json[id];
+                if (obj === null || typeof obj === 'undefined' || id >= Object.keys(json).length - 1) {
+                    console.warn("Ignore line ", id, " invalid data");
+                    return;
+                } else {
+                    //if you not have setted a specific set of columns just get everything
+                    if (!titles.length > 0)titles = Object.keys(obj);
 
-                    lng = parseFloat(obj[columnLng]);
-                    lat = parseFloat(obj[columnLat]);
-                    //if(id==66)alert("Special id -> lat:"+lat+",lng:"+lng);
-                    if (!(lng < 180 && lng > -180 && lat < 90 && lat > -90)) {
-                        console.warn("Something wrong with the coordinates, ignore line", id, " invalid data");
-                    }
-                } catch (e) {
-                    //try with the string
-                    try {
-                        if (!(isFinite(lng) && isFinite(lat))) {
-                            console.warn("Coords:" + lng + "," + lat + ",id:" + id);
-                            return;
-                        }
-                    } catch (e) {
-                        console.error("Not valid coordinates avoid this line ->" + "Coords:" + lng + "," + lat + ",id:" + id);
-                        return;
-                    }
-                }
-
-                //if you not have setted a specific set of columns just get everything
-                if (!titles.length > 0)titles = Object.keys(obj);
-                return {
-                    type: 'Feature',
-                    properties: {
-                        id: id,
-                        //integration for search
-                        title: (function () {
-                            for (var search, i = 0; search = titles[i++];) {
-                                if (titles[i] == search)  return obj[search];
-                            }
-                            return id;
-                        })(),
-                        popupContent: (function () {
-                            var content = '';
-                            if (popupTable) {
-                                content = '<div class="popup-content"><table class="table table-striped table-bordered table-condensed">';
-                            }
-                            for (var title, i = 0; title = titles[i++];) {
-                                try {
-                                    if (popupTable) {
-                                        var href = '';
-                                        if (obj[title].indexOf('http') === 0) {
-                                            href = '<a target="_blank" href="' + obj[title] + '">' + obj[title] + '</a>';
+                    return {
+                        type: 'Feature',
+                        properties: {
+                            id: id,
+                            //integration for search
+                            title: (function () {
+                                for (var search, i = 0; search = titles[i++];) {
+                                    if (titles[i] == search)  return obj[search];
+                                }
+                                return id;
+                            })(),
+                            popupContent: (function () {
+                                var content = '';
+                                if (popupTable) {
+                                    content = '<div class="popup-content"><table class="table table-striped table-bordered table-condensed">';
+                                }
+                                for (var title, i = 0; title = titles[i++];) {
+                                    try {
+                                        if (popupTable) {
+                                            var href = '';
+                                            if (obj[title].indexOf('http') === 0) {
+                                                href = '<a target="_blank" href="' + obj[title] + '">' + obj[title] + '</a>';
+                                            }
+                                            if (href.length > 0)content += '<tr><th>' + title + '</th><td>' + href + '</td></tr>';
+                                            else content += '<tr><th>' + title + '</th><td>' + obj[title] + '</td></tr>';
+                                        } else {
+                                            content[title] = obj[title];
                                         }
-                                        if (href.length > 0)content += '<tr><th>' + title + '</th><td>' + href + '</td></tr>';
-                                        else content += '<tr><th>' + title + '</th><td>' + obj[title] + '</td></tr>';
-                                    } else {
-                                        content[title] = obj[title];
+                                    } catch (e) {
+                                        return content = '';
+                                    }
+                                }//for
+                                if (popupTable)content += "</table></div>";
+                                return content;
+                            })()
+                        },
+                        geometry: {
+                            type: "Point",
+                            coordinates: (function () {
+                                //check now only the feature with correct coordinate
+                                var lng = obj[columnLng].toString();
+                                var lat = obj[columnLat].toString();
+                                try {
+                                    if (/[a-z]/.test(lng.toLowerCase()) || /[a-z]/.test(lat.toLowerCase()) ||
+                                        isNaN(lng) || isNaN(lat) || !isFinite(lng) || !isFinite(lat)) {
+                                        console.warn("Coords lnglat:[" + lng + "," + lat + "] ,id:" + id);
+                                        return;
+                                    }else{
+                                        lng = parseFloat(obj[columnLng]);
+                                        lat = parseFloat(obj[columnLat]);
+                                        if (!(lng < 180 && lng > -180 && lat < 90 && lat > -90)) {
+                                            console.warn("Something wrong with the coordinates, ignore line", id, " invalid data");
+                                            return;
+                                        }
                                     }
                                 } catch (e) {
-                                    return content = '';
+                                    //try with the string
+                                    console.warn("Not valid coordinates avoid this line ->" + "Coords:" + lng + "," + lat + ",id:" + id);
+                                    return;
                                 }
-                            }//for
-                            if (popupTable)content += "</table></div>";
-                            return content;
-                        })()
-                    },
-                    geometry: {
-                        type: "Point",
-                        coordinates: (function () {
-                            //alert("Special id -> lat:"+lat+",lng:"+lng);
-                            return [lng, lat];
-                        })()
-                    }
-                };
-            }
-        })
-    };
-}catch(e){alert(e.message);}
-        alert("1111111:"+JSON.stringify(json,undefined,2));
-        this._removeNullJson(json);
-        alert("SSSS:\n"+JSON.stringify(json,undefined,2));
+                                //alert("Special id -> lat:"+lat+",lng:"+lng);
+                                return [lng, lat];
+                            })()
+                        }
+                    };
+                }//if obj is not null
+            })
+        };
+
+        this._cleanJson(json);
+        console.error("Clean\n:"+JSON.stringify(json,undefined,2));
+        alert("90");
         return json;
 
-    },
-
-    _deleteDoubleQuotes: function (text) {
-        text = text.trim().replace(/^"/,"").replace(/"$/,"");
-        return text;
     },
 
     _RDFToGeoJSON: function(content) {
@@ -381,7 +364,6 @@ try {
         }
 
         this._simplifyJson(json);
-        alert(3);
         //Filter result, get all object with at least coordinates...
         for(i = 0; i < this._root.data.length; i++){
             if(!(this._root.data[i].hasOwnProperty(this.options.latitudeColumn) &&
@@ -391,9 +373,7 @@ try {
             }
         }
         this._depth = this._root.data.length;
-
         json = this._addFeatureToJson(this._root.data);
-        alert("aaaa:"+JSON.stringify(json,undefined,2));
         return this._loadGeoJSON(json);
     },
 
@@ -524,8 +504,18 @@ try {
         // Compact arrays with null entries; delete keys from objects with null value
         var isArray = json instanceof Array;
         for (var k in json){
-            if (json[k]===null || typeof json[k] === 'undefined') isArray ? json.splice(k,1) : delete json[k];
+            if (json[k]==null || typeof json[k] === 'undefined') isArray ? json.splice(k,1) : delete json[k];
             else if (typeof json[k]=="object") this._removeNullJson(json[k]);
+        }
+    },
+
+    _cleanJson: function(json){
+        this._removeNullJson(json);
+        var i = json.features.length;
+        while(i--){
+            if( typeof json.features[i] === 'undefined' || !json.features[i].geometry.hasOwnProperty("coordinates")){
+                json.features.splice(i,1);
+            }
         }
     },
 
@@ -602,11 +592,13 @@ try {
         });
     },
 
+
+    /*  future integration with ajax call */
     _depth: 0,
     _titles: [],
     _root:{}
 
-});
+    });
 
 
 L.Control.FileLayerLoad = L.Control.extend({
@@ -634,10 +626,6 @@ L.Control.FileLayerLoad = L.Control.extend({
             // Fit bounds after loading
             if (this.options.fitBounds) {
                 window.setTimeout(function () {
-                   /* if(e.layer.getBounds().toString() =={}) {
-                     console.error("Are you sure to set the correct latitudeColumn and longitudeColumn name???");
-                     map.fitBounds(new L.Bounds(new L.point(10, 10),new L.point(40, 60)))
-                     }*/
                      map.fitBounds(e.layer.getBounds());
                 }, 500);
             }
