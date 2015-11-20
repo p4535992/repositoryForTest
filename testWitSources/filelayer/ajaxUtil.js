@@ -43,15 +43,20 @@ ajax.send = function(url, callback, method, data, sync,contentType) {
     x.open(method, url, sync);
     x.onreadystatechange = function() {
         if (x.readyState == XMLHttpRequest.DONE ) {
-            if(x.status == 200){
-                /*var responseText = x.responseText;
-                var scripts, scriptsFinder=/<script[^>]*>([\s\S]+)<\/script>/gi;
-                while(scripts=scriptsFinder.exec(responseText)) {
-                    callback.call(window,scripts[1]);
-                }*/
-                //callback.call();
+            if(x.status == 200 || window.location.href.indexOf("http") == -1){
                 callback(x.responseText)
-                //ajax.wait(callback(x.responseText));
+                var jsondata = eval("(" + x.responseText + ")"); //retrieve result as an JavaScript object
+                if (jsondata.meta.code == 200) {
+                    var info = jsondata.response.groups[0];
+                    //..check if exists a correct json reaponse
+                    if (typeof info != 'undefined') {
+                        alert("info:" + info);
+                    } else {
+                        alert("Error on the content of the json response of the server");
+                    }
+                } else {
+                    alert("Error on the response from the server");
+                }//...if meta code request 200
                if(JSON.stringify(x.responseText,undefined,2)!= 'undefined' &&
                     JSON.stringify(x.responseText,undefined,2)!= '{}') {
                     //alert("xxxxxx" + JSON.stringify(x.responseText, undefined, 2));
@@ -152,9 +157,70 @@ ajax._validateGeoJson = function(json){
         json = JSON.stringify(json, undefined, 2);
         json = JSON.parse(json);
     }
-    ajax.post('http://geojsonlint.com/validate', json, function (data) {
+    ajax.post('http://geojsonlint.com/validate', json, function () {
         ajax.processSuccess(data);
     }, true, 'json');
     return ajax.result;
 };
 
+/**..if you use jquery*/
+function GETWithJQuery(URL){
+    var javaMarker;
+    if(arrayMarkerVar.length >0 ) {
+        //alert("exists a marker on the array!!")
+        removeClusterMarker();
+    }
+    $.getJSON(URL, function(jsonData) {
+        //alert( "Data Loaded from url:"+ URL + " = "+ data );
+        alert( "Data Loaded 2: " + jsonData);
+        /*
+         var sayingsList = [];
+         $.each(data, function(key, val) {
+         sayingsList.push('<li>' + val + '</li>');
+         });
+         $('<ul/>', {
+         html: sayingsList.join('')
+         }).appendTo('#div4');*/
+    }).done(function(data) {
+        //$('#div4').append('getJSON request succeeded! </li>');
+        try {
+            //...test with response from google api
+            var jsonString = JSON.stringify(data);
+            alert( "JSON STRING: " + jsonString );
+            if ($.isEmptyObject(data.results))
+            {
+                alert("Json array is empty: " + data.results[0]);
+            }
+            //http://stackoverflow.com/questions/13382364/jquery-and-json-array-how-to-check-if-array-is-empty-or-undefined
+            else if (data.results == undefined || data.results == null || data.results.length == 0
+                || (data.results.length == 1 && data.results[0] == "")){
+                alert("Json array is empty 2: " + data.results[0]);
+            }
+            else {
+                //alert("Data Loaded: " + data.results[0]);
+            }
+            var name = data.results[0].address_components[0].long_name;
+            var lat = data.results[0].geometry.location.lat;
+            var lng = data.results[0].geometry.location.lng;
+            //alert("NAME:"+ name +",COORDINATES:["+ lat +","+ lng +"]");
+            javaMarker = addSingleMarker(name,URL,lat,lng);
+            alert("getJSON request succeeded!");
+            return javaMarker;
+        }catch(e){
+            alert(e.message );
+            alert( "getJSON request failed!");
+            //jsonData = $.parseJSON(data);
+        }
+        return javaMarker = {name:null, url:null, latitudine:null,longitudine:null};
+    })
+        .fail(function() {
+            //$('#div4').append('getJSON request failed! </li>');
+            alert( "getJSON request failed!");
+            return javaMarker = {name:null, url:null, latitudine:null,longitudine:null};
+        })
+        .always(function() {
+            //$('#div4').append('getJSON request ended! </li></li>');
+            alert( "getJSON request ended!" );
+        });
+
+}//...askForPlotsWith JQUERY 2
