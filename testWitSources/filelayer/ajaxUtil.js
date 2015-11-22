@@ -13,6 +13,7 @@
 
 */
 var ajax = {};
+ajax.result = {response: {}, isCorrect: false};
 
 ajax.x = function() {
     if (typeof XMLHttpRequest !== 'undefined') {
@@ -31,52 +32,60 @@ ajax.x = function() {
     for(var i = 0; i < versions.length; i++) {
         try {
             xhr = new ActiveXObject(versions[i]);
-            break;
-        } catch (e) {
-        }
+            return xhr;
+        } catch (e) {}
     }
-    return xhr;
+    if(window.XMLHttpRequest) return new XMLHttpRequest(); // if Mozilla, Safari etc
+    else return false;
+
 };
 
-ajax.send = function(url, callback, method, data, sync,contentType) {
-    var x = ajax.x();
-    x.open(method, url, sync);
-    x.onreadystatechange = function() {
-        if (x.readyState == XMLHttpRequest.DONE ) {
-            if(x.status == 200 || window.location.href.indexOf("http") == -1){
-                callback(x.responseText)
-                var jsondata = eval("(" + x.responseText + ")"); //retrieve result as an JavaScript object
-                if (jsondata.meta.code == 200) {
-                    var info = jsondata.response.groups[0];
-                    //..check if exists a correct json reaponse
-                    if (typeof info != 'undefined') {
-                        alert("info:" + info);
-                    } else {
-                        alert("Error on the content of the json response of the server");
-                    }
-                } else {
-                    alert("Error on the response from the server");
-                }//...if meta code request 200
-               if(JSON.stringify(x.responseText,undefined,2)!= 'undefined' &&
-                    JSON.stringify(x.responseText,undefined,2)!= '{}') {
-                    //alert("xxxxxx" + JSON.stringify(x.responseText, undefined, 2));
-                    ajax.result = x.responseText;
-                }
-                //ajax.result = x.responseText;
-                //document.getElementById("myDiv").innerHTML = x.responseText;
-            }
-            else if(x.status == 400) {
-                console.error('There was an error 400')
-            }
-            else {
-                console.error('something else other than 200 was returned')
+ajax.send = function(url, callback, method, data, sync,dataType) {
+    return new Promise(function(resolve, reject) {
+        var x = ajax.x();
+        //If you directly use a XMLHTTPRequest object, pass false as third argument to .open.
+        x.open(method, url, sync);
+        if (method == 'POST') {
+            if (dataType.toLowerCase() == 'json'){
+                x.setRequestHeader('Content-type', 'application/json; charset=utf-8;');
             }
         }
-    };
-    if (method == 'POST') {
-        if(contentType.toLowerCase()=='json')x.setRequestHeader('Content-type', 'application/json; charset=utf-8;');
-    }
-    x.send(data)
+        x.onreadystatechange = function () {
+            if (x.readyState == XMLHttpRequest.DONE) {
+                if (x.status == 200 || window.location.href.indexOf("http") == -1) {
+                    // Success!
+                    //ajax.result = JSON.parse(this.responseText);
+
+                    //x.onload = function () {
+                        /*if (typeof x.responseText != 'undefined') {
+                            console.info("info:" + JSON.stringify(x.responseText, undefined, 2));
+                        } else {
+                            console.error("Error on the content of the json response of the server");
+                            callback(false);
+                        }   */
+                        // when the request is loaded
+                        callback(JSON.parse(this.responseText));
+                        //callback(x.responseText);
+                    //};
+                    //var jsondata = eval(x.responseText); //retrieve result as an JavaScript object
+                    //alert("info:" + JSON.stringify(jsondata, undefined, 2));
+
+                    //ajax.result = x.responseText;
+                    //document.getElementById("myDiv").innerHTML = x.responseText;
+                }
+                else if (x.status == 400){
+                    console.error('There was an error 400');
+                    callback(false);
+                }
+                else{
+                    console.error('something else other than 200 was returned');
+                    callback(false);
+                }
+            }
+        };
+        //x.send(data) ??
+        x.send();
+    });
 };
 
 ajax.get = function(url, data, callback, sync) {
@@ -88,61 +97,56 @@ ajax.get = function(url, data, callback, sync) {
 };
 
 ajax.post = function(url, data, callback, sync,dataType) {
-    if(ajax.flag==false) {
-        ajax.flag =true;
-        if (ajax.checkJQuery()) {
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: data,
-                dataType: dataType.toLowerCase(),
-                success: ajax.processSuccess,
-                error: ajax.processError
-            });
-        } else {
-            var query = [];
-            for (var key in data) {
-                query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
-            }
-            ajax.send(url, callback, 'POST', query.join('&'), sync, dataType)
+    if (ajax.checkJQuery) {
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: data,
+            dataType: dataType.toLowerCase(),
+            success: ajax.processSuccess,
+            error: ajax.processError
+        });
+    }else {
+        var query = [];
+        for (var key in data) {
+            query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
         }
+        ajax.send(url, function(result){
+            console.info("Response send:"+result.toString());
+            callback(result);
+        }, 'POST', query.join('&'), sync, dataType)
+        .then(function(result) {
+            console.info("Response send:"+result.toString());
+            // Code depending on result
+           callback(result);
+        }).catch(function() {
+            // An error occurred
+        });
     }
-
 };
 
 ajax.processSuccess = function(data) {
-    window.setTimeout(function () {
-        if (JSON.stringify(ajax.result,undefined,2) == '{}' || typeof ajax.result === 'undefined') {
-            if (data.status === 'ok') {
-                alert('You just posted some valid GeoJSON!');
-                ajax.result = true;
-            } else if (data.status === 'error') {
-                if (data.message == 'Data was not JSON serializeable.') {
-                    //ignore this error
-                    ajax.result = true;
-                } else {
-                    alert('There was a problem with your GeoJSON: ' + data.message);
-                    ajax.result = false;
-                }
-            }
+    ajax.result.response = data;
+    if (data.status === 'ok') {
+        console.info('You just posted some valid GeoJSON!');
+        ajax.result.isCorrect = true;
+    } else if (data.status === 'error') {
+        if (data.message == 'Data was not JSON serializeable.') {
+            //ignore this error
+            ajax.result.isCorrect = true;
+        } else {
+            console.info('There was a problem with your GeoJSON: ' + data.message);
+            ajax.result.isCorrect = false;
         }
-    },500)
-
-
+    }
 };
 
 ajax.processError = function(){
-    alert('There was a problem with your ajax.');
-    ajax.result = false;
+    console.info('There was a problem with your ajax.');
+    ajax.result.isCorrect = false;
 };
 
-ajax.checkJQuery = function() {
-    return (window.jQuery || typeof jQuery != 'undefined'); // jQuery is not loaded
-
-};
-
-ajax.result = {};
-ajax.flag = false;
+ajax.checkJQuery = window.jQuery || typeof jQuery != 'undefined';
 
 ajax.wait = function(result){
     if(result === 'undefined') {
@@ -152,16 +156,36 @@ ajax.wait = function(result){
     }
 };
 
-ajax._validateGeoJson = function(json){
-    if (typeof json == 'string') {
-        json = JSON.stringify(json, undefined, 2);
-        json = JSON.parse(json);
+ajax._validateGeoJson = function(json,callback){
+    try {
+        if (typeof json == 'string') {
+            json = JSON.stringify(json, undefined, 2);
+            json = JSON.parse(json);
+        }
+        ajax.post('http://geojsonlint.com/validate', json, function (data) {
+                callback(data);
+            }, false, // `false` makes the request synchronous
+            'json');
+    }catch(e){
+        console.error(e.message);
     }
-    ajax.post('http://geojsonlint.com/validate', json, function () {
-        ajax.processSuccess(data);
-    }, true, 'json');
-    return ajax.result;
 };
+
+function delay(ms){ // takes amount of milliseconds returns a new promise
+    return new Promise(function(resolve, reject){
+        // Only `delay` is able to resolve or reject the promise
+        setTimeout(function(){ // when the time is up
+            resolve(); // change the promise to the fulfilled state
+        }, ms);
+    });
+}
+
+function getFive(){
+    // we're RETURNING the promise, remember, a promise is a wrapper over our value
+    return delay(100).then(function(){ // when the promise is ready
+        return 5; // return the value 5, promises are all about return values
+    })
+}
 
 /**..if you use jquery*/
 function GETWithJQuery(URL){
@@ -223,4 +247,4 @@ function GETWithJQuery(URL){
             alert( "getJSON request ended!" );
         });
 
-}//...askForPlotsWith JQUERY 2
+}
