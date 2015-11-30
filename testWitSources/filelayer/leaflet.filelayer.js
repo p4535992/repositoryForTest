@@ -4,14 +4,16 @@
  *
  * Requires Pavel Shramov's GPX.js
  * https://github.com/shramov/leaflet-plugins/blob/d74d67/layer/vector/GPX.js
+ *
  * Requires Pavel mholt papaparse.js
  * https://github.com/mholt/PapaParse/blob/master/papaparse.js
+ *
  * Requires gildas-lormeau zip.js and mbostock d3.js only if you want to try to load zip archive of GTFS .
  * https://gildas-lormeau.github.io/zip.js/ , https://github.com/mbostock/d3
  *
  *
  * //TODO try to avoid the use of papaparse in favor of d3
- * //TODO upgrade the gtfs zip draw on the map
+ * //TODO upgrade the gtfs zip draw on the map work oly if the 'shapes' file is present
  */
 var FileLoader = L.Class.extend({
     includes: L.Mixin.Events,
@@ -22,18 +24,18 @@ var FileLoader = L.Class.extend({
 		latitudeColumn: 'lat',     //the default field name for the latitude coordinates...
 		longitudeColumn: 'lng',    //the default field name for the longitude coordinates...
         titleForSearch: 'title',   //for future integration with other functions...
-        titlesToInspect: [],       //if you want get only some specific field from csv and rdf files...
-
+        titlesToInspect: [],       //if you want get only some specific field from csv files...
+                                   //TODO implement for XML files....
         rootTag: {root: "Root", subRoot:"Row"},  //set the Json path to the collection of json object to inspect...
-                                                   //you can many subRoot e.g. '...,subRoot2:xxx,subRoot3:yyy'
-                                                   //or if you prefer set a Array e.g. ["Root","Row"]
+                                                 //you can many subRoot e.g. '...,subRoot2:xxx,subRoot3:yyy'
+                                                 //or if you prefer set a Array e.g. ["Root","Row"]
 
         rdfLink: [],               //if you want merge the json object created from a rdf file you can specify the property of a link...
         rdfAbout: 'rdf:about',     //the value for the property rdf:about of a rdf file...
         rdfAboutLink: 'rdf:about', //the value for the property rdf:about for linking different classes of triple...
 
-        geoJsonLayer: new L.geoJson(),  //make the variable of the jsonlayer reachable from external function...
-
+        layer: new L.geoJson(),    //make the variable of the layer reachable from external function,
+                                   // can be a L.layerGroup or a L.Feautregroup or another L.GeoJson....
         popupTable:false,          //if true all the information of the popup are pushed on a html table for a better view.
                                    //if false is saved on a json object.
         validateGeoJson: false     //if you want to validate the geojson with a ajax call...
@@ -51,14 +53,17 @@ var FileLoader = L.Class.extend({
             'csv': this._csvToGeoJSON,
             'xml': this._XMLToGeoJSON,
             'rdf': this._RDFToGeoJSON,
-            'input': this._gtfsToGeoJSON //basic test for the single file gtfs 'shapes.input'
+            'input': this._gtfsToGeoJSON //TODO to upgrade
         };
     },
 
     load: function (file /* File */) {
 
         // Check file size
-        var fileSize = (file.size / 1024).toFixed(4);
+        var fileSize;
+        if(typeof file == 'undefined') fileSize = 1024; //avoid a console error
+        else fileSize = (file.size / 1024).toFixed(4);
+
         if (fileSize > this.options.fileSizeLimit) {
             this.fire('data:error', {
                 error: new Error('File size exceeds limit (' + fileSize + ' > ' + this.options.fileSizeLimit + 'kb)')
@@ -73,8 +78,7 @@ var FileLoader = L.Class.extend({
         if(ext  == "zip"){  //if is a archive
             try {
                 this.fire('data:loading', {filename: file.name, format: ext});
-                var layer = parser.call(this, e.target.result, ext);
-                this.fire('data:loaded', {layer: layer, filename: file.name, format: ext});
+                this.fire('data:loaded', {filename: file.name, format: ext});
             }
             catch (err) {
                 this.fire('data:error', {error: err});
@@ -98,7 +102,6 @@ var FileLoader = L.Class.extend({
                 catch (err) {
                     this.fire('data:error', {error: err});
                 }
-
             }, this);
             reader.readAsText(file);
             return reader; //return the document
@@ -110,10 +113,11 @@ var FileLoader = L.Class.extend({
             content = JSON.parse(content);
         }
 
-        var layer = this.options.geoJsonLayer;
+        var layer = this.options.layer;
         if (layer.getLayers().length > 0) {
             //there are other information to merge to the result....
             layer.addLayer(new L.geoJson(content, this.options.layerOptions));
+
         } else {
             //console.error("load json:"+JSON.stringify(content,undefined,2));
             try {
@@ -147,15 +151,25 @@ var FileLoader = L.Class.extend({
             if (!this.options.headers) {
                 this.fire('data:error', {error: new Error('The file CSV must have the Headers')});
             }
-            var json = Papa.parse(content, {header: this.options.headers});
+            var json;
+            //Work with Papaparse.js
+            json = Papa.parse(content, {header: this.options.headers});
             this._depth = json.data.length - 1;
             if (this.options.titlesToInspect.length == 0)this._titles = json.meta.fields;
             else this._titles = this.options.titlesToInspect;
             delete json.errors;
             delete json.meta;
+
             json = this._addFeatureToJson(json.data);
             return this._loadGeoJSON(json);
-        }catch(e){this.fire('data:error', {error: e});}
+        }catch(e){
+            console.error(e.message);
+            this.fire('data:error', {error: e});
+        }
+    },
+
+    _keyCount:function(o){
+        return (typeof o == 'object') ? Object.keys(o).length : 0;
     },
 
     _addFeatureToJson: function(json){
@@ -199,19 +213,22 @@ var FileLoader = L.Class.extend({
                                 }
                                 for (var title, i = 0; title = titles[i++];) {
                                     try {
-                                        if (popupTable) {
-                                            var href = '';
-                                            if (obj[title].indexOf('http') === 0) {
-                                                href = '<a target="_blank" href="' + obj[title] + '">' + obj[title] + '</a>';
+                                        if(obj.hasOwnProperty(title)) {
+                                            if (popupTable) {
+                                                var href = '';
+                                                if (obj[title].indexOf('http') === 0) {
+                                                    href = '<a target="_blank" href="' + obj[title] + '">' + obj[title] + '</a>';
+                                                }
+                                                if (href.length > 0)content += '<tr><th>' + title + '</th><td>' + href + '</td></tr>';
+                                                else content += '<tr><th>' + title + '</th><td>' + obj[title] + '</td></tr>';
+                                            } else {
+                                                content[title] = obj[title];
                                             }
-                                            if (href.length > 0)content += '<tr><th>' + title + '</th><td>' + href + '</td></tr>';
-                                            else content += '<tr><th>' + title + '</th><td>' + obj[title] + '</td></tr>';
-                                        } else {
-                                            content[title] = obj[title];
                                         }
                                     } catch (e) {
-                                        console.warn("Undefined filed for the json:"+JSON.stringify(obj,undefined,2)+",Title:"+title+"->"+e.message);
-                                        //return content = '';
+                                        console.warn(
+                                            "Undefined field for the json:"
+                                            +JSON.stringify(obj)+",Title:"+title+"->"+e.message);
                                     }
                                 }//for
                                 if (popupTable)content += "</table></div>";
@@ -242,7 +259,6 @@ var FileLoader = L.Class.extend({
                                     console.warn("Not valid coordinates avoid this line ->" + "Coords:" + lng + "," + lat + ",id:" + id);
                                     return;
                                 }
-                                //alert("Special id -> lat:"+lat+",lng:"+lng);
                                 return [lng, lat];
                             })()
                         }
@@ -256,7 +272,7 @@ var FileLoader = L.Class.extend({
                 ajax.processSuccess(message);
             });
             if (ajax.result.isCorrect)return json;
-            else alert("The geo json generated is wrong:" + JSON.stringify(ajax.result.response, undefined, 2));
+            else console.error("The geo json generated is wrong:" + JSON.stringify(ajax.result.response, undefined, 2));
         }else return json;
     },
 
@@ -283,7 +299,7 @@ var FileLoader = L.Class.extend({
             json = this._addFeatureToJson(this._root.data);
 
             return this._loadGeoJSON(json);
-        }catch(e){alert(e.message);}
+        }catch(e){console.error(e.message);}
     },
 
     _toXML:function(content){
@@ -364,6 +380,7 @@ var FileLoader = L.Class.extend({
         }
 
         this._simplifyJson(json);
+
         //Filter result, get all object with at least coordinates...
         for(i = 0; i < this._root.data.length; i++){
             if(!(this._root.data[i].hasOwnProperty(this.options.latitudeColumn) &&
@@ -372,52 +389,18 @@ var FileLoader = L.Class.extend({
                 delete this._root.data[i];
             }
         }
+
         this._depth = this._root.data.length;
+
         json = this._addFeatureToJson(this._root.data);
         return this._loadGeoJSON(json);
-    },
-
-    _JsonToCsv:function(JSONData, ShowLabel) {
-        //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
-        var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
-        var CSV = '';
-        //This condition will generate the Label/Header
-        if (ShowLabel) {
-            var row = "";
-            //This loop will extract the label from 1st index of on array
-            for (var index in arrData[0]) {
-                //Now convert each value to string and comma-seprated
-                row += index + ',';
-            }
-            row = row.slice(0, -1);
-            //append Label row with line break
-            CSV += row + '\r\n';
-        }
-        //1st loop is to extract each row
-        for (var i = 0; i < arrData.length; i++) {
-            var row = "";
-            //2nd loop will extract each column and convert it in string comma-seprated
-            for (var index in arrData[i]) {
-                row += '"' + arrData[i][index] + '",';
-            }
-            row.slice(0, row.length - 1);
-            //add a line break after each row
-            CSV += row + '\r\n';
-        }
-        if (CSV == '') {
-            alert("Invalid data");
-            return;
-        }
-       /* blob = new Blob([CSV], { type: 'text/csv' });
-        var csvUrl = window.webkitURL.createObjectURL(blob);*/
-        return CSV;
     },
 
     _simplifyJson: function(json){
         if(!(Object.prototype.toString.call(json) === '[object Array]')){
             this.fire('data:error', {
                 error: new Error('Try to simplify a not json array, please re-set your root tag path, ' +
-                    'e.g. xmlRootTag:["sopme","pathTo","Array"], we need a json array')
+                    'e.g. xmlRootTag:["some","pathTo","Array"], we need a json array')
             });
             return;
         }
@@ -621,7 +604,7 @@ var FileLoader = L.Class.extend({
         return this._loadGeoJSON(json);
     },
 
-    /* ty to kaezarrex ()*/
+    /* ty to kaezarrex () for the code :)*/
     _gtfsZipToGEOJSON: function(file){
         parseGtfs(file, {
             'shapes.txt': load_shapes

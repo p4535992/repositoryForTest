@@ -1,0 +1,1 @@
+{"version":3,"sources":["print.js"],"names":[],"mappings":"AAAA,MAAM,CAAC,YAAY;AACf,WAAO,SAAS,KAAK,CAAC,GAAG,EAAE;AACvB,eAAO,CAAC,GAAG,CAAC,GAAG,CAAC,CAAC;KACpB,CAAC;CACL,CAAC,CAAC","file":"print-compiled.js","sourcesContent":["define(function () {\n    return function print(msg) {\n        console.log(msg);\n    };\n});\n"]}

@@ -10,7 +10,7 @@ function keyCount(o) {
 }
 
 function autoDelimiter(x) {
-    var delimiters = [',', '\t', '|', ';', String.fromCharCode(30), String.fromCharCode(31)];
+    var delimiters = [',', '\t', '|', ';', String.fromCharCode(30), String.fromCharCode(31)];//Modififed
     var results = [];
 
     delimiters.forEach(function(delimiter) {
@@ -267,3 +267,8 @@ function swapdim(a, b, dim) {
 
 },{}]},{},[1])(1)
 });
+
+export function myCsv2geojson(x,options,callback) {
+    return csv2geojson(x, options, callback);
+}
+

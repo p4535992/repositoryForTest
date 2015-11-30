@@ -1,0 +1,1 @@
+{"version":3,"sources":["messages.js"],"names":[],"mappings":"AAAA,MAAM,CAAC,YAAY;AACf,WAAO;AACH,gBAAQ,EAAE,YAAY;AAClB,mBAAO,aAAa,CAAC;SACxB;KACJ,CAAC;CACL,CAAC,CAAC","file":"messages-compiled.js","sourcesContent":["define(function () {\n    return {\n        getHello: function () {\n            return 'Hello World';\n        }\n    };\n});\n"]}

@@ -50,10 +50,15 @@
     <!-- SUPPORT LIBRARY-->
     <script src="filelayer/GPX.js"></script>
     <script src="filelayer/ajaxUtil.js"></script>
-
     <script src="https://cdn.rawgit.com/mholt/PapaParse/master/papaparse.js"></script>
-    <!--<script src="https://cdn.rawgit.com/mbostock/d3/master/d3.js"></script>-->
+    <script src="https://cdn.rawgit.com/mbostock/d3/master/d3.js"></script>
 
+    <!-- OPTIONAL LIBRARY -->
+   <!-- <script src="https://raw.github.com/tmcw/csv2geojson/gh-pages/csv2geojson.js"></script>
+   <script src="https://rawgit.com/d3/d3-dsv/master/src/dsv.js"></script>
+    <script src="https://raw.github.com/mapbox/sexagesimal/master/sexagesimal.js"></script>&ndash;&gt;-->
+
+    <!-- FREE LIBRARY FOR WORK WITH ZIP FILE -->
     <script src="zip/zip.js"></script>
 
     <!-- PROJECT LIBRARY -->
@@ -67,13 +72,6 @@
 
     zip.workerScriptsPath ="./zip/";
 
-    //TRY OUT RDF
-    //test file: http://adf.ly/1RnWFd
-    //TRY OUT CSV
-    //test file: http://adf.ly/1RnWZd
-    //TRY OUT XML
-    //test file: http://adf.ly/1Rqxub
-
     var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; 2013 OpenStreetMap contributors'
     });
@@ -83,22 +81,23 @@
     L.Control.FileLayerLoad.LABEL = '<i class="fa fa-folder-open"></i>';
     L.Control.fileLayerLoad({
         fileSizeLimit: 6144,
-        //TRY OUT CSV
+        //TRY OUT CSV //test file: http://adf.ly/1RnWZd
         latitudeColumn: 'lat',
         longitudeColumn: 'lng',
 
-        //TRY OUT XML
+        //TRY OUT XML   //test file: http://adf.ly/1Rqxub
        /* latitudeColumn: 'Latitude',
         longitudeColumn: 'Longitude',
         rootTag: ["Root","Row"],*/
 
-        //TRY OUT RDF/XML
-       /* latitudeColumn: 'geo:lat',
+        //TRY OUT RDF/XML  //test file: http://adf.ly/1RnWFd
+        /*latitudeColumn: 'geo:lat',
         longitudeColumn: 'geo:long',
         rdfLink: ['gr:hasPOS'],
         rdfAboutLink: 'rdf:about',
-        rootTag: {root:"rdf:RDF",subRoot:"rdf:Description"},*/
-
+        rootTag: {root:"rdf:RDF",subRoot:"rdf:Description"},
+*/
+        validateGeoJson: true,
         popupTable:true,
             layerOptions: {
                 pointToLayer: function (feature, latlng) {
@@ -121,8 +120,9 @@
 
     </script>
 
- <!--  <script src='gtfsViewer/gtfsParser.js'></script>
-   <script src='gtfsViewer/main.js'></script>-->
+    <!-- PROJECT LIBRARY TO INVOKE AFTER SETTED THE MAP LEAFLET AND THE D3 JAVASCRIPT LIBRARY -->
+    <script src='filelayer/gtfsParser.js'></script>
+    <script src='filelayer/gtfsExtractor.js'></script>
 
 
 </body>

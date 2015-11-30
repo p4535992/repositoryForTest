@@ -1,0 +1,33 @@
+<component name="libraryTable">
+  <library name="Generated files" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/jspm-example-master/lib/extract-gifs-compiled.js" />
+        <item url="file://$PROJECT_DIR$/jspm-example-master/lib/reddit-api-compiled.js" />
+        <item url="file://$PROJECT_DIR$/create-template-master/www/app/messages-compiled.js" />
+        <item url="file://$PROJECT_DIR$/jspm-example-master/lib/main-compiled.js" />
+        <item url="file://$PROJECT_DIR$/create-template-master/www/app/main-compiled.js" />
+        <item url="file://$PROJECT_DIR$/jspm-example-master/config-compiled.js" />
+        <item url="file://$PROJECT_DIR$/create-template-master/www/lib/print-compiled.js" />
+        <item url="file://$PROJECT_DIR$/create-template-master/tools/r-compiled.js" />
+        <item url="file://$PROJECT_DIR$/create-template-master/www/app-compiled.js" />
+        <item url="file://$PROJECT_DIR$/create-template-master/www/lib/require-compiled.js" />
+        <item url="file://$PROJECT_DIR$/jspm-example-master/lib/display-gifs-compiled.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/jspm-example-master/lib/extract-gifs-compiled.js" />
+      <root url="file://$PROJECT_DIR$/jspm-example-master/lib/reddit-api-compiled.js" />
+      <root url="file://$PROJECT_DIR$/create-template-master/www/app/messages-compiled.js" />
+      <root url="file://$PROJECT_DIR$/jspm-example-master/lib/main-compiled.js" />
+      <root url="file://$PROJECT_DIR$/create-template-master/www/app/main-compiled.js" />
+      <root url="file://$PROJECT_DIR$/jspm-example-master/config-compiled.js" />
+      <root url="file://$PROJECT_DIR$/create-template-master/www/lib/print-compiled.js" />
+      <root url="file://$PROJECT_DIR$/create-template-master/tools/r-compiled.js" />
+      <root url="file://$PROJECT_DIR$/create-template-master/www/app-compiled.js" />
+      <root url="file://$PROJECT_DIR$/create-template-master/www/lib/require-compiled.js" />
+      <root url="file://$PROJECT_DIR$/jspm-example-master/lib/display-gifs-compiled.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>

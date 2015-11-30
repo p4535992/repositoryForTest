@@ -7,5 +7,6 @@
     <orderEntry type="library" name="d3" level="application" />
     <orderEntry type="library" name="papaparse" level="application" />
     <orderEntry type="library" name="GPX" level="application" />
+    <orderEntry type="library" name="testWitSources node_modules" level="project" />
   </component>
 </module>
