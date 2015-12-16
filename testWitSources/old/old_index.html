@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaflet.FileLayer</title>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="leaflet/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
+  <!--  <script src="leaflet/leaflet-custom-src.js"></script>-->
+  <!--  <script src="leaflet/leaflet.js"></script>-->
+    <!-- OPTIONAL LIBRARY -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <!-- SUPPORT LIBRARY-->
+    <script src="filelayer/GPX.js"></script>
+    <script src="filelayer/ajaxUtil.js"></script>
+    <script src="https://cdn.rawgit.com/mholt/PapaParse/master/papaparse.js"></script>
+    <script src="https://cdn.rawgit.com/mbostock/d3/master/d3.js"></script>
+
+    <!-- OPTIONAL LIBRARY -->
+   <!-- <script src="https://raw.github.com/tmcw/csv2geojson/gh-pages/csv2geojson.js"></script>
+   <script src="https://rawgit.com/d3/d3-dsv/master/src/dsv.js"></script>
+    <script src="https://raw.github.com/mapbox/sexagesimal/master/sexagesimal.js"></script>&ndash;&gt;-->
+
+    <!-- FREE LIBRARY FOR WORK WITH ZIP FILE -->
+    <script src="zip/zip.js"></script>
+
+    <!-- PROJECT LIBRARY -->
+    <script src="filelayer/leaflet.filelayer.js"></script>
+    <script src="filelayer/togeojson.js"></script>
+</head>
+<body>
+
+    <div id="map"></div>
+    <script>
+
+    zip.workerScriptsPath ="./zip/";
+
+    var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; 2013 OpenStreetMap contributors'
+    });
+    var map = L.map('map').fitWorld().addLayer(osm);
+   /* var map = new L.Map("map", {center: [35.78, -78.68], zoom: 13});
+    map.addLayer(osm);*/
+    L.Control.FileLayerLoad.LABEL = '<i class="fa fa-folder-open"></i>';
+    L.Control.fileLayerLoad({
+        fileSizeLimit: 6144,
+        //TRY OUT CSV //test file: http://adf.ly/1RnWZd
+        latitudeColumn: 'lat',
+        longitudeColumn: 'lng',
+
+        //TRY OUT XML   //test file: http://adf.ly/1Rqxub
+       /* latitudeColumn: 'Latitude',
+        longitudeColumn: 'Longitude',
+        rootTag: ["Root","Row"],*/
+
+        //TRY OUT RDF/XML  //test file: http://adf.ly/1RnWFd
+        /*latitudeColumn: 'geo:lat',
+        longitudeColumn: 'geo:long',
+        rdfLink: ['gr:hasPOS'],
+        rdfAboutLink: 'rdf:about',
+        rootTag: {root:"rdf:RDF",subRoot:"rdf:Description"},
+*/
+        validateGeoJson: true,
+        popupTable:true,
+            layerOptions: {
+                pointToLayer: function (feature, latlng) {
+                    return new L.marker(latlng);
+                },
+                onEachFeature:function(feature, layer){
+                    try {
+                        var popupContent = '';
+                        if (feature.properties && feature.properties.popupContent) {
+                            popupContent = feature.properties.popupContent;
+                        }
+                        layer.bindPopup(popupContent);
+                    }catch(e){
+                        alert(e.message);
+                    }
+                }
+            }
+        }).addTo(map);
+
+
+    </script>
+
+    <!-- PROJECT LIBRARY TO INVOKE AFTER SETTED THE MAP LEAFLET AND THE D3 JAVASCRIPT LIBRARY -->
+    <script src='filelayer/gtfsParser.js'></script>
+    <script src='filelayer/gtfsExtractor.js'></script>
+
+
+</body>
+</html>

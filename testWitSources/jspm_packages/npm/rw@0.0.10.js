@@ -1,0 +1,1 @@
+module.exports = require("npm:rw@0.0.10/index.js");

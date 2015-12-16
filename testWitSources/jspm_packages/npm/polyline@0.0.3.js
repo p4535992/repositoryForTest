@@ -1,0 +1,1 @@
+module.exports = require("npm:polyline@0.0.3/src/polyline.js");

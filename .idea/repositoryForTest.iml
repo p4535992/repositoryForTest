@@ -8,5 +8,6 @@
     <orderEntry type="library" name="csv2geojson" level="application" />
     <orderEntry type="library" name="d3" level="application" />
     <orderEntry type="library" name="dsv" level="application" />
+    <orderEntry type="library" name="loader" level="application" />
   </component>
 </module>

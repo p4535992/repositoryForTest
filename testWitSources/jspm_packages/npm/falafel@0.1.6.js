@@ -1,0 +1,1 @@
+module.exports = require("npm:falafel@0.1.6/index.js");

@@ -1,0 +1,1 @@
+module.exports = require("npm:sexagesimal@0.1.0/index.js");

@@ -1,0 +1,1 @@
+module.exports = require("npm:cli@0.6.6/cli.js");

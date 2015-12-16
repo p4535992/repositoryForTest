@@ -1,0 +1,1 @@
+module.exports = require("npm:csv2geojson@3.6.1/index.js");

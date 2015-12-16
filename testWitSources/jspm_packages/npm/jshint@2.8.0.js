@@ -1,0 +1,1 @@
+module.exports = require("npm:jshint@2.8.0/src/jshint.js");

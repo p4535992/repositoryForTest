@@ -1,0 +1,1 @@
+module.exports = require("npm:bops@0.0.6/index");

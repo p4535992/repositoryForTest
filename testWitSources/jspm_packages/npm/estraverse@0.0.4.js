@@ -1,0 +1,1 @@
+module.exports = require("npm:estraverse@0.0.4/estraverse.js");

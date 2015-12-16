@@ -1,0 +1,1 @@
+module.exports = require("npm:static-module@1.1.3/index.js");

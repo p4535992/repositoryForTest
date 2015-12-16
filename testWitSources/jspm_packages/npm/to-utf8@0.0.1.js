@@ -1,0 +1,1 @@
+module.exports = require("npm:to-utf8@0.0.1/index");

@@ -1,0 +1,1 @@
+module.exports = require("npm:wellknown@0.3.0/index.js");

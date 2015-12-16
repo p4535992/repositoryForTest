@@ -1,0 +1,1 @@
+module.exports = require("npm:exit@0.1.2/lib/exit");

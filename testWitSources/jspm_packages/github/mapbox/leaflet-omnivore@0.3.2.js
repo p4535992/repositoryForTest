@@ -1,0 +1,1 @@
+module.exports = require("github:mapbox/leaflet-omnivore@0.3.2/index.js");

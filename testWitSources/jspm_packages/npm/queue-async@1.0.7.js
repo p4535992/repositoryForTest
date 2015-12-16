@@ -1,0 +1,1 @@
+module.exports = require("npm:queue-async@1.0.7/queue.js");
