@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="jspm_packages/npm/leaflet@0.7.7/dist/leaflet.css">
+   <!-- <script src="lib/filelayer/leaflet.filelayer.js"></script>-->
+    <!-- FREE LIBRARY FOR WORK WITH ZIP FILE -->
+    <script src="lib/zip/zip.js"></script>
+    <title></title>
+</head>
+<body>
+<script src="jspm_packages/system.js"></script>
+<script src="config.js"></script>
+    <script>
+        console.log(1);
+        try {
+            System.import('./lib/main.js').then(function(){
+                console.log(2.5);
+            }).catch(function(err) {
+                console.log('Error: ', err.stack);
+            });
+        }catch(e){
+            console.error(e.message);
+        }
+        console.log(2);
+    </script>
+    <div id="map"></div>
+</body>
+</html>

@@ -3,7 +3,8 @@
 
 # IntelliJ project files
 .idea
-*.iml
 out
 gen
 # Created by .ignore support plugin (hsz.mobi)
+jspm-leaflet-test1/jspm_packages/
+testWitSources/jspm_packages

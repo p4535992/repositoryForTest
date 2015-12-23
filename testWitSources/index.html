@@ -5,6 +5,8 @@
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
+    <link rel="stylesheet" href="jspm_packages/npm/leaflet@0.7.7/dist/leaflet.css">
+
   <!--  <link rel="stylesheet" href="leaflet/leaflet.css" />
     <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>-->
   <!--  <script src="leaflet/leaflet-custom-src.js"></script>-->
@@ -25,24 +27,30 @@
 
 </head>
 <body>
-    <script src="https://jspm.io/loader.js"></script>
-    <script src="jspm_packages/system.js"></script>
-    <script src="config.js"></script>
+   <!-- OPTIONAL -->
+   <!-- <script src="https://jspm.io/loader.js"></script>-->
+    <script src="./jspm_packages/system.js"></script>
+    <script src="./config.js"></script>
     <script>
+        //var System = require('jspm').Loader();
+        var La;
         System.import('./lib/main');
     </script>
     <!-- PROJECT LIBRARY -->
-    <script src="filelayer/leaflet.filelayer.js"></script>
-    <script src="filelayer/togeojson.js"></script>
+  <!--  <script src="lib/filelayer/leaflet.filelayer.js"></script>
+    <script src="lib/filelayer/togeojson.js"></script>-->
+  <!-- <script>
+       System.import('./lib/filelayer/leaflet.filelayer.js');
+       System.import('./filelayer/togeojson.js');
+   </script>-->
     <div id="map"></div>
-    <script>
-
+  <!--  <script>
     zip.workerScriptsPath ="./zip/";
-
-    var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //WHY L is not defined
+    var osm = La.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; 2013 OpenStreetMap contributors'
     });
-    var map = L.map('map').fitWorld().addLayer(osm);
+    var map = La.map('map').fitWorld().addLayer(osm);
    /* var map = new L.Map("map", {center: [35.78, -78.68], zoom: 13});
     map.addLayer(osm);*/
     L.Control.FileLayerLoad.LABEL = '<i class="fa fa-folder-open"></i>';
@@ -85,11 +93,11 @@
         }).addTo(map);
 
 
-    </script>
+    </script>-->
 
     <!-- PROJECT LIBRARY TO INVOKE AFTER SETTED THE MAP LEAFLET AND THE D3 JAVASCRIPT LIBRARY -->
-    <script src='filelayer/gtfsParser.js'></script>
-    <script src='filelayer/gtfsExtractor.js'></script>
+    <!--<script src='lib/filelayer/gtfsParser.js'></script>
+    <script src='lib/filelayer/gtfsExtractor.js'></script>-->
 
 
 </body>
