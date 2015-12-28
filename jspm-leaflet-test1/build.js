@@ -7479,13 +7479,18 @@ System.register('lib/filelayer/leaflet.filelayer.js', ['npm:babel-runtime@5.8.34
         }
     };
 });
-System.register('lib/main.js', ['npm:leaflet@0.7.7/dist/leaflet-src', 'npm:leaflet@0.7.7', 'lib/filelayer/leaflet.filelayer.js'], function (_export) {
+System.register('lib/main.js', ['npm:leaflet@0.7.7', 'lib/filelayer/leaflet.filelayer.js'], function (_export) {
     'use strict';
 
-    var osm, map;
+    var leaflet, osm, map;
     return {
-        setters: [function (_npmLeaflet077DistLeafletSrc) {}, function (_npmLeaflet077) {}, function (_libFilelayerLeafletFilelayerJs) {}],
+        setters: [function (_npmLeaflet077) {
+            leaflet = _npmLeaflet077['default'];
+        }, function (_libFilelayerLeafletFilelayerJs) {}],
         execute: function () {
+            console.log('L:' + L);
+            console.log('leaflet' + leaflet);
+            //import '../jspm_packages/npm/leaflet@0.7.7/dist/leaflet.css!';
 
             console.log('is this thing on?');
             //zip.workerScriptsPath ="./zip/";
@@ -7502,6 +7507,4 @@ System.register('lib/main.js', ['npm:leaflet@0.7.7/dist/leaflet-src', 'npm:leafl
         }
     };
 });
-//undefined map container
-//import '../jspm_packages/npm/leaflet@0.7.7/dist/leaflet.css!';
 //# sourceMappingURL=build.js.map

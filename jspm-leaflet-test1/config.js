@@ -20,13 +20,13 @@ System.config({
       "npm:leaflet@0.7.7/dist/leaflet-src",
       "npm:babel-runtime@5.8.34/core-js/object/keys",
       "npm:core-js@1.2.6/library/fn/object/keys",
-      "npm:core-js@1.2.6/library/modules/$.core",
       "npm:core-js@1.2.6/library/modules/es6.object.keys",
-      "npm:core-js@1.2.6/library/modules/$.object-sap",
+      "npm:core-js@1.2.6/library/modules/$.core",
       "npm:core-js@1.2.6/library/modules/$.to-object",
-      "npm:core-js@1.2.6/library/modules/$.fails",
-      "npm:core-js@1.2.6/library/modules/$.export",
+      "npm:core-js@1.2.6/library/modules/$.object-sap",
       "npm:core-js@1.2.6/library/modules/$.defined",
+      "npm:core-js@1.2.6/library/modules/$.export",
+      "npm:core-js@1.2.6/library/modules/$.fails",
       "npm:core-js@1.2.6/library/modules/$.global",
       "npm:core-js@1.2.6/library/modules/$.ctx",
       "npm:core-js@1.2.6/library/modules/$.a-function"
@@ -44,7 +44,7 @@ System.config({
       "assert": "npm:assert@1.3.0"
     },
     "github:jspm/nodelibs-buffer@0.1.0": {
-      "buffer": "npm:buffer@3.5.5"
+      "buffer": "npm:buffer@3.6.0"
     },
     "github:jspm/nodelibs-constants@0.1.0": {
       "constants-browserify": "npm:constants-browserify@0.0.1"
@@ -169,7 +169,7 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
-    "npm:buffer@3.5.5": {
+    "npm:buffer@3.6.0": {
       "base64-js": "npm:base64-js@0.0.8",
       "child_process": "github:jspm/nodelibs-child_process@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",

@@ -1,5 +1,6 @@
-import '../jspm_packages/npm/leaflet@0.7.7/dist/leaflet-src';
-import 'leaflet'; //undefined map container
+import leaflet from 'leaflet';
+console.log('L:'+L);
+console.log('leaflet'+leaflet);
 //import '../jspm_packages/npm/leaflet@0.7.7/dist/leaflet.css!';
 import './filelayer/leaflet.filelayer.js';
 
