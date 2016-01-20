@@ -1,47 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2e4bf13f-9d52-42d4-b51c-a8bf11fcb216" name="Default" comment="2015-12-16v2">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/.nojekyll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/examples/fileForTest/Immagine 1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/examples/fileForTest/Immagine 2 xml test.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/examples/fileForTest/ac-transit_20150218_1708.zip" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/examples/fileForTest/test.rdf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/fileForTest/Immagine 1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/fileForTest/Immagine 2 xml test.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/fileForTest/ac-transit_20150218_1708.zip" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/fileForTest/test.rdf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/.gitignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/.gitmodules" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/.travis.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/LICENSE" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/Makefile" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/README.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/build.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/config.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/examples/fileForTest/Landmarks.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/examples/fileForTest/data.csv" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/examples/fileForTest/shapes.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/examples/fileForTest/test.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/examples/test_remoteResources.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/fileForTest/Landmarks.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/fileForTest/data.csv" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/fileForTest/shapes.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/fileForTest/test.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/filelayer/ajaxUtil.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/filelayer/gtfsExtractor.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/filelayer/gtfsParser.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/nbproject/project.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/nbproject/project.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/package.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/test/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/test/test.filelayer.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/test_jspm.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-20/test_remoteResources.html" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Leaflet.FileLayer-1" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/repositoryForTest.iml" afterPath="$PROJECT_DIR$/.idea/repositoryForTest.iml" />
+    <list default="true" id="2e4bf13f-9d52-42d4-b51c-a8bf11fcb216" name="Default" comment="2016-01-21">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/.nojekyll" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/examples/fileForTest/Immagine 1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/examples/fileForTest/Immagine 2 xml test.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/examples/fileForTest/ac-transit_20150218_1708.zip" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/examples/fileForTest/test.rdf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/.gitmodules" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/.travis.yml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/LICENSE" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/Makefile" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/build.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/config.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/examples/fileForTest/Landmarks.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/examples/fileForTest/data.csv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/examples/fileForTest/shapes.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/examples/fileForTest/test.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/examples/test_remoteResources.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/nbproject/project.properties" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/nbproject/project.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/package.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/test/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/test/test.filelayer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/test_jspm.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Leaflet.FileLayer-1_2016-01-21/test_remoteResources.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="repositoryForTest.iws" />
@@ -77,7 +62,7 @@
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.31365314">
-              <caret line="10" column="23" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
+              <caret line="10" column="34" selection-start-line="10" selection-start-column="34" selection-end-line="10" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -243,7 +228,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -265,6 +249,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -282,19 +267,19 @@
     <property name="nodejs_interpreter_path" value="C:\Program Files\nodejs\node.exe" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Marco\Documents\GitHub\repositoryForTest\jspm-leaflet-test1\lib" />
-      <recent name="C:\Users\Marco\Documents\GitHub\repositoryForTest\out" />
-      <recent name="C:\Users\Marco\Documents\GitHub\repositoryForTest\testWitSources\lib" />
-      <recent name="C:\Users\tenti\Documents\GitHub\repositoryForTest\testWitSources\lib" />
-      <recent name="C:\Users\Marco\Documents\GitHub\repositoryForTest\other" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\tenti\Documents\GitHub\repositoryForTest" />
       <recent name="C:\Users\Marco\Documents\GitHub\repositoryForTest\jspm-leaflet-test1" />
       <recent name="C:\Users\Marco\Documents\GitHub\repositoryForTest\testWitSources\jspm_packages\github\Leaflet\leaflet@0.7.7\dist" />
       <recent name="C:\Users\Marco\Documents\GitHub\repositoryForTest\testWitSources\filelayer" />
       <recent name="C:\Users\tenti\Documents\GitHub\repositoryForTest\testWitSources\old" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Marco\Documents\GitHub\repositoryForTest\jspm-leaflet-test1\lib" />
+      <recent name="C:\Users\Marco\Documents\GitHub\repositoryForTest\out" />
+      <recent name="C:\Users\Marco\Documents\GitHub\repositoryForTest\testWitSources\lib" />
+      <recent name="C:\Users\tenti\Documents\GitHub\repositoryForTest\testWitSources\lib" />
+      <recent name="C:\Users\Marco\Documents\GitHub\repositoryForTest\other" />
     </key>
   </component>
   <component name="RunManager" selected="JavaScript Debug.index.html">
@@ -408,7 +393,13 @@
       <option name="project" value="LOCAL" />
       <updated>1453215376611</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="2016-01-20">
+      <created>1453282461738</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1453282461738</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TodoView" selected-index="3">
@@ -428,8 +419,6 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32991454" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.4940171" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22138554" sideWeight="0.465" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32456142" sideWeight="0.49255952" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32820514" sideWeight="0.49737436" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21875" sideWeight="0.535" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.60854703" sideWeight="0.50744045" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32820514" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -437,11 +426,13 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935154" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32456142" sideWeight="0.49255952" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32820514" sideWeight="0.49737436" order="2" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -458,9 +449,9 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -477,7 +468,11 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Mkae some upgrade on the code:&#10;-ajaxUtil&#10;-Leaflet.FileLayer&#10;-csv2geoJson" />
     <MESSAGE value="2015-12-16v2" />
-    <option name="LAST_COMMIT_MESSAGE" value="2015-12-16v2" />
+    <MESSAGE value="2016-01-20" />
+    <MESSAGE value="2016-01-21" />
+    <option name="LAST_COMMIT_MESSAGE" value="2016-01-21" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -926,7 +921,7 @@
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.31365314">
-          <caret line="10" column="23" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
+          <caret line="10" column="34" selection-start-line="10" selection-start-column="34" selection-end-line="10" selection-end-column="34" />
           <folding />
         </state>
       </provider>
@@ -951,14 +946,14 @@
       <provider editor-type-id="MarkdownPreviewEditor">
         <state />
       </provider>
+      <provider editor-type-id="MultiMarkdownFxPreviewEditor">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="MultiMarkdownFxPreviewEditor">
-        <state />
       </provider>
       <provider selected="true" editor-type-id="split-provider[text-editor;MultiMarkdownPreviewEditor]">
         <state split_layout="FIRST">
@@ -982,14 +977,14 @@
       <provider editor-type-id="MarkdownPreviewEditor">
         <state />
       </provider>
+      <provider editor-type-id="MultiMarkdownFxPreviewEditor">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="-12.896552">
           <caret line="219" column="13" selection-start-line="219" selection-start-column="13" selection-end-line="219" selection-end-column="13" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="MultiMarkdownFxPreviewEditor">
-        <state />
       </provider>
       <provider selected="true" editor-type-id="split-provider[text-editor;MultiMarkdownPreviewEditor]">
         <state split_layout="FIRST">
