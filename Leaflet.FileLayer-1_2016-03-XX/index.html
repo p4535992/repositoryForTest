@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="ngBootleaf">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>GTFS Analyst - Modified by 4535992 for educational purpose</title>
+
+
+    <link rel="stylesheet" href="assets/bootstrap-3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css"/>
+    <link rel="stylesheet" href="assets/leaflet-sidebar/L.Control.Sidebar.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+
+    <link rel="apple-touch-icon" href="assets/img/favicon-152.png">
+    <link rel="shortcut icon" sizes="196x196" href="assets/img/favicon-196.png">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body id="outer" ng-controller="AppCtrl">
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">GTFS Analyst - Modified by 4535992 for educational purpose</a>
+    </div>
+    <div class="navbar-collapse collapse">
+        <form class="navbar-form navbar-right" role="search">
+            <div class="form-group has-feedback navbar-right">
+                <input id="searchbox" type="text" placeholder="Search" class="form-control">
+                <span id="searchicon" class="fa fa-search form-control-feedback"></span>
+            </div>
+        </form>
+        <ul class="nav navbar-nav">
+            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"
+                   onclick="$('#aboutModal').modal('show'); return false;"><i class="fa fa-question-circle"
+                                                                              style="color: white"></i>&nbsp;&nbsp;About</a>
+            </li>
+            <li class="dropdown">
+                <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i
+                        class="fa fa-globe" style="color: white"></i>&nbsp;&nbsp;Tools <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"
+                           onclick="map.fitBounds(boroughs.getBounds()); return false;"><i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;Zoom
+                        To Full Extent</a></li>
+                    <li class="divider hidden-xs"></li>
+                    <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"
+                           onclick="$('#loginModal').modal('show'); return false;"><i class="fa fa-user"></i>&nbsp;&nbsp;Login</a>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"
+                   onclick="sidebar.toggle(); return false;"><i class="fa fa-list" style="color: white"></i>&nbsp;&nbsp;Sidebar</a>
+            </li>
+        </ul>
+    </div><!--/.navbar-collapse -->
+</div>
+
+<div id="map"></div>
+<div id="sidebar">
+    <div><input type="text" ng-model="urljAgency" placeholder="Insert response sesame" ng-change="refresh()"/></div>
+    <div ng-include="'partials/sidebar.html'"></div>
+</div>
+<!-- <div id="loading">
+  <div class="loading-indicator">
+    <div class="progress progress-striped active">
+      <div class="progress-bar progress-bar-info" style="width: 100%"></div>
+    </div>
+  </div>
+</div> -->
+
+<div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
+    <div ng-include="'partials/modal.html'"></div>
+</div><!-- /.modal -->
+
+<div class="modal fade" id="legendModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Map Legend</h4>
+            </div>
+            <div class="modal-body">
+                <p>Map Legend goes here...</p>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog">
+    <div ng-include="'partials/login-modal.html'"></div>
+</div><!-- /.modal -->
+
+<div class="modal fade" id="featureModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title text-primary" id="feature-title"></h4>
+            </div>
+            <div class="modal-body" id="feature-info"></div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div id="info"></div><!-- for floating info -->
+<script src="assets/js/jquery-1.11.0.min.js"></script>
+<script src="assets/bootstrap-3.1.1/js/bootstrap.min.js"></script>
+<script src="assets/typeahead/typeahead.bundle.js"></script>
+<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+<script src="assets/leaflet-sidebar/L.Control.Sidebar.js"></script>
+<script src="assets/js/d3leaflet-layers.js"></script>
+<script src="assets/js/d3.v3.min.js"></script>
+<script src="assets/js/topojson.js"></script>
+
+
+<script>
+    var map, boroughSearch = [],
+            theaterSearch = [],
+            museumSearch = [];
+
+    /* Basemap Layers */
+    var mapquestOSM = L.tileLayer("http://{s}.tiles.mapbox.com/v3/erickrans.4f9126ad/{z}/{x}/{y}.png");
+
+    var mbTerrainSat = L.tileLayer("https://{s}.tiles.mapbox.com/v3/matt.hd0b27jd/{z}/{x}/{y}.png");
+
+    var mbTerrainReg = L.tileLayer("https://{s}.tiles.mapbox.com/v3/aj.um7z9lus/{z}/{x}/{y}.png");
+
+    var mapquestOAM = L.tileLayer("http://{s}.tiles.mapbox.com/v3/am3081.h0pml9h7/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+    });
+    var mapquestHYB = L.layerGroup([L.tileLayer("http://{s}.tiles.mapbox.com/v3/am3081.h0pml9h7/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+    }), L.tileLayer("http://{s}.mqcdn.com/tiles/1.0.0/hyb/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        subdomains: ["oatile1", "oatile2", "oatile3", "oatile4"],
+    })]);
+
+    map = L.map("map", {
+        zoom: 5,
+        center: [39, -95],
+        layers: [mapquestOSM]
+    });
+
+    /* Larger screens get expanded layer control */
+    if (document.body.clientWidth <= 767) {
+        var isCollapsed = true;
+    } else {
+        var isCollapsed = false;
+    }
+
+    var baseLayers = {
+        "Street Map": mapquestOSM,
+        "Aerial Imagery": mapquestOAM,
+        "Imagery with Streets": mapquestHYB
+    };
+
+    var overlays = {};
+
+    var layerControl = L.control.layers(baseLayers, {}, {
+        collapsed: isCollapsed
+    }).addTo(map);
+
+    /* Add overlay layers to map after defining layer control to preserver order */
+    var sidebar = L.control.sidebar("sidebar", {
+        closeButton: true,
+        position: "left"
+    }).addTo(map);
+    sidebar.toggle();
+
+    /* Highlight search box text on click */
+    $("#searchbox").click(function () {
+        $(this).select();
+    });
+
+    /* Placeholder hack for IE */
+    if (navigator.appName == "Microsoft Internet Explorer") {
+        $("input").each(function () {
+            if ($(this).val() === "" && $(this).attr("placeholder") !== "") {
+                $(this).val($(this).attr("placeholder"));
+                $(this).focus(function () {
+                    if ($(this).val() === $(this).attr("placeholder")) $(this).val("");
+                });
+                $(this).blur(function () {
+                    if ($(this).val() === "") $(this).val($(this).attr("placeholder"));
+                });
+            }
+        });
+    }
+    $(function () {
+        var popup = {
+            init: function () {
+                // position popup
+                windowW = $(window).width();
+                $("#map").on("mousemove", function (e) {
+                    var x = e.pageX + 20;
+                    var y = e.pageY;
+                    var windowH = $(window).height();
+                    if (y > (windowH - 100)) {
+                        var y = e.pageY - 100;
+                    } else {
+                        var y = e.pageY - 20;
+                    }
+                    $("#info").css({
+                        "left": x,
+                        "top": y
+                    });
+                });
+            }
+        };
+        popup.init();
+    });
+</script>
+<!-- FILELAYER SUPPORT -->
+<script src="https://cdn.rawgit.com/shramov/leaflet-plugins/d74d67/layer/vector/GPX.js"></script>
+<script src="https://cdn.rawgit.com/mholt/PapaParse/master/papaparse.js"></script>
+<script src="filelayer/corslite2.js"></script>
+<script src="filelayer/leaflet.filelayer.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+
+<!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.2.5/ui-bootstrap-tpls.js"></script>-->
+
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+
+<script src="assets/js/app.js"></script>
+<script src="assets/js/appController.js"></script>
+<script>
+    L.Control.FileLayerLoad.LABEL = '<i class="fa fa-folder-open"></i>';
+    L.Control.fileLayerLoad({
+        fileSizeLimit: 6144,
+        //TRY OUT CSV //test file: http://adf.ly/1RnWZd
+         latitudeColumn: 'lat',
+         longitudeColumn: 'lng',
+
+        //TRY OUT XML   //test file: http://adf.ly/1Rqxub
+       /* latitudeColumn: 'Latitude',
+        longitudeColumn: 'Longitude',
+        rootTag: ["Root", "Row"],*/
+
+        //TRY OUT RDF/XML  //test file: http://adf.ly/1RnWFd
+        /* latitudeColumn: 'geo:lat',
+         longitudeColumn: 'geo:long',
+         rdfLink: ['gr:hasPOS'],
+         rdfAboutLink: 'rdf:about',
+         rootTag: {root:"rdf:RDF",subRoot:"rdf:Description"},*/
+
+        validateGeoJson: false,
+        popupTable: true,
+        isgtfs:true,
+        layerOptions: {
+            pointToLayer: function (feature, latlng) {
+                return new L.marker(latlng);
+            },
+            onEachFeature: function (feature, layer) {
+                try {
+                    var popupContent = '';
+                    if (feature.properties && feature.properties.popupContent) {
+                        popupContent = feature.properties.popupContent;
+                    }
+                    layer.bindPopup(popupContent);
+                } catch (e) {
+                    alert(e.message);
+                }
+            }
+        }
+    }).addTo(map);
+</script>
+</body>
+</html>
