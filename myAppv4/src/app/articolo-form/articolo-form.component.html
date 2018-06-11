@@ -1,0 +1,27 @@
+<h5>Template Form TEST 1</h5>
+<form #myForm="ngForm"> 
+  <div> 
+    <label for="txtTitolo">Titolo</label>   
+	<!--     <input type="text" id="txtTitolo" required [(ngModel)]="model.titolo" name="titolo">  -->
+	<input type="text" id="txtTitolo" required [(ngModel)]="model.titolo" name="titolo" #myTitolo="ngModel"> 
+	<strong><span [hidden]="myTitolo.valid || myTitolo.pristine">Il titolo é obbligatorio!</span></strong> 
+  </div> 
+  <div> 
+    <label for="txtAutore">Autore</label>   
+    <input type="text" id="txtAutore"
+           required [(ngModel)]="model.autore" name="autore"> 
+  </div> 
+     
+  <div> 
+    <label for="txtTesto">Testo</label>   
+    <textarea id="txtTesto"
+           required [(ngModel)]="model.testo" name="testo"></textarea> 
+  </div> 
+     
+	<!--   <button type="button">Invia</button>  -->
+	<button type="button" [disabled]="!myForm.valid" (click)="inviaArticolo($event)">Invia</button> 
+</form> 
+
+titolo: {{model.titolo}}<br/> 
+autore: {{model.autore}}<br/> 
+testo: {{model.testo}}<br/>  

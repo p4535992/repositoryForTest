@@ -1,0 +1,63 @@
+<h5>REactive Form TEST 1</h5>
+<!--
+<form [formGroup]="myForm2" (ngSubmit)="onSubmit(myForm2)">
+  <div>
+    <label for="txtTitolo">Titolo</label>
+    <input type="text" formControlName="txtTitolo">
+    <strong><span [hidden]="myForm2.controls.txtTitolo.valid || myForm2.controls.txtTitolo.pristine">Il titolo � obbligatorio e non pu� superare i 30 caratteri!</span></strong>
+  </div>
+  <div>
+    <label for="txtAutore">Autore</label>
+    <input type="text" formControlName="txtAutore">
+  </div>
+
+  <div>
+    <label for="txtTesto">Testo</label>
+    <textarea formControlName="txtTesto"></textarea>
+  </div>
+
+ <button type="button" (click)="visualizzaArticolo()">Invia</button>
+ <button type="submit">Invia</button>
+<button class="btn btn-default" [disabled]="myForm2.invalid">Submit</button>
+
+    <br />
+    {{ message }}
+    <br />
+    Valid: {{ myForm2.valid}}
+    <br />
+    Pristine: {{ myForm2.pristine }}
+    <br />
+    Touched: {{ myForm2.touched }}
+</form>
+-->
+
+<form [formGroup]="myForm2" (ngSubmit)="onSubmit(myForm2)">
+	<div>
+		<label for="txtTitolo">Titolo</label>
+		<input type="text" class="form-control" formControlName="txtTitolo" /> <br />
+		<span *ngIf="myForm2.controls.txtTitolo.invalid">Titolo is required!</span>
+	</div>
+	<div>
+		<label for="txtAutore">Autore</label>
+		<input type="text" class="form-control" formControlName="txtAutore" />
+		<span *ngIf="myForm2.controls.txtAutore.invalid">Autore is required!</span>
+	</div>
+
+	<div>
+		<label for="txtTesto">Testo</label>
+		<textarea class="form-control" formControlName="txtTesto"></textarea>
+		<span *ngIf="myForm2.controls.txtTesto.invalid">Testo is required!</span>
+	</div>
+	<br />
+	<button class="btn btn-default" [disabled]="myForm2.invalid">Submit</button>
+	<br />
+	{{ message }} <br />
+	Valid: {{ myForm2.valid}} <br />
+	Pristine: {{ myForm2.pristine }} <br />
+	Touched: {{ myForm2.touched }}
+</form>
+
+<h5>TEST Pipe Truncate</h5> 
+<p> 
+  {{message | truncate:25}} 
+</p>

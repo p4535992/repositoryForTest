@@ -1,0 +1,36 @@
+2017-10-02T20:27:52.152Z - info: [.angular-cli.json] Renaming angular-cli.json to .angular-cli.json
+2017-10-02T20:27:52.167Z - info: [package.json] [peerDependencies] Doesn't exists, doing nothing
+2017-10-02T20:27:52.168Z - info: [package.json] [peerDependencies] Doesn't exists, doing nothing
+2017-10-02T20:27:52.168Z - info: [package.json] [dependencies] Updating @angular/common@^2.3.1 => ^4.0.0
+2017-10-02T20:27:52.169Z - info: [package.json] [dependencies] Updating @angular/compiler@^2.3.1 => ^4.0.0
+2017-10-02T20:27:52.169Z - info: [package.json] [dependencies] Updating @angular/core@^2.3.1 => ^4.0.0
+2017-10-02T20:27:52.169Z - info: [package.json] [dependencies] Updating @angular/forms@^2.3.1 => ^4.0.0
+2017-10-02T20:27:52.169Z - info: [package.json] [dependencies] Updating @angular/http@^2.3.1 => ^4.0.0
+2017-10-02T20:27:52.170Z - info: [package.json] [dependencies] Updating @angular/platform-browser@^2.3.1 => ^4.0.0
+2017-10-02T20:27:52.170Z - info: [package.json] [dependencies] Updating @angular/platform-browser-dynamic@^2.3.1 => ^4.0.0
+2017-10-02T20:27:52.170Z - info: [package.json] [dependencies] Updating @angular/router@^3.3.1 => ^4.0.0
+2017-10-02T20:27:52.170Z - info: [package.json] [dependencies] Updating rxjs@^5.0.1 => ^5.1.0
+2017-10-02T20:27:52.170Z - info: [package.json] [dependencies] Updating zone.js@^0.7.2 => ^0.8.4
+2017-10-02T20:27:52.171Z - info: [package.json] [dependencies] Removing ts-helpers@undefined
+2017-10-02T20:27:52.171Z - info: [package.json] [devDependencies] Updating @angular/compiler-cli@^2.3.1 => ^4.0.0
+2017-10-02T20:27:52.171Z - info: [package.json] [devDependencies] Adding @angular/cli@1.0.0
+2017-10-02T20:27:52.171Z - info: [package.json] [devDependencies] Removing angular-cli@undefined
+2017-10-02T20:27:52.172Z - info: [package.json] [devDependencies] Updating @types/node@^6.0.42 => ~6.0.60
+2017-10-02T20:27:52.172Z - info: [package.json] [devDependencies] Updating codelyzer@~2.0.0-beta.1 => ~2.0.0
+2017-10-02T20:27:52.172Z - info: [package.json] [devDependencies] Updating jasmine-core@2.5.2 => ~2.5.2
+2017-10-02T20:27:52.172Z - info: [package.json] [devDependencies] Updating jasmine-spec-reporter@2.5.0 => ~3.2.0
+2017-10-02T20:27:52.172Z - info: [package.json] [devDependencies] Updating karma@1.2.0 => ~1.4.1
+2017-10-02T20:27:52.173Z - info: [package.json] [devDependencies] Updating karma-chrome-launcher@^2.0.0 => ~2.0.0
+2017-10-02T20:27:52.173Z - info: [package.json] [devDependencies] Updating karma-cli@^1.0.1 => ~1.0.1
+2017-10-02T20:27:52.173Z - info: [package.json] [devDependencies] Updating karma-jasmine@^1.0.2 => ~1.1.0
+2017-10-02T20:27:52.173Z - info: [package.json] [devDependencies] Adding karma-jasmine-html-reporter@^0.2.2
+2017-10-02T20:27:52.173Z - info: [package.json] [devDependencies] Adding karma-coverage-istanbul-reporter@^0.2.0
+2017-10-02T20:27:52.175Z - info: [package.json] [devDependencies] Updating protractor@~4.0.13 => ~5.1.0
+2017-10-02T20:27:52.176Z - info: [package.json] [devDependencies] Updating ts-node@1.2.1 => ~2.0.0
+2017-10-02T20:27:52.176Z - info: [package.json] [devDependencies] Updating tslint@^4.3.0 => ~4.5.0
+2017-10-02T20:27:52.176Z - info: [package.json] [devDependencies] Updating typescript@~2.0.3 => ~2.2.0
+2017-10-02T20:27:52.176Z - info: [package.json] [devDependencies] Removing karma-remap-istanbul@undefined
+2017-10-02T20:27:52.176Z - info: [package.json] [scripts] Updating e2e to "ng e2e"
+2017-10-02T20:27:52.176Z - info: [package.json] [scripts] Deleting pree2e
+2017-10-02T20:27:52.176Z - info: [package.json] [scripts] Adding build with "ng build"
+2017-10-02T20:27:52.217Z - info: [update-reference] Writing update reference file

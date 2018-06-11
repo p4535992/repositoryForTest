@@ -1,0 +1,9 @@
+
+<h3>{{articolo.titolo}}</h3>
+<i>{{articolo.autore}}</i><br/>
+<p>{{articolo.testo}}</p>
+
+<p>
+    Voti: {{articolo.numApprezzamenti}}
+    <button (click)="incrementaApprezzamenti($event)">Mi piace</button>
+</p>

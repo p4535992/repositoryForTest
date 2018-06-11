@@ -1,0 +1,25 @@
+<h1>
+  {{title}}
+</h1>
+<nav> 
+    <a routerLink="/">Elenco articoli</a> 
+    <a routerLink="/nuovoArticolo">Aggiungi articolo</a> 
+    <router-outlet><router-outlet> 
+</nav> 
+
+
+Inserisci un numero:
+<input type="number" #numero (keyup)="0" />
+<div>
+    Il doppio di {{numero.value}} &egrave; {{numero.value * 2}}
+</div>
+<!--<articolo [articolo]="articolo"></articolo>-->
+<!--<articolo [articolo]="articolo" (like)="mostraMessaggioRingraziamento($event)"></articolo>-->
+<articolo [articolo]="articolo" (like)="mostraMessaggioRingraziamento($event)"></articolo>
+
+
+<articolo-form (submit)="addArticolo($event)"></articolo-form>
+
+<articolo-form-reactive></articolo-form-reactive>
+
+
