@@ -1,0 +1,63 @@
+input.macrocategory {
+    padding: 10px;
+    transform: scale(1.3);
+}
+input.subcategory {
+    padding: 10px;
+    transform: scale(0.9);
+}
+.toggle-subcategory {
+    background-color: #ddd;
+    color: #444;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0 3px;
+}
+.subcategory-content {
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    display: none;
+    max-height: 190px;
+    overflow-y: auto;
+    padding: 5px;
+    white-space: nowrap;
+}
+
+.macrocategory-label {
+    font-weight: bold;
+}
+
+/*
+HTML USAGE EXAMPLE
+<div id="categorie">
+
+<input type='checkbox' name='Accommodation' value='Accommodation' class='macrocategory' />
+<img src='${pageContext.request.contextPath}/resources/img/mapicons/Accommodation.png' height='23' width='20' align='top'>
+<span class='Accommodation macrocategory-label'>Accommodation</span>
+<span class='toggle-subcategory' title='Mostra sottocategorie'>+</span>
+<div class='subcategory-content'>                                                                                                                                                                                                                                                                                                                                                           <div class='subcategory-content'>
+    <input type='checkbox' name='Agritourism' value='Agritourism' class='sub_Accommodation subcategory' />
+    <img src='${pageContext.request.contextPath}/resources/img/mapicons/Accommodation_Agritourism.png' height='19' width='16' align='top'>
+    <span class='Accommodation subcategory-label'>Agritourism</span>
+    <br />
+    <input type='checkbox' name='Beach_resort' value='Beach_resort' class='sub_Accommodation subcategory' /> <img src='${pageContext.request.contextPath}/resources/img/mapicons/Accommodation_Beach_resort.png' height='19' width='16' align='top'>
+    <span class='Accommodation subcategory-label'>Beach_resort</span>
+    <br />
+</div>
+<br />
+<input type='checkbox' name='Advertising' value='Advertising' class='macrocategory' />
+<img src='${pageContext.request.contextPath}/resources/img/mapicons/Advertising.png' height='23' width='20' align='top'> <span class='Advertising macrocategory-label'>Advertising</span> <span class='toggle-subcategory' title='Mostra sottocategorie'>+</span>
+<div class='subcategory-content'>
+      <input type='checkbox' name='Advertising_and_promotion' value='Advertising_and_promotion' class='sub_Advertising subcategory' />
+      <img src='${pageContext.request.contextPath}/resources/img/mapicons/Advertising_Advertising_and_promotion.png' height='19' width='16' align='top'>
+      <span class='Advertising subcategory-label'>Advertising_and_promotion</span>
+      <br />
+      <input type='checkbox' name='Market_polling' value='Market_polling' class='sub_Advertising subcategory' />
+      <img src='${pageContext.request.contextPath}/resources/img/mapicons/Advertising_Market_polling.png' height='19' width='16' align='top'>
+      <span class='Advertising subcategory-label'>Market_polling</span>
+      <br />
+</div>
+<br />
+</div>
+*/

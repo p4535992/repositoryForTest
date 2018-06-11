@@ -1,0 +1,115 @@
+/*
+ * These CSS rules affect the tooltips within maps with the custom-popup
+ * class. See the full CSS for all customizable options:
+ * https://github.com/mapbox/mapbox.js/blob/001754177f3985c0e6b4a26e3c869b0c66162c99/theme/style.css#L321-L366
+ */
+.custom-popup .leaflet-popup-content-wrapper {
+    background:#2c3e50;
+    color:#fff;
+    font-size:16px;
+    line-height:24px;
+}
+.custom-popup .leaflet-popup-content-wrapper a {
+    color:rgba(255,255,255,0.5);
+}
+.custom-popup .leaflet-popup-tip-container {
+    width:30px;
+    height:15px;
+}
+.custom-popup .leaflet-popup-tip {
+    border-left:15px solid transparent;
+    border-right:15px solid transparent;
+    border-top:15px solid #2c3e50;
+}
+
+/* These CSS rules affect the tooltips within maps with the L.Control.Geocoder plugin*/
+#geocode-selector {
+    bottom: 10px;
+    left: 10px;
+    position: relative;
+}
+#geocode-selector .selected {
+    background-color: #0078a8;
+}
+
+.leaflet-control-geocoder-form{
+    margin:inherit;
+}
+
+/*Support L.Stamen-base-maps */
+div.leaflet-control-layers{
+    left: -240px;
+    position: relative;
+}
+
+#tabs .content .header{
+    margin-left: 10px;
+}
+
+#info{
+    margin-left: 8px;
+    margin-top: 20px;
+}
+
+#buttonLocalize {
+    position:fixed;
+    top:10px;
+    left:50px;
+    z-index: 2;
+}
+
+.leaflet-control-attribution {
+    font: 9px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif !important;
+}
+
+/** other  add from 4535992 */
+#searchtext9{
+    padding:inherit;
+    border:none;
+    margin: inherit;
+}
+
+/* Support the plguin Leaflet Search */
+/*form {
+	margin: 0 0 0;
+}
+
+.popup-content {
+	height: 250px;
+	overflow-y: scroll;
+}
+
+.map-label {
+	z-index: 9000638;
+}
+
+#clear {
+	display: inline-block;
+	position: relative;
+	right: -24px;
+	z-index: 999999;
+	top: 3px;
+	font-size:14pt;
+	text-decoration: none;
+	color: #aaa;
+}
+
+input.search-query {
+	padding-left: 24px;
+}
+
+.search-box {
+	font-size: 10pt !important;
+	padding-top: 3px !important;
+	padding-bottom: 3px !important;
+}
+
+.search-tooltip {
+	width: 200px;
+}
+.leaflet-control-search .search-cancel {
+	position: static;
+	float: left;
+	margin-left: -22px;
+}*/
+

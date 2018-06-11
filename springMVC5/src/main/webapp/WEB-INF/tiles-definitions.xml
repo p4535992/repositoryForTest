@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<!-- // your tiles-config.xml would be something like -->
+<tiles-definitions>
+	<!-- for single page u would have something like -->
+<!-- 	<definition name="loginPage" template="/WEB-INF/views/jsp/login.jsp"/> -->
+	<!-- for a proper tilesd def would be as follows -->
+	<definition name="defaultTemplate" template="/WEB-INF/tiles/baseLayout.jsp">
+<!-- 	    <put-attribute name="include-position" value="/WEB-INF/views/jsp/template/default/include.jsp"/> -->
+	    <!--<put-attribute name="header-position" value="/WEB-INF/views/jsp/template/default/header.jsp"/>-->
+<!-- 	    <put-attribute name="body-position" value="/WEB-INF/views/jsp/template/default/data.jsp"/>  -->
+<!-- 	    <put-attribute name="nav-position" value="/WEB-INF/views/jsp/template/default/leftnavigation.jsp"/> -->
+	    <!--<put-attribute name="footer-position" value="/WEB-INF/views/jsp/template/default/footer.jsp"/>-->
+
+        <put-attribute name="title" value="Sample Title" />
+        <put-attribute name="heading" value="" />
+        <put-attribute name="tagline" value="" />
+        <put-attribute name="navigation" value="/WEB-INF/tiles/navigation.jsp" />
+        <put-attribute name="content" value="" />
+        <put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp" />
+	</definition>
+</tiles-definitions>
+
+<!-- //and then in your controller or wherever u can just  -->
+ 
+<!--  new ModelAndView("loginPage"); -->

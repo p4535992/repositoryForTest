@@ -1,0 +1,19 @@
+{
+  "jspm": {
+    "dependencies": {
+      "Leaflet/Leaflet": "github:Leaflet/Leaflet@^0.7.7",
+      "css": "github:systemjs/plugin-css@^0.1.20",
+      "font-awesome": "npm:font-awesome@^4.5.0",
+      "ismyrnow/Leaflet.groupedlayercontrol": "github:ismyrnow/Leaflet.groupedlayercontrol@^0.4.0",
+      "krisk/Fuse": "github:krisk/Fuse@^1.3.1",
+      "mholt/PapaParse": "github:mholt/PapaParse@^4.1.2",
+      "naomap/leaflet-fusesearch": "github:naomap/leaflet-fusesearch@master"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "clean-css": "npm:clean-css@^3.4.8",
+      "core-js": "npm:core-js@^1.1.4"
+    }
+  }
+}

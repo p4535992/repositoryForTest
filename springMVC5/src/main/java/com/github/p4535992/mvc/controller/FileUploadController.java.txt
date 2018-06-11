@@ -1,0 +1,125 @@
+package com.github.p4535992.mvc.controller;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+
+import javax.servlet.ServletContext;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.ServletContextAware;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
+/**
+ * http://javainsimpleway.com/spring/spring-mvc/spring-mvc-file-upload-single-and-multiple-files-upload/
+ */
+@Controller
+public class FileUploadController implements ServletContextAware {
+
+    private ServletContext servletContext;
+
+    /**
+     *Usage:
+      <form method="POST" action="uploadSingleFile" enctype="multipart/form-data">
+         File to Upload: <input type="file" name="file"><br />
+         Name: <input type="text" name="name"><br /> <br />
+         <input type="submit" value="Upload">
+      </form>
+     * @return
+     */
+    @RequestMapping(value = "/uploadSingleFile", method = RequestMethod.GET)
+    public ModelAndView uploadSingleFileFormDisplay() {
+
+        return new ModelAndView("uploadSingleFile");
+
+    }
+
+    /**
+     * Usage:
+     * <form method="POST" action="uploadMultipleFiles" enctype="multipart/form-data">
+         File1 to upload: <input type="file" name="file"><br />
+         Name: <input type="text" name="name"><br /> <br />
+         File2 to upload: <input type="file" name="file"><br />
+         Name: <input type="text" name="name"><br /> <br />
+         <input type="submit" value="Upload">
+        </form>
+     * @return
+     */
+    @RequestMapping(value = "/uploadMultipleFiles", method = RequestMethod.GET)
+    public ModelAndView uploadMultipleFilesFormDisplay() {
+
+        return new ModelAndView("uploadMultipleFiles");
+
+    }
+
+
+    //Handle the single file upload
+
+    @RequestMapping(value = "/uploadSingleFile", method = RequestMethod.POST)
+    public @ResponseBody String uploadSingleFileHandler(@RequestParam("name") String filename,
+                                                        @RequestParam("file") MultipartFile file) {
+
+        //file handling to upload it in the server path
+
+        if (!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+                BufferedOutputStream stream =
+                        new BufferedOutputStream(new FileOutputStream(new File(servletContext.getRealPath("/")+"/"+filename)));
+                stream.write(bytes);
+                stream.close();
+                return "You successfully uploaded " + filename + "!";
+            } catch (Exception e) {
+                return "You failed to upload " + filename + " => " + e.getMessage();
+            }
+        } else {
+            return "You failed to upload " + filename + " because the file was empty.";
+        }
+
+    }
+
+
+    //Handle the multiple  files upload
+
+    @RequestMapping(value = "/uploadMultipleFiles", method = RequestMethod.POST)
+    public @ResponseBody String uploadMultipleFilesHandler(@RequestParam("name") String[] filenames,
+                                                           @RequestParam("file") MultipartFile[] files) {
+
+        //file handling to upload it in the server path
+
+        if (files.length != filenames.length)
+            return "Required information missing";
+        String message = "";
+        for (int i = 0; i < files.length; i++) {
+            MultipartFile file = files[i];
+            String filename = filenames[i];
+            try {
+
+                byte[] bytes = file.getBytes();
+                BufferedOutputStream stream =
+                        new BufferedOutputStream(new FileOutputStream(new File(servletContext.getRealPath("/")+"/"+filename)));
+                stream.write(bytes);
+                stream.close();
+
+                message = message + "You successfully uploaded file=" + filename
+                        + "<br />";
+            } catch (Exception e) {
+                return "You failed to upload " + filename + " => " + e.getMessage();
+            }
+        }
+        return message;
+
+    }
+
+
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext=servletContext;
+
+    }
+
+}

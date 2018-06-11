@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:gate="http://gate.ac.uk/ns/spring"
+    xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+    xmlns:webflow-config="http://www.springframework.org/schema/webflow-config"
+    xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+		http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config.xsd
+	    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://gate.ac.uk/ns/spring http://gate.ac.uk/ns/spring.xsd
+		">
+		
+	
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	<!-- Enables the Spring MVC @Controller programming model + Handler mapping -->
+
+    <!-- ================================================================================== -->
+    <!--  SPRING ANNOTATION PROCESSING   	                                                -->
+    <!-- ================================================================================== -->
+    <!--<mvc:annotation-driven enable-matrix-variables="true" validator="validator"/>-->
+    <mvc:annotation-driven enable-matrix-variables="true" />
+    <context:annotation-config />
+    <context:component-scan base-package="com.github.p4535992.mvc" />
+
+    <!-- If you want to explicit use a java class -->
+	<!--<beans:bean class="com.github.p4535992.mvc.repository.impl.MapRepositoryImpl" >
+        <beans:constructor-arg index="0" value="${sesameRepositoryID}"/>
+        <beans:constructor-arg index="1" value="${sesameDataDir}"/>
+        <beans:constructor-arg index="2" value="${sesameServer}"/>
+    </beans:bean>-->
+
+    <!-- ================================================================================== -->
+    <!--  RESOURCE FOLDERS CONFIGURATION                                  -->
+    <!--  Dispatcher configuration for serving static resources           -->
+    <!-- ================================================================================== -->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<!-- For work with html page you can put a static directory on the webapp outside WEB-INF-->
+	<!--<mvc:resources mapping="/static/**" location="/static/" />-->
+	<!-- other -->
+	<mvc:resources mapping="/jspm_packages/**" location="/jspm_packages/" />
+	<tx:annotation-driven />
+
+	<!-- ================================================================================== -->
+	<!-- Load a specific properties file  with spring util                                  -->
+	<!-- ================================================================================== -->
+	<util:properties id="myproperties" location="classpath:config.properties" />
+	<context:property-placeholder properties-ref="myproperties" />
+
+	<!--<beans:bean id="springUtilProperties" class="com.p4535992.mvc.controller.SesameController">
+		<beans:property name="properties" ref="myproperties" />
+	</beans:bean>-->
+	<!--<context:component-scan base-package="org.p4535992.mongo">-->
+		<!--<context:exclude-filter type="assignable" expression="org.p4535992.mongo.repository.UsersRepository"/>-->
+	<!--</context:component-scan>-->
+
+    <!-- ================================================================================== -->
+    <!-- VIEW RESOLVER                                                                      -->
+    <!-- ================================================================================== -->
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+    <beans:bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
+
+	<beans:bean id="cnManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<beans:property name="ignoreAcceptHeader" value="true"/>
+		<beans:property name="defaultContentType" value="text/html" />
+	</beans:bean>
+
+    <!-- Uno dei risolver più interessanti è ContentNavigationViewResolver che rappresenta una sorta di collezione di
+     sotto-resolver ed è in grado di differenziarne l’invocazione sulla base di due parametri:-->
+    <beans:bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<!-- All configuration is now done by the manager - since Spring V3.2 -->
+		<beans:property name="contentNegotiationManager" ref="cnManager"/>
+       <!-- <beans:property name="mediaTypes">
+            <beans:map>
+                <beans:entry key="atom" value="application/atom+xml"/>
+                <beans:entry key="html" value="text/html"/>
+                <beans:entry key="json" value="application/json"/>
+                <beans:entry key="rss" value="application/rss+xml" />
+            </beans:map>
+        </beans:property>-->
+        <beans:property name="viewResolvers">
+            <beans:list>
+                <beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
+                <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+                    <beans:property name="prefix" value="/WEB-INF/views/"/>
+                    <beans:property name="suffix" value=".jsp"/>
+                </beans:bean>
+            </beans:list>
+        </beans:property>
+        <beans:property name="defaultViews">
+            <beans:list>
+                <beans:ref bean="jsonView"/>
+                <beans:ref bean="xmlView"/>
+                <beans:ref bean="rssView" />
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+
+    <!-- If no extension matched, use JSP view -->
+   <!-- <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <beans:property name="prefix" value="/WEB-INF/views/"/>
+        <beans:property name="suffix" value=".jsp"/>
+        <beans:property name="order" value="2" />
+        <beans:property name="requestContextAttribute" value="requestContext"/>
+    </beans:bean>-->
+
+
+	<!-- ================================================================================== -->
+    <!-- MESSAGE EXTERNALIZATION/INTERNATIONALIZATION		                                -->
+	<!-- Standard Spring MessageSource implementation                                       -->
+	<!-- ================================================================================== -->
+	<beans:bean id= "messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<beans:property name="basename" value="messages"/>
+	</beans:bean>
+
+	<!-- ================================================================================== -->
+	<!-- Let’s add the image upload facility 		                        -->
+	<!-- ================================================================================== -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="10240000"/>
+	</beans:bean>
+
+	<!-- ================================================================================== -->
+    <!-- ContentNegotiatingViewResolver does not resolve views itself but delegates them to other view resolvers
+         based on the request.  -->
+	<!-- ================================================================================== -->
+
+   <!-- <beans:bean id="cnManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <beans:property name="ignoreAcceptHeader" value="true"/>
+        <beans:property name="defaultContentType" value="text/html" />
+    </beans:bean>-->
+
+	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+		<beans:property name="prettyPrint" value="true"/>
+	</beans:bean>
+	
+	<beans:bean id="xmlView" class="org.springframework.web.servlet.view.xml.MarshallingView">
+		<beans:constructor-arg>
+			<beans:bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+				<beans:property name="classesToBeBound">
+					<beans:list>
+						<beans:value>com.github.p4535992.mvc.object.model.site.Site</beans:value>
+					</beans:list>
+				</beans:property>
+			</beans:bean>
+		</beans:constructor-arg>
+	</beans:bean>
+
+    <beans:bean id="rssView" class="com.github.p4535992.mvc.view.RssFeedView"/>
+
+	<!-- Configure to plugin JSON as request and response in method handler -->
+	<!--<beans:bean
+			class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<beans:property name="messageConverters">
+			<beans:list>
+				<beans:ref bean="jsonMessageConverter" />
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+	&lt;!&ndash; Configure bean to convert JSON to POJO and vice versa &ndash;&gt;
+	<beans:bean id="jsonMessageConverter"
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+	</beans:bean>-->
+
+    <!-- ================================================================================== -->
+    <!-- Interceptor -->
+    <!-- ================================================================================== -->
+    <!--<mvc:interceptors>
+        <beans:bean class="org.p4535992.mvc.interceptor.PerformanceMonitorInterceptor"/>
+
+        <beans:bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+            <beans:property name="paramName" value="language"/>
+        </beans:bean>
+
+        <beans:bean class= "org.p4535992.mvc.interceptor.AuditingInterceptor"/>
+
+        <beans:bean class="org.p4535992.mvc.interceptor.PromoCodeInterceptor">
+            <beans:property name="promoCode" value="OFF3R"/>
+            <beans:property name="errorRedirect" value="invalidPromoCode"/>
+            <beans:property name="offerRedirect" value="geodocuments"/>
+        </beans:bean>
+    </mvc:interceptors>-->
+
+	<!-- ================================================================================== -->
+	<!-- Internazionalization -->
+	<!-- ================================================================================== -->
+	<!--<beans:bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<beans:property name="defaultLocale" value="en"/>
+	</beans:bean>-->
+
+	<!-- ================================================================================== -->
+	<!-- Validation -->
+	<!-- ================================================================================== -->
+	<!--
+	<beans:bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<beans:property name="validationMessageSource" ref="messageSource"/>
+	</beans:bean>
+	
+	<beans:bean id="GeoDocumentValidator" class="org.p4535992.mvc.validator.GeoDocumentValidator">
+		<beans:property name = "springValidators">
+			<beans:set>
+				<beans:ref bean = "SpringValidator"/>
+			</beans:set>
+		</beans:property>
+	</beans:bean>
+	
+	<beans:bean id="SpringValidator" class="org.p4535992.mvc.validator.SpringValidator"/>
+	-->
+
+    <!--<beans:import resource="classpath:sesame-spring-context.xml" />-->
+
+	<!-- ================================================================================== -->
+	<!-- SUPPORT GTFS  -->
+	<!-- ================================================================================== -->
+	<!--<beans:bean name="jacksonObjectMapper" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
+		<beans:property name="featuresToDisable">
+			<beans:array>
+				<util:constant static-field="com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS"/>
+			</beans:array>
+		</beans:property>
+	</beans:bean>
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="true">
+			<beans:bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<beans:property name="objectMapper" ref="jacksonObjectMapper"/>
+			</beans:bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>-->
+
+	<!-- SUPPORT JACKSON ASL MAPPER -->
+	<beans:bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+	<beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<beans:property name="messageConverters">
+			<beans:list>
+				<beans:ref bean="jacksonMessageConverter" />
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+	<beans:bean id="defaultViews" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
+
+
+</beans:beans>

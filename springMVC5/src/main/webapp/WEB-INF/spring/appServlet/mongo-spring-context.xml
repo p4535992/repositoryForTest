@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xmlns:mvc="http://www.springframework.org/schema/mvc"
+             xmlns:tx="http://www.springframework.org/schema/tx"
+             xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+             xmlns:webflow-config="http://www.springframework.org/schema/webflow-config"
+             xmlns:util="http://www.springframework.org/schema/util"
+             xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+		http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		">
+
+    <!-- ================================================================================== -->
+    <!-- MongoDB and Spring-data Initialisation                                             -->
+    <!-- ================================================================================== -->
+    <beans:bean id="mongo" class="org.springframework.data.mongodb.core.MongoFactoryBean">
+        <beans:property name="host" value="localhost" />
+    </beans:bean>
+
+    <!--<mongo:mongo host="127.0.0.1" port="27017" />-->
+    <!--<mongo:db-factory dbname="users" />-->
+
+    <!-- MongoTemplate for connecting and quering the documents in the database -->
+    <beans:bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <beans:constructor-arg name="mongo" ref="mongo" />
+        <beans:constructor-arg name="databaseName" value="users" />
+    </beans:bean>
+    <!--<beans:bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">-->
+    <!--<beans:constructor-arg name="mongoDbFactory" value="mongoDbFactory" />-->
+    <!--</beans:bean>-->
+
+    <mongo:repositories base-package="com.github.p4535992.mvc"/>
+</beans:beans>

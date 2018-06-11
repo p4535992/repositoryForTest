@@ -1,0 +1,74 @@
+<configuration>
+
+    <!-- Insert the current time formatted as "yyyyMMdd'T'HHmmss" under
+       the key "bySecond" into the logger context. This value will be
+       available to all subsequent configuration elements. -->
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
+    <property name="DEV_HOME" value="log" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <!--<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+            <Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <!-- Send debug messages to a file at "c:/jcg.log" -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${DEV_HOME}/logback.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </encoder>
+
+        <!-- Support multiple-JVM writing to the same log file -->
+      <!--  <prudent>true</prudent>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>-->
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+           <!-- <FileNamePattern>${DEV_HOME}/logback-${bySecond}.log</FileNamePattern>-->
+            <!-- daily rollover -->
+           <!-- <fileNamePattern>${DEV_HOME}/logback.%d{yyyy-MM-dd}.log</fileNamePattern>-->
+            <fileNamePattern>${DEV_HOME}/logback-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <MinIndex>1</MinIndex>
+            <MaxIndex>10</MaxIndex>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>2MB</MaxFileSize>
+        </triggeringPolicy>
+       <!-- <timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            <maxFileSize>10MB</maxFileSize>
+        </timeBasedFileNamingAndTriggeringPolicy>-->
+        <encoder>
+            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+
+    <logger name="com.github.p4535992.extractor" level="INFO" additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <logger name="org.springframework" level="WARN" />
+    <logger name="org.apache.commons.httpclient" level="WARN" />
+    <logger name="org.apache.http.client" leve ="WARN"/>
+    <!--<logger name = "e.i.karma.metadata.KarmaUserMetadata" leve="WARN"></logger>-->
+
+    <turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
+        <Name>CONFIDENTIAL_FILTER</Name>
+        <Marker>CONFIDENTIAL</Marker>
+        <OnMatch>DENY</OnMatch>
+    </turboFilter>
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+
+</configuration>

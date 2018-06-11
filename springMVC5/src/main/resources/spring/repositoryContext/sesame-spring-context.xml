@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xmlns:mvc="http://www.springframework.org/schema/mvc"
+             xmlns:tx="http://www.springframework.org/schema/tx"
+             xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+             xmlns:webflow-config="http://www.springframework.org/schema/webflow-config"
+             xmlns:util="http://www.springframework.org/schema/util"
+             xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+		http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		">
+
+    <!-- ================================================================================== -->
+    <!-- Sesame Server Initialisation                                             -->
+    <!-- ================================================================================== -->
+    <!--
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <tx:annotation-driven transaction-manager="repositoryTransactionManager"/>
+    -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- Creating a transaction manager for a single repository -->
+
+    <!-- SAIL REPOSITORY -->
+    <!--
+    File dataDir = new File("C:\\temp\\myRepository\\");
+    Repository repo = new SailRepository( new MemoryStore(dataDir) );
+    repo.initialize();
+    -->
+    <beans:bean id="sesameRepository" class="org.openrdf.repository.sail.SailRepository" init-method="initialize">
+        <beans:constructor-arg ref="memoryStore"/>
+    </beans:bean>
+
+    <beans:bean id="memoryStore" class="org.openrdf.sail.memory.MemoryStore">
+        <beans:property name="persist" value="false"/>
+        <beans:constructor-arg>
+            <beans:bean class="java.io.File">
+                <beans:constructor-arg value="C:\\Users\\Marco\\AppData\\Roaming\\Aduna\\OpenRDF Sesame\\repositories\\km4city04"/>
+            </beans:bean>
+        </beans:constructor-arg>
+    </beans:bean>
+
+    <beans:bean id="repositoryManagerConnectionFactory" class="org.openrdf.spring.RepositoryConnectionFactory">
+        <beans:constructor-arg ref="sesameRepository"/>
+    </beans:bean>
+
+    <beans:bean id="transactionManager" class="org.openrdf.spring.SesameTransactionManager">
+        <beans:constructor-arg ref="repositoryManagerConnectionFactory"/>
+    </beans:bean>
+
+    <!-- HTTP Repository -->
+    <!--<beans:bean id="httpRepository" class="org.openrdf.repository.http.HTTPRepository" init-method="initialize">
+        <beans:constructor-arg>
+            <beans:bean class="java.lang.String">
+                <beans:constructor-arg value="http://localhost:8080/openrdf-sesame/"/>
+            </beans:bean>
+        </beans:constructor-arg>
+        <beans:constructor-arg>
+            <beans:bean class="java.lang.String">
+                <beans:constructor-arg value="${repositoryID}"/>
+            </beans:bean>
+        </beans:constructor-arg>
+    </beans:bean>
+
+    <beans:bean id="repositoryManagerConnectionFactory" class="org.openrdf.spring.RepositoryConnectionFactory">
+        <beans:constructor-arg ref="httpRepository"/>
+    </beans:bean>
+
+    <beans:bean id="transactionManager" class="org.openrdf.spring.SesameTransactionManager">
+        <beans:constructor-arg ref="repositoryManagerConnectionFactory"/>
+    </beans:bean>
+    -->
+    <!-- Creating a transaction manager for a repository handled by a repository manager -->
+    <!--
+    <beans:bean id="repositoryManager" class="org.openrdf.repository.manager.LocalRepositoryManager" init-method="initialize">
+        <beans:constructor-arg>
+            <beans:bean class="java.io.File">
+                <beans:constructor-arg value="C:\Users\Marco\AppData\Roaming\Aduna\OpenRDF Sesame\repositories\${repositoryID}"/>
+            </beans:bean>
+        </beans:constructor-arg>
+    </beans:bean>
+
+    <beans:bean id="repositoryManagerConnectionFactory" class="org.openrdf.spring.RepositoryManagerConnectionFactory">
+        &lt;!&ndash;<beans:constructor-arg index="0" ref="repositoryManager"/>&ndash;&gt;
+        &lt;!&ndash;<beans:constructor-arg index="1" value="SYSTEM"/>&ndash;&gt;
+        <beans:constructor-arg ref="repositoryManager"/>
+        <beans:constructor-arg name="repositoryId" value="${repositoryID}"/>
+    </beans:bean>
+
+    <beans:bean id="repositoryTransactionManager" class="org.openrdf.spring.SesameTransactionManager">
+        <beans:constructor-arg ref="repositoryManagerConnectionFactory"/>
+    </beans:bean>
+    -->
+
+
+</beans:beans>

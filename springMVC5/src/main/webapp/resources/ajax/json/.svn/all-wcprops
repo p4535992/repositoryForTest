@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/newrepos/!svn/ver/9944/trunk/Applications/sii-mobility/ServiceMap/source/WebContent/ajax/json
+END
+get-bus-stop.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/newrepos/!svn/ver/9944/trunk/Applications/sii-mobility/ServiceMap/source/WebContent/ajax/json/get-bus-stop.jsp
+END
+get-services-in-municipality.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/newrepos/!svn/ver/9944/trunk/Applications/sii-mobility/ServiceMap/source/WebContent/ajax/json/get-services-in-municipality.jsp
+END
+get-services-near-stops.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/newrepos/!svn/ver/9944/trunk/Applications/sii-mobility/ServiceMap/source/WebContent/ajax/json/get-services-near-stops.jsp
+END
+get-services.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/newrepos/!svn/ver/9944/trunk/Applications/sii-mobility/ServiceMap/source/WebContent/ajax/json/get-services.jsp
+END
+get-bus-route.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/newrepos/!svn/ver/9944/trunk/Applications/sii-mobility/ServiceMap/source/WebContent/ajax/json/get-bus-route.jsp
+END
+get-services-near-stops_new.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/newrepos/!svn/ver/9944/trunk/Applications/sii-mobility/ServiceMap/source/WebContent/ajax/json/get-services-near-stops_new.jsp
+END
+get-bus-stops-of-line.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/newrepos/!svn/ver/9944/trunk/Applications/sii-mobility/ServiceMap/source/WebContent/ajax/json/get-bus-stops-of-line.jsp
+END

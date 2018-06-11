@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/newrepos/!svn/ver/9944/trunk/Applications/sii-mobility/ServiceMap/source/WebContent/ajax
+END
+bus-stops-list.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/newrepos/!svn/ver/9944/trunk/Applications/sii-mobility/ServiceMap/source/WebContent/ajax/bus-stops-list.jsp
+END
+get-parking-status.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/newrepos/!svn/ver/9944/trunk/Applications/sii-mobility/ServiceMap/source/WebContent/ajax/get-parking-status.jsp
+END
+get-weather.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/newrepos/!svn/ver/9944/trunk/Applications/sii-mobility/ServiceMap/source/WebContent/ajax/get-weather.jsp
+END
+get-municipality-list.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/newrepos/!svn/ver/9944/trunk/Applications/sii-mobility/ServiceMap/source/WebContent/ajax/get-municipality-list.jsp
+END
+get-avm.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/newrepos/!svn/ver/9944/trunk/Applications/sii-mobility/ServiceMap/source/WebContent/ajax/get-avm.jsp
+END
+get-address.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/newrepos/!svn/ver/9944/trunk/Applications/sii-mobility/ServiceMap/source/WebContent/ajax/get-address.jsp
+END

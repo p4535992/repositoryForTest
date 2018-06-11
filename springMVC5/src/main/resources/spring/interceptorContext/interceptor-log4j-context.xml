@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+       <!-- ================================================================================== -->
+       <!-- Interceptor -->
+       <!-- ================================================================================== -->
+       <!--<mvc:interceptors>
+           <beans:bean class="org.p4535992.mvc.interceptor.PerformanceMonitorInterceptor"/>
+
+           <beans:bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+               <beans:property name="paramName" value="language"/>
+           </beans:bean>
+
+           <beans:bean class= "org.p4535992.mvc.interceptor.AuditingInterceptor"/>
+
+           <beans:bean class="org.p4535992.mvc.interceptor.PromoCodeInterceptor">
+               <beans:property name="promoCode" value="OFF3R"/>
+               <beans:property name="errorRedirect" value="invalidPromoCode"/>
+               <beans:property name="offerRedirect" value="geodocuments"/>
+           </beans:bean>
+       </mvc:interceptors>-->
+</beans>

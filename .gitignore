@@ -9,3 +9,9 @@ gen
 jspm-leaflet-test1/jspm_packages/
 testWitSources/jspm_packages
 Leaflet.FileLayer-1/jspm_packages/
+/.idea
+/springMVC5/.settings
+/springMVC5/target
+/springMVC5/.classpath
+/springMVC5/.project
+/springMVC5/.idea

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+        <!--Mail sender-->
+       <beans:bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+              <beans:property name="defaultEncoding" value="UTF-8" />
+              <beans:property name="host" value="${mail.host}" />
+              <beans:property name="port" value="${mail.port}" />
+              <beans:property name="username" value="${mail.username}" />
+              <beans:property name="password" value="${mail.password}" />
+              <beans:property name="javaMailProperties">
+                  <beans:value>
+                      mail.debug=true
+                      mail.smtp.auth=true
+                      mail.smtp.socketFactory.port=${mail.port}
+                      mail.smtp.socketFactory.class=javax.net.ssl.SSLSocketFactory
+                      mail.smtp.socketFactory.fallback=false
+                 </beans:value>
+              </beans:property>
+       </beans:bean>
+
+        <!--Substitute ${placeholders} with externalized application properties-->
+       <context:property-placeholder location="classpath:application.properties" />
+</beans>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+	http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+       <!-- Root Context: defines shared resources accessible to all other web components -->
+
+       <!-- Local, JDBC-based TransactionManager -->
+       <beans:bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+              <beans:property name="dataSource" ref="dataSource" />
+       </beans:bean>
+
+       <!-- Shared JDBC Data Access Template -->
+       <beans:bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+              <beans:constructor-arg ref="dataSource" />
+       </beans:bean>
+
+       <!-- Embedded H2 Database -->
+       <jdbc:embedded-database id="dataSource" type="H2">
+              <jdbc:script location="classpath:schema.sql" />
+              <jdbc:script location="classpath:data.sql" />
+       </jdbc:embedded-database>
+
+       <!-- Cache of string templates -->
+       <!--<beans:bean id="stringTemplateFactory" class="main.java.util.templating.DefaultStringTemplateFactory" />-->
+
+
+</beans>
